@@ -1,0 +1,16 @@
+name: Repo Hygiene
+on: [push, pull_request]
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if forbidden paths are tracked
+        run: |
+          bad=$(git ls-files | grep -E '(^|/)node_modules/|(^|/)\.venv/|\.log$|\.db$|(^|/)\.env$' || true)
+          if [ -n "$bad" ]; then
+            echo "Forbidden tracked files found:"; echo "$bad"; exit 1
+          fi
+      - name: Validate organization
+        run: |
+          python3 scripts/validate_organization.py || true
