@@ -1,0 +1,68 @@
+# AI/DEV Lab Testing Framework Dependencies
+# Comprehensive testing requirements for maintaining 100/100 scores
+
+# Core Testing Framework
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-html>=3.2.0
+pytest-xdist>=3.3.0
+
+# Coverage and Reporting
+coverage>=7.3.0
+pytest-cov>=4.1.0
+pytest-html>=3.2.0
+
+# Security Testing
+bandit>=1.7.5
+safety>=2.3.0
+semgrep>=1.40.0
+pip-audit>=2.6.0
+
+# Performance Testing
+locust>=2.15.0
+pytest-benchmark>=4.0.0
+memory-profiler>=0.61.0
+
+# API Testing
+httpx>=0.25.0
+requests>=2.31.0
+pytest-httpx>=0.25.0
+
+# Database Testing
+pytest-django>=4.5.0
+factory-boy>=3.3.0
+faker>=19.6.0
+
+# Frontend Testing
+playwright>=1.38.0
+pytest-playwright>=0.4.0
+selenium>=4.15.0
+
+# Mocking and Fixtures
+pytest-mock>=3.11.0
+responses>=0.23.0
+freezegun>=1.2.0
+
+# Code Quality
+black>=23.9.0
+flake8>=6.1.0
+isort>=5.12.0
+mypy>=1.6.0
+
+# Environment and Configuration
+python-dotenv>=1.0.0
+pytest-env>=1.1.0
+
+# Logging and Monitoring
+structlog>=23.1.0
+pytest-logger>=0.5.1
+
+# MCP Server Testing
+mcp>=1.0.0
+pytest-mcp>=0.1.0
+
+# Additional Testing Utilities
+pytest-randomly>=3.15.0
+pytest-repeat>=0.9.1
+pytest-rerunfailures>=12.0

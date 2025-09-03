@@ -1,0 +1,35 @@
+---
+description: "Test rule demonstrating Auto Attached functionality for app-specific operations"
+alwaysApply: false
+globs: ["app/**/*", "app/**/*.py", "app/**/*.js"]
+---
+
+# Test Auto Attached Rule - AI/DEV Lab Project
+
+## 🎯 **Auto Attached Rule Test**
+
+This rule demonstrates the **Auto Attached** functionality in Cursor. It will automatically apply when working with files in the `app/` directory.
+
+## When This Rule Applies
+
+This rule automatically activates when you:
+- Open any file in the `app/` directory
+- Work with Python files in `app/`
+- Work with JavaScript files in `app/`
+- Access any subdirectory within `app/`
+
+## Purpose
+
+This is a demonstration rule to show how **Auto Attached** rules work differently from:
+- **Always** rules (like `mcp_server_usage.mdc`)
+- **Agent Requested** rules (like `enterprise_mode.mdc` and `free_mode.mdc`)
+
+## Test Instructions
+
+1. Open any file in the `app/` directory
+2. This rule should automatically appear in your context
+3. Check **Project → Rules** to see it marked as "Auto Attached"
+
+---
+
+*Test Rule: Demonstrating Auto Attached functionality*

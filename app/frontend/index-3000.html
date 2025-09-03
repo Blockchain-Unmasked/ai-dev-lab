@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/DEV Lab - Welcome</title>
+    <meta name="description" content="AI/DEV Lab - Choose your interface">
+    
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Favicon - Multiple sizes for cross-platform compatibility -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/site.webmanifest">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.0.3&t=20250826">
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary-50), var(--neutral-50));
+            font-family: var(--font-family);
+        }
+        
+        .landing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: var(--space-8);
+            text-align: center;
+        }
+        
+        .logo-section {
+            margin-bottom: var(--space-12);
+        }
+        
+        .logo-section h1 {
+            font-size: var(--text-6xl);
+            font-weight: var(--font-black);
+            color: var(--primary-700);
+            margin: 0 0 var(--space-4) 0;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-section .subtitle {
+            font-size: var(--text-xl);
+            color: var(--neutral-600);
+            font-weight: var(--font-medium);
+        }
+        
+        .navigation-section {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .nav-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-3);
+            padding: var(--space-6) var(--space-8);
+            background: white;
+            border: 2px solid var(--primary-200);
+            border-radius: var(--radius-2xl);
+            color: var(--primary-700);
+            text-decoration: none;
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            transition: all 300ms ease;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-400);
+            background: var(--primary-50);
+        }
+        
+        .nav-button.primary {
+            background: var(--primary-600);
+            color: white;
+            border-color: var(--primary-600);
+        }
+        
+        .nav-button.primary:hover {
+            background: var(--primary-700);
+            border-color: var(--primary-700);
+        }
+        
+        .nav-button .icon {
+            font-size: var(--text-2xl);
+        }
+        
+        .description {
+            font-size: var(--text-sm);
+            color: var(--neutral-500);
+            margin-top: var(--space-2);
+        }
+        
+        .footer {
+            margin-top: var(--space-16);
+            text-align: center;
+            color: var(--neutral-500);
+            font-size: var(--text-sm);
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--success-100);
+            color: var(--success-700);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-top: var(--space-4);
+        }
+        
+        @media (max-width: 768px) {
+            .landing-container {
+                padding: var(--space-6);
+            }
+            
+            .logo-section h1 {
+                font-size: var(--text-5xl);
+            }
+            
+            .navigation-section {
+                max-width: 100%;
+            }
+            
+            .nav-button {
+                padding: var(--space-5) var(--space-6);
+                font-size: var(--text-base);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Landing Page -->
+    <main class="landing-container">
+        <!-- Logo and Title -->
+        <div class="logo-section">
+            <h1>AI/DEV Lab</h1>
+            <p class="subtitle">Intelligent Development & Customer Support Platform</p>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="navigation-section">
+            <a href="customer-chat.html" class="nav-button primary">
+                <span class="icon">💬</span>
+                <span>Customer Chat Interface</span>
+            </a>
+            <p class="description">Professional AI-powered customer support with Gemini integration</p>
+            
+            <a href="qa-dashboard.html" class="nav-button">
+                <span class="icon">🔧</span>
+                <span>QA Dashboard</span>
+            </a>
+            <p class="description">Monitor performance, manage API keys, and track spending</p>
+        </div>
+        
+        <!-- Status Indicator -->
+        <div class="status-indicator">
+            <span>🟢</span>
+            <span>System Online - Gemini API Ready</span>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>AI/DEV Lab v2.0.0 • Powered by Google Gemini AI</p>
+        </div>
+    </main>
+</body>
+</html>

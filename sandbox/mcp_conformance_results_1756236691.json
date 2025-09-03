@@ -1,0 +1,31 @@
+{
+  "lab_server": {
+    "error": "'list' object has no attribute 'command'",
+    "status": "FAILED",
+    "connection": "FAILED"
+  },
+  "app_servers": {
+    "app-demo-server": {
+      "error": "'list' object has no attribute 'command'",
+      "status": "FAILED",
+      "connection": "FAILED"
+    },
+    "database-server": {
+      "error": "'list' object has no attribute 'command'",
+      "status": "FAILED",
+      "connection": "FAILED"
+    },
+    "website-audit": {
+      "error": "'list' object has no attribute 'command'",
+      "status": "FAILED",
+      "connection": "FAILED"
+    }
+  },
+  "overall": {
+    "total_servers": 4,
+    "passed_servers": 0,
+    "failed_servers": 4,
+    "success_rate": 0.0,
+    "total_test_time_seconds": 0.0013587474822998047
+  }
+}

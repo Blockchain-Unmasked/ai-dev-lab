@@ -1,0 +1,162 @@
+{
+  "research_start_time": "2025-08-26T00:32:58.197764",
+  "tier_definitions": {
+    "tier_1": {
+      "tier_name": "Entry Level Agent",
+      "responsibilities": [
+        "Handle basic customer inquiries",
+        "Use canned responses and basic scripts",
+        "Escalate complex issues to higher tiers",
+        "Follow standard operating procedures",
+        "Document customer interactions"
+      ],
+      "knowledge_access": [
+        "Basic product information",
+        "Standard response scripts",
+        "Escalation procedures",
+        "Customer service policies"
+      ],
+      "tools_available": [
+        "Basic knowledge base access",
+        "Script management system",
+        "Ticket creation tools",
+        "Basic reporting tools"
+      ],
+      "escalation_triggers": [
+        "Complex technical issues",
+        "Customer complaints",
+        "Billing disputes",
+        "Security concerns",
+        "Requests beyond scope"
+      ]
+    },
+    "tier_2": {
+      "tier_name": "Intermediate Agent",
+      "responsibilities": [
+        "Handle moderate complexity issues",
+        "Provide detailed technical support",
+        "Train and mentor Tier 1 agents",
+        "Handle escalated cases from Tier 1",
+        "Participate in quality assurance reviews"
+      ],
+      "knowledge_access": [
+        "Advanced product knowledge",
+        "Technical documentation",
+        "Case history access",
+        "Training materials"
+      ],
+      "tools_available": [
+        "Advanced knowledge base",
+        "Case management system",
+        "Training tools",
+        "Performance analytics"
+      ],
+      "escalation_triggers": [
+        "Highly complex technical issues",
+        "Senior management requests",
+        "Legal or compliance issues",
+        "System-wide problems"
+      ]
+    },
+    "tier_3": {
+      "tier_name": "Senior Agent",
+      "responsibilities": [
+        "Handle most complex customer issues",
+        "Provide expert-level support",
+        "Train and mentor all lower tiers",
+        "Participate in process improvement",
+        "Handle VIP and priority customers"
+      ],
+      "knowledge_access": [
+        "Full system access",
+        "Advanced technical knowledge",
+        "Process improvement tools",
+        "Management reporting"
+      ],
+      "tools_available": [
+        "Full knowledge base access",
+        "Advanced analytics tools",
+        "Process management tools",
+        "Training development tools"
+      ],
+      "escalation_triggers": [
+        "Executive escalations",
+        "Critical system failures",
+        "Process improvement requests",
+        "Training development needs"
+      ]
+    }
+  },
+  "escalation_workflows": {
+    "tier_1_to_tier_2": {
+      "trigger": "Complex issue beyond Tier 1 capabilities",
+      "process": [
+        "Agent identifies escalation need",
+        "Agent documents current status",
+        "Agent transfers case to Tier 2",
+        "Tier 2 agent reviews and takes ownership",
+        "Tier 2 agent communicates with customer"
+      ],
+      "sla": "Immediate transfer, Tier 2 response within 15 minutes"
+    },
+    "tier_2_to_tier_3": {
+      "trigger": "Highly complex or specialized issue",
+      "process": [
+        "Tier 2 agent identifies escalation need",
+        "Agent documents detailed case summary",
+        "Agent escalates to Tier 3 with priority level",
+        "Tier 3 agent reviews and takes ownership",
+        "Tier 3 agent provides expert resolution"
+      ],
+      "sla": "Escalation within 30 minutes, Tier 3 response within 1 hour"
+    }
+  },
+  "knowledge_access_levels": {
+    "tier_1": {
+      "access_level": "basic",
+      "knowledge_areas": [
+        "Product basics",
+        "Common issues",
+        "Standard procedures",
+        "Escalation paths"
+      ],
+      "restrictions": [
+        "No access to sensitive customer data",
+        "Limited technical documentation",
+        "No access to system administration tools"
+      ]
+    },
+    "tier_2": {
+      "access_level": "intermediate",
+      "knowledge_areas": [
+        "Advanced product features",
+        "Technical troubleshooting",
+        "Case management",
+        "Training materials"
+      ],
+      "restrictions": [
+        "Limited access to customer financial data",
+        "No access to system configuration tools",
+        "Restricted access to management reports"
+      ]
+    },
+    "tier_3": {
+      "access_level": "full",
+      "knowledge_areas": [
+        "Complete system knowledge",
+        "Advanced technical details",
+        "Process improvement tools",
+        "Management and analytics"
+      ],
+      "restrictions": [
+        "Must follow security protocols",
+        "Audit trail for all actions",
+        "Approval required for system changes"
+      ]
+    }
+  },
+  "responsibility_mapping": {},
+  "best_practices": [],
+  "findings": [],
+  "research_end_time": "2025-08-26T00:32:58.197795"
+}

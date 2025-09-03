@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/DEV Lab - QA Dashboard</title>
+    <meta name="description" content="Quality Assurance Dashboard for AI/DEV Lab Customer Support Demo">
+    
+    <!-- Favicon - Multiple sizes for cross-platform compatibility -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/site.webmanifest">
+    
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
+    <link rel="stylesheet" href="assets/css/components/toggle-switch.css?v=1.0.2&t=20250826">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.0.3&t=20250826">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>AI/DEV Lab</h1>
+                    <span class="subtitle">Quality Assurance Dashboard</span>
+                </div>
+                <div class="header-controls">
+                    <div class="header-buttons">
+                        <a href="index.html" class="btn btn-secondary">💬 Customer Chat</a>
+                        <button id="theme-toggle" class="btn btn-icon" title="Toggle theme" aria-label="Toggle dark/light theme">☀️</button>
+                        <button id="refresh-dashboard" class="btn btn-secondary">🔄 Refresh</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- API Configuration Panel -->
+            <section class="api-config-panel">
+                <div class="panel-header">
+                    <h3>🔑 API Configuration</h3>
+                    <div class="header-info">
+                        <span class="api-status" id="api-status">Status: Checking...</span>
+                        <button id="test-api-connection" class="btn btn-secondary">Test Connection</button>
+                    </div>
+                </div>
+                
+                <div class="config-grid">
+                    <div class="config-section">
+                        <h4>Gemini API Setup</h4>
+                        <div class="api-key-input-group">
+                            <label for="gemini-api-key">API Key:</label>
+                            <div class="input-with-toggle">
+                                <input type="password" id="gemini-api-key" class="api-key-input" placeholder="Enter your Gemini API key">
+                                <button id="toggle-api-key-visibility" class="btn btn-icon btn-sm">👁️</button>
+                            </div>
+                            <button id="save-api-key" class="btn btn-primary">Save API Key</button>
+                            <button id="clear-api-key" class="btn btn-secondary">Clear</button>
+                        </div>
+                        
+                        <div class="api-info">
+                            <p><strong>Model:</strong> gemini-pro</p>
+                            <p><strong>Provider:</strong> Google AI Studio</p>
+                            <p><strong>Rate Limit:</strong> 15 requests/minute (free tier)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h4>API Settings</h4>
+                        <div class="setting-group">
+                            <label for="api-timeout">Timeout (seconds):</label>
+                            <input type="number" id="api-timeout" class="setting-input" value="30" min="5" max="120">
+                        </div>
+                        <div class="setting-group">
+                            <label for="api-retries">Max Retries:</label>
+                            <input type="number" id="api-retries" class="setting-input" value="3" min="1" max="5">
+                        </div>
+                        <div class="setting-group">
+                            <label for="api-model">Model Version:</label>
+                            <select id="api-model" class="setting-input">
+                                <option value="gemini-pro">gemini-pro</option>
+                                <option value="gemini-pro-vision">gemini-pro-vision</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Canned Response System -->
+            <section class="canned-response-panel">
+                <div class="panel-header">
+                    <h3>💬 Canned Response System</h3>
+                    <div class="header-info">
+                        <span class="response-count" id="response-count">0 Responses</span>
+                        <button id="add-canned-response" class="btn btn-primary">Add Response</button>
+                    </div>
+                </div>
+                
+                <div class="canned-response-grid">
+                    <div class="response-categories">
+                        <h4>Response Categories</h4>
+                        <div class="category-list">
+                            <button class="category-btn active" data-category="all">All</button>
+                            <button class="category-btn" data-category="greetings">Greetings</button>
+                            <button class="category-btn" data-category="technical">Technical</button>
+                            <button class="category-btn" data-category="billing">Billing</button>
+                            <button class="category-btn" data-category="general">General</button>
+                        </div>
+                        
+                        <div class="category-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Total:</span>
+                                <span class="stat-value" id="total-responses">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Used Today:</span>
+                                <span class="stat-value" id="used-today">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="response-management">
+                        <h4>Response Management</h4>
+                        <div class="response-list" id="response-list">
+                            <!-- Responses will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spending Tracking Dashboard -->
+            <section class="spending-dashboard">
+                <div class="panel-header">
+                    <h3>💰 Spending Tracking & Budget Management</h3>
+                    <div class="header-info">
+                        <span class="budget-status" id="budget-status">Budget: $50.00/month</span>
+                        <button id="set-budget" class="btn btn-secondary">Set Budget</button>
+                    </div>
+                </div>
+                
+                <div class="spending-grid">
+                    <!-- Budget Overview -->
+                    <div class="spending-panel">
+                        <h4>📊 Budget Overview</h4>
+                        <div class="spending-content">
+                            <div class="spending-row">
+                                <span class="spending-label">Monthly Budget:</span>
+                                <span class="spending-value" id="monthly-budget">$50.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Spent This Month:</span>
+                                <span class="spending-value" id="spent-this-month">$0.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Remaining:</span>
+                                <span class="spending-value" id="budget-remaining">$50.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Daily Average:</span>
+                                <span class="spending-value" id="daily-average">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cost Breakdown -->
+                    <div class="spending-panel">
+                        <h4>🔍 Cost Breakdown</h4>
+                        <div class="spending-content">
+                            <div class="spending-row">
+                                <span class="spending-label">Input Tokens:</span>
+                                <span class="spending-value" id="input-tokens">0</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Output Tokens:</span>
+                                <span class="spending-value" id="output-tokens">0</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Input Cost:</span>
+                                <span class="spending-value" id="input-cost">$0.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Output Cost:</span>
+                                <span class="spending-value" id="output-cost">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Spending Alerts -->
+                    <div class="spending-panel">
+                        <h4>⚠️ Spending Alerts</h4>
+                        <div class="spending-content">
+                            <div class="spending-row">
+                                <span class="spending-label">80% Warning:</span>
+                                <span class="spending-value" id="warning-threshold">$40.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">90% Alert:</span>
+                                <span class="spending-value" id="alert-threshold">$45.00</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Status:</span>
+                                <span class="spending-value" id="alert-status">✅ Safe</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Next Reset:</span>
+                                <span class="spending-value" id="next-reset">Jan 1, 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cost Optimization -->
+                    <div class="spending-panel">
+                        <h4>🚀 Cost Optimization</h4>
+                        <div class="spending-content">
+                            <div class="spending-row">
+                                <span class="spending-label">Efficiency Score:</span>
+                                <span class="spending-value" id="efficiency-score">100%</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Canned Usage:</span>
+                                <span class="spending-value" id="canned-usage-rate">0%</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Avg Tokens/Req:</span>
+                                <span class="spending-value" id="avg-tokens-per-request">0</span>
+                            </div>
+                            <div class="spending-row">
+                                <span class="spending-label">Savings:</span>
+                                <span class="spending-value" id="total-savings">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Metrics Dashboard -->
+            <section class="metrics-dashboard">
+                <div class="panel-header">
+                    <h3>📊 System Metrics</h3>
+                    <div class="header-info">
+                        <span class="last-updated" id="last-updated">Last updated: Never</span>
+                        <button id="export-metrics" class="btn btn-secondary">Export Data</button>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <!-- Performance Metrics -->
+                    <div class="metric-panel">
+                        <h4>⚡ Performance</h4>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label">Avg Response Time:</span>
+                                <span class="metric-value" id="avg-response-time">0ms</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Success Rate:</span>
+                                <span class="metric-value" id="success-rate">100%</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Total Requests:</span>
+                                <span class="metric-value" id="total-requests">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- API Usage & Spending -->
+                    <div class="metric-panel">
+                        <h4>🔌 API Usage & Spending</h4>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label">Requests Today:</span>
+                                <span class="metric-value" id="requests-today">0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Rate Limit:</span>
+                                <span class="metric-value" id="rate-limit">15/15</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Today's Cost:</span>
+                                <span class="metric-value" id="cost-today">$0.00</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Monthly Cost:</span>
+                                <span class="metric-value" id="cost-monthly">$0.00</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Cost per Request:</span>
+                                <span class="metric-value" id="cost-per-request">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Canned Response Usage -->
+                    <div class="metric-panel">
+                        <h4>💬 Response Usage</h4>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label">Canned Used:</span>
+                                <span class="metric-value" id="canned-used">0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Custom Used:</span>
+                                <span class="metric-value" id="custom-used">0</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Efficiency:</span>
+                                <span class="metric-value" id="efficiency">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Health -->
+                    <div class="metric-panel">
+                        <h4>🏥 System Health</h4>
+                        <div class="metric-content">
+                            <div class="metric-row">
+                                <span class="metric-label">Status:</span>
+                                <span class="metric-value status-healthy" id="system-status">Healthy</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Uptime:</span>
+                                <span class="metric-value" id="system-uptime">00:00:00</span>
+                            </div>
+                            <div class="metric-row">
+                                <span class="metric-label">Version:</span>
+                                <span class="metric-value" id="system-version">v2.0.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Budget Setting Modal -->
+    <div id="budget-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 Set Monthly Budget</h3>
+                <button id="close-budget-modal" class="btn btn-icon">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="budget-amount">Monthly Budget Amount ($):</label>
+                    <input type="number" id="budget-amount" class="form-input" placeholder="50.00" min="1" max="1000" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="budget-reset-day">Budget Reset Day:</label>
+                    <select id="budget-reset-day" class="form-input">
+                        <option value="1">1st of month</option>
+                        <option value="15">15th of month</option>
+                        <option value="28">28th of month</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="alert-email">Alert Email (optional):</label>
+                    <input type="email" id="alert-email" class="form-input" placeholder="your@email.com">
+                </div>
+                <div class="budget-info">
+                    <p><strong>Current Gemini API Pricing:</strong></p>
+                    <ul>
+                        <li>Input tokens: $0.00025 per 1K tokens</li>
+                        <li>Output tokens: $0.0005 per 1K tokens</li>
+                        <li>Free tier: 15 requests/minute, 1M tokens/month</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-budget" class="btn btn-primary">Save Budget</button>
+                <button id="cancel-budget" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Canned Response Modal -->
+    <div id="add-response-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Canned Response</h3>
+                <button id="close-modal" class="btn btn-icon">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="response-title">Title:</label>
+                    <input type="text" id="response-title" class="form-input" placeholder="e.g., Welcome Message">
+                </div>
+                <div class="form-group">
+                    <label for="response-category">Category:</label>
+                    <select id="response-category" class="form-input">
+                        <option value="greetings">Greetings</option>
+                        <option value="technical">Technical</option>
+                        <option value="billing">Billing</option>
+                        <option value="general">General</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="response-content">Response Content:</label>
+                    <textarea id="response-content" class="form-input" rows="4" placeholder="Enter the canned response text..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="response-triggers">Trigger Keywords (comma-separated):</label>
+                    <input type="text" id="response-triggers" class="form-input" placeholder="e.g., hello, hi, welcome">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-response" class="btn btn-primary">Save Response</button>
+                <button id="cancel-response" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="scripts/components/toggle-switch.js?v=1.0.2&t=20250826"></script>
+    <script src="scripts/qa-dashboard.js?v=1.0.0&t=20250826"></script>
+</body>
+</html>

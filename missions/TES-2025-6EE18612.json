@@ -1,0 +1,17 @@
+{
+  "mission_name": "Test Environment Control",
+  "mission_description": "Testing the new MCP environment control tools",
+  "mission_type": "TESTING",
+  "mission_priority": "MEDIUM",
+  "mission_objectives": [],
+  "execution_plan": {},
+  "mission_requirements": {},
+  "mission_id": "TES-2025-6EE18612",
+  "metadata": {
+    "created_at": "2025-08-26T14:04:55.788581",
+    "created_by": "AI/DEV Lab System",
+    "version": "1.0.0"
+  },
+  "mission_status": "PLANNING",
+  "current_stage": "INITIALIZATION"
+}

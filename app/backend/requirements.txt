@@ -1,0 +1,57 @@
+# AI/DEV Lab App - Backend Requirements
+# =====================================
+
+# Core Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Environment and Configuration
+python-dotenv>=1.0.0
+python-decouple>=3.8
+
+# Database
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+psycopg2-binary>=2.9.0
+
+# Security and Authentication
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.6
+
+# HTTP and API
+httpx>=0.25.0
+requests>=2.31.0
+aiofiles>=23.2.0
+
+# AI and ML
+openai>=1.3.0
+google-generativeai>=0.3.0
+anthropic>=0.7.0
+
+# MCP Server
+mcp>=1.0.0
+asyncio-mqtt>=0.16.0
+
+# Monitoring and Logging
+structlog>=23.2.0
+prometheus-client>=0.19.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Development
+black>=23.11.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0
+
+# Utilities
+python-dateutil>=2.8.2
+pytz>=2023.3
+click>=8.1.0
+rich>=13.7.0

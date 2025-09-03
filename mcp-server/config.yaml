@@ -1,0 +1,65 @@
+# AI/DEV Lab MCP Server Configuration
+# Configuration file for server behavior and security settings
+
+server:
+  name: "ai-dev-lab-mcp"
+  version: "1.0.0"
+  description: "AI/DEV Lab MCP Server with Tools, Resources, and Prompts"
+  protocol_version: "2025-06-18"
+
+transport:
+  # Transport mode: stdio (local) or http (remote)
+  mode: "stdio"
+  
+  # HTTP settings (for future remote deployment)
+  http:
+    host: "localhost"
+    port: 8080
+    ssl_enabled: false
+    cors_enabled: true
+
+security:
+  # Approval workflow settings
+  require_approval: true
+  
+  # Tools that require approval
+  approval_required_tools:
+    - "analyze_research_document"
+    - "generate_task_list"
+    - "deploy_feature"
+    - "modify_security_settings"
+  
+  # Tools that don't require approval (read-only)
+  no_approval_tools:
+    - "get_project_status"
+    - "list_resources"
+    - "get_help"
+  
+  # Guardian integration
+  guardian_enabled: true
+  guardian_config_path: "../guardian_config.yaml"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "mcp_server.log"
+  max_size: "10MB"
+  backup_count: 5
+
+capabilities:
+  tools:
+    enabled: true
+    list_changed: true
+  
+  resources:
+    enabled: true
+    read_limit: "1MB"
+  
+  prompts:
+    enabled: true
+    max_template_size: "10KB"
+
+development:
+  debug_mode: false
+  hot_reload: false
+  test_mode: false

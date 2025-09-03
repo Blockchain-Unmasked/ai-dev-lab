@@ -1,0 +1,77 @@
+{
+  "loadout_id": "LAB_DEV_001",
+  "loadout_name": "Lab Development Tool Loadout",
+  "loadout_description": "Comprehensive tool set for overall lab development and Cursor chat operations",
+  "tool_category": "LAB_MCP_SERVERS",
+  "tools": [
+    {
+      "tool_id": "enhanced_lab_mcp_server",
+      "tool_name": "Enhanced Lab MCP Server",
+      "tool_type": "mcp_server",
+      "capabilities": [
+        "mission_system_operations",
+        "web_scraping_and_analysis",
+        "terminal_automation",
+        "package_management",
+        "infrastructure_management",
+        "mcp_server_coordination"
+      ],
+      "access_level": "full_system",
+      "scope": "repository_wide",
+      "configuration": {
+        "server_path": "mcp-server/enhanced_server.py",
+        "env_vars": {
+          "AI_DEV_MCP_MODE": "development",
+          "AI_DEV_PROJECT_ROOT": "${workspaceFolder}"
+        }
+      }
+    },
+    {
+      "tool_id": "core_lab_mcp_server",
+      "tool_name": "Core Lab MCP Server",
+      "tool_type": "mcp_server",
+      "capabilities": [
+        "development_assistance",
+        "project_management",
+        "file_operations",
+        "code_analysis"
+      ],
+      "access_level": "full_system",
+      "scope": "repository_wide",
+      "configuration": {
+        "server_path": "mcp-server/server.py",
+        "env_vars": {
+          "AI_DEV_MCP_MODE": "development"
+        }
+      }
+    }
+  ],
+  "capabilities": [
+    "system_commands",
+    "package_installation",
+    "file_management",
+    "mission_operations",
+    "web_scraping",
+    "infrastructure_management",
+    "repository_wide_access",
+    "terminal_operations",
+    "background_agents",
+    "cross_project_development"
+  ],
+  "access_level": "full_system",
+  "scope": "repository_wide",
+  "configuration": {
+    "auto_start": true,
+    "health_check_interval": 30,
+    "max_concurrent_operations": 10,
+    "fallback_strategy": "graceful_degradation"
+  },
+  "dependencies": [
+    "python3.8+",
+    "mcp_package",
+    "asyncio",
+    "pathlib"
+  ],
+  "estimated_setup_time": "2 minutes",
+  "validation_required": true
+}

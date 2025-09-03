@@ -1,0 +1,381 @@
+.
+├── .DS_Store
+├── .benchmarks
+├── .cursor
+│   ├── environment.json
+│   ├── lab-development-tools.json
+│   ├── mcp.json
+│   ├── rules
+│   │   ├── enterprise.md
+│   │   ├── enterprise_mode.mdc
+│   │   ├── free.md
+│   │   ├── free_mode.mdc
+│   │   ├── mcp_server_usage.mdc
+│   │   └── test_auto_attached.mdc
+│   └── settings.json
+├── .env
+├── .github
+│   └── workflows
+│       └── mcp-audit.yml
+├── .gitignore
+├── AGENTS.md
+├── README.md
+├── ai-dev-tree.txt
+├── app
+│   ├── .env
+│   ├── ARCHITECTURE_OVERVIEW.md
+│   ├── PORT_CONFIGURATION.md
+│   ├── README.md
+│   ├── app
+│   │   └── secrets
+│   │       └── secrets.json
+│   ├── backend
+│   │   ├── api
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py
+│   │   │   └── static_routes.py
+│   │   ├── app.log
+│   │   ├── backend.log
+│   │   ├── core
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py
+│   │   │   ├── database.py
+│   │   │   ├── logging.py
+│   │   │   ├── secrets.py
+│   │   │   └── security.py
+│   │   ├── main.py
+│   │   ├── main.py.backup
+│   │   ├── main.py.before_static
+│   │   ├── main.py.function_order_issue
+│   │   ├── main.py.route_order_issue
+│   │   ├── main.py.static_issue
+│   │   ├── models
+│   │   ├── requirements.txt
+│   │   ├── run.py
+│   │   ├── run_backend.py
+│   │   ├── services
+│   │   ├── start_server.sh
+│   │   ├── start_simple.py
+│   │   ├── uploads
+│   │   │   └── .gitkeep
+│   │   └── utils
+│   ├── backups
+│   │   └── .gitkeep
+│   ├── database
+│   │   ├── config.py
+│   │   ├── migrations
+│   │   │   └── .gitkeep
+│   │   ├── schemas
+│   │   │   └── .gitkeep
+│   │   └── seeds
+│   │       └── .gitkeep
+│   ├── deployment
+│   │   ├── docker
+│   │   ├── nginx
+│   │   ├── ssl
+│   │   │   └── .gitkeep
+│   │   └── systemd
+│   ├── docs
+│   ├── env.example
+│   ├── frontend
+│   │   ├── README.md
+│   │   ├── assets
+│   │   │   ├── css
+│   │   │   └── images
+│   │   ├── components
+│   │   ├── css-test.html
+│   │   ├── customer-chat-3000.html
+│   │   ├── customer-chat.html
+│   │   ├── env.example.js
+│   │   ├── env.js
+│   │   ├── index-3000.html
+│   │   ├── index.html
+│   │   ├── minimal-test.html
+│   │   ├── pages
+│   │   ├── qa-dashboard.html
+│   │   ├── scripts
+│   │   │   ├── ab-testing.js
+│   │   │   ├── app-prompt-engine.js
+│   │   │   ├── chat-agent.js
+│   │   │   ├── components
+│   │   │   ├── gemini-api.js
+│   │   │   ├── main.js
+│   │   │   ├── qa-dashboard.js
+│   │   │   ├── quality-assurance-system.js
+│   │   │   ├── queue-system.js
+│   │   │   ├── session-manager.js
+│   │   │   ├── stealth-agent.js
+│   │   │   └── tiered-agent-system.js
+│   │   ├── simple-test.html
+│   │   └── test.html
+│   ├── logs
+│   ├── mcp-servers
+│   │   ├── app-demo-server
+│   │   │   ├── README.md
+│   │   │   ├── config.yaml
+│   │   │   ├── requirements.txt
+│   │   │   ├── server.py
+│   │   │   ├── start.sh
+│   │   │   └── test_server.py
+│   │   ├── content-archive
+│   │   ├── database-server
+│   │   │   ├── data
+│   │   │   ├── requirements.txt
+│   │   │   └── server.py
+│   │   └── website-audit
+│   │       └── server.py
+│   ├── secrets
+│   │   ├── .gitignore
+│   │   ├── .gitkeep
+│   │   └── secrets.json
+│   ├── shared
+│   │   ├── constants
+│   │   ├── types
+│   │   └── validation
+│   ├── start_dev.sh
+│   ├── storage
+│   │   └── .gitkeep
+│   └── test_gemini_api.py
+├── docs
+│   ├── README.md
+│   ├── architecture
+│   │   ├── MCP_SERVER_ARCHITECTURE_RULES.md
+│   │   ├── MCP_SERVER_DIFFERENTIATION_SUMMARY.md
+│   │   ├── MCP_SERVER_USAGE_RULES_SUMMARY.md
+│   │   ├── PROMPT_ENGINE_IMPLEMENTATION_PLAN.md
+│   │   ├── PROMPT_ENGINE_IMPLEMENTATION_SUMMARY.md
+│   │   ├── PROMPT_ENGINE_RESEARCH.md
+│   │   └── REPOSITORY_CLEANUP_AND_BEST_PRACTICES.md
+│   ├── architecture.md
+│   ├── cursor-integration
+│   │   ├── APP_MCP_SERVERS_CLEANUP_SUMMARY.md
+│   │   ├── CURSOR_CONFIGURATION_STATUS.md
+│   │   └── CURSOR_SETUP_COMPLETE.md
+│   ├── cursor_usage.md
+│   ├── mcp-servers
+│   ├── missions
+│   │   ├── MISSION_COMPLETE.md
+│   │   └── MISSION_SYSTEM_AUDIT_AND_SETUP_SUMMARY.md
+│   ├── repository_cleanup.md
+│   ├── research
+│   │   ├── CONTACT_CENTER_RESEARCH_PROMPT.md
+│   │   └── ENTERPRISE_RESEARCH_INTEGRATION_PLAN.md
+│   ├── security
+│   ├── security.md
+│   ├── setup
+│   │   └── LAB_DEVELOPMENT_SETUP_GUIDE.md
+│   ├── setup.md
+│   └── threat_model.md
+├── logs
+│   └── missions
+├── mcp-server
+│   ├── ENVIRONMENT_CONTROL_README.md
+│   ├── README.md
+│   ├── __init__.py
+│   ├── audit_mission_system.py
+│   ├── config.yaml
+│   ├── create_research_mission.py
+│   ├── enhanced_mission_system.py
+│   ├── enhanced_prompt_engine.py
+│   ├── enhanced_server.py
+│   ├── execute_app_enhancement.py
+│   ├── execute_contact_center_research.py
+│   ├── execute_website_audit.py
+│   ├── guardian_config.yaml
+│   ├── http_server.py
+│   ├── implement_enterprise_research.py
+│   ├── mcp_server.log
+│   ├── mission_system.py
+│   ├── prompts
+│   ├── requirements.txt
+│   ├── server.py
+│   ├── setup_lab_development_mode.py
+│   ├── start_server.bat
+│   ├── start_server.sh
+│   ├── test_comprehensive_mcp.py
+│   ├── test_environment_control.py
+│   ├── test_environment_control_focused.py
+│   └── tools
+│       └── tool_loadouts
+│           └── lab_development_loadout.json
+├── meta
+│   ├── LAB_MCP_TOOLS_REPORT.md
+│   ├── MCP_AUDIT_AND_HARDENING_CHECKLIST.md
+│   ├── MCP_SERVERS_FIXED_SUMMARY.md
+│   ├── PROJECT_RENAME_SUMMARY.md
+│   ├── QUICK_START_MCP_AUDIT.md
+│   ├── README.md
+│   ├── REPOSITORY_CLEANUP_AND_ORGANIZATION_SUMMARY.md
+│   ├── checklists
+│   │   └── implementation_checklist.md
+│   ├── decisions
+│   │   └── decisions.md
+│   ├── features
+│   │   └── feature_grid.md
+│   ├── prompts.md
+│   ├── schemas
+│   │   └── mission-system-schema.json
+│   └── templates
+│       └── prompt-engine-templates.json
+├── missions
+│   ├── APP_DEMO_100_SCORE_IMPLEMENTATION_PLAN.json
+│   ├── APP_DEMO_100_SCORE_MISSION_PRD.json
+│   ├── APP_DEMO_100_SCORE_SUPER_AUTO_PROMPT.json
+│   ├── AUD-2025-7CABB6CE.json
+│   ├── DEV-2025-03E1C294.json
+│   ├── DEV-2025-41FDD931.json
+│   ├── DEV-2025-759E96DB.json
+│   ├── DEV-2025-777A13D3.json
+│   ├── DEV-2025-8244D156.json
+│   ├── DEV-2025-85B5F034.json
+│   ├── DEV-2025-99E26C5A.json
+│   ├── DEV-2025-AB401B61.json
+│   ├── DEV-2025-B530188D.json
+│   ├── DEV-2025-C75B675C.json
+│   ├── DEV-2025-E82FB66D.json
+│   ├── DEV-2025-ECC3774A.json
+│   ├── DEV-2025-F274E34F.json
+│   ├── DEV-2025-F32A8A5C.json
+│   ├── FRONTEND_DESIGN_SPECIFICATIONS.md
+│   ├── FRONTEND_OVERHAUL_IMPLEMENTATION_PLAN.json
+│   ├── FRONTEND_OVERHAUL_IMPLEMENTATION_SUMMARY.md
+│   ├── FRONTEND_OVERHAUL_MISSION_PRD.json
+│   ├── FRONTEND_OVERHAUL_SUPER_AUTO_PROMPT.json
+│   ├── MCP_INTEGRATION_FIX_PRD.json
+│   ├── README.md
+│   ├── RES-2025-C06DFE89.json
+│   ├── RES-2025-D10709C2.json
+│   ├── TES-2025-6EE18612.json
+│   ├── audit_results.json
+│   ├── contact_center_research
+│   │   ├── agent_tier_system_research.json
+│   │   ├── comprehensive_research_report.json
+│   │   ├── kb_architecture_research.json
+│   │   ├── qa_process_research.json
+│   │   ├── research_config.json
+│   │   ├── research_results.json
+│   │   └── workflow_integration_research.json
+│   ├── contexts
+│   │   ├── context_AUD-2025-7CABB6CE.json
+│   │   ├── context_DEV-2025-03E1C294.json
+│   │   ├── context_DEV-2025-41FDD931.json
+│   │   ├── context_DEV-2025-777A13D3.json
+│   │   ├── context_DEV-2025-8244D156.json
+│   │   ├── context_DEV-2025-AB401B61.json
+│   │   ├── context_DEV-2025-B530188D.json
+│   │   ├── context_DEV-2025-E82FB66D.json
+│   │   ├── context_DEV-2025-ECC3774A.json
+│   │   ├── context_DEV-2025-F274E34F.json
+│   │   ├── context_DEV-2025-F32A8A5C.json
+│   │   ├── context_RES-2025-C06DFE89.json
+│   │   └── context_RES-2025-D10709C2.json
+│   ├── lab_development_setup_summary.json
+│   ├── logs
+│   │   ├── context_changes.log
+│   │   ├── mission_activities.log
+│   │   └── tool_usage.log
+│   ├── research_mission_summary.json
+│   ├── tool_loadouts
+│   └── website_audit
+│       ├── audit_config.json
+│       ├── audit_results.json
+│       ├── client_onboarding_analysis.json
+│       ├── comprehensive_audit_report.json
+│       ├── content_backup
+│       │   ├── backup_manifest.json
+│       │   └── blockchainunmasked.com.html
+│       └── crypto_theft_reporting_analysis.json
+├── organization_validation_report.json
+├── phase-cleanup-tree.txt
+├── references
+│   ├── README.md
+│   ├── implementations
+│   │   └── enterprise_research
+│   │       ├── documentation
+│   │       ├── implementation_summary.json
+│   │       ├── knowledge_base
+│   │       ├── performance_monitoring
+│   │       ├── quality_assurance
+│   │       ├── tiered_agent_system
+│   │       └── workflow_integration
+│   ├── input
+│   │   ├── .DS_Store
+│   │   ├── 1.txt
+│   │   ├── 2.txt
+│   │   ├── 3.txt
+│   │   ├── Enterprise Contact Center Operations_ Comprehensive Research Findings.txt
+│   │   ├── README.md
+│   │   └── meta-documentation
+│   │       ├── .gitignore
+│   │       ├── CHANGELOG.md
+│   │       ├── LICENSE.txt
+│   │       ├── README.md
+│   │       ├── docs
+│   │       ├── improvements.md
+│   │       ├── poetry.lock
+│   │       └── review
+│   └── projects
+│       ├── README.md
+│       ├── blockchainunmasked-audit
+│       │   ├── BLOCKCHAINUNMASKED_AUDIT_PRD.md
+│       │   ├── BLOCKCHAINUNMASKED_IMPLEMENTATION_PLAN.md
+│       │   └── BLOCKCHAINUNMASKED_SUPER_AUTO_PROMPT.json
+│       └── enterprise-research
+├── sandbox
+│   ├── README.md
+│   ├── app.log
+│   ├── audits
+│   ├── development
+│   │   ├── contact_center_research.log
+│   │   ├── mission_system_audit.log
+│   │   └── website_audit.log
+│   ├── mcp_conformance_results_1756236112.json
+│   ├── mcp_conformance_results_1756236691.json
+│   ├── mcp_tests
+│   ├── organization_validation_report.json
+│   ├── package-lock.json
+│   ├── package.json
+│   └── test_results
+├── scripts
+│   ├── README.md
+│   ├── mcp_conformance_test_suite.py
+│   ├── run_safety_scan.sh
+│   ├── setup_environment.py
+│   ├── setup_mcp_testing.py
+│   ├── simple_mcp_test.py
+│   ├── smoke_run.sh
+│   ├── switch_mode.py
+│   ├── test_cursor_integration.py
+│   ├── test_guardian.py
+│   ├── test_mcp_connection.py
+│   ├── test_mcp_cursor_integration.py
+│   ├── test_mcp_server.py
+│   ├── test_mcp_servers.py
+│   ├── validate_organization.py
+│   ├── verify_cursor_mcp.py
+│   └── verify_cursor_rules.py
+└── tests
+    ├── .pytest_cache
+    │   ├── .gitignore
+    │   ├── CACHEDIR.TAG
+    │   ├── README.md
+    │   └── v
+    │       ├── cache
+    │       └── randomly_seed
+    ├── README.md
+    ├── app.log
+    ├── backend
+    │   ├── test_api.py
+    │   ├── test_api_routes.py
+    │   └── test_core_components.py
+    ├── conftest.py
+    ├── mcp
+    │   └── test_lab_server.py
+    ├── pytest.ini
+    ├── requirements.txt
+    ├── run_tests.py
+    ├── security
+    │   └── test_authentication.py
+    └── test_framework.py
+
+104 directories, 275 files

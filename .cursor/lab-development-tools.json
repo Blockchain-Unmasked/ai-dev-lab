@@ -1,0 +1,187 @@
+{
+  "lab_development_tools": {
+    "mcp_servers": {
+      "lab_servers": {
+        "ai-dev-lab-core": {
+          "description": "Core Lab MCP Server for basic development operations",
+          "capabilities": [
+            "development_assistance",
+            "project_management",
+            "file_operations",
+            "code_analysis"
+          ],
+          "usage": "overall_lab_development_and_cursor_chat",
+          "access_level": "full_system"
+        },
+        "ai-dev-lab-enhanced": {
+          "description": "Enhanced Lab MCP Server with mission system and advanced tools",
+          "capabilities": [
+            "mission_system_operations",
+            "web_scraping_and_analysis",
+            "terminal_automation",
+            "package_management",
+            "infrastructure_management",
+            "mcp_server_coordination"
+          ],
+          "usage": "overall_lab_development_and_cursor_chat",
+          "access_level": "full_system"
+      }
+    },
+    "app_servers": {
+      "ai-dev-lab-app-demo": {
+        "description": "App Demo MCP Server for app-specific functionality",
+        "capabilities": [
+          "chat_analysis",
+          "response_generation",
+          "ab_testing_metrics"
+        ],
+        "usage": "app_specific_functionality_only",
+        "access_level": "application_scope"
+      }
+    }
+  },
+  "development_extensions": {
+    "python_development": [
+      "ms-python.python",
+      "ms-python.black-formatter",
+      "ms-python.pylint",
+      "ms-python.flake8",
+      "ms-python.isort",
+      "ms-python.debugpy"
+    ],
+    "web_development": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "htmlhint.vscode-htmlhint"
+    ],
+    "general_development": [
+      "eamodio.gitlens",
+      "github.vscode-github-actions",
+      "ms-azuretools.vscode-docker",
+      "anysphere.remote-containers"
+    ]
+  },
+  "lab_tools_and_capabilities": {
+    "mission_system": {
+      "description": "Comprehensive mission management and coordination",
+      "features": [
+        "mission_creation_and_management",
+        "execution_planning",
+        "progress_tracking",
+        "debriefing_and_lessons_learned",
+        "prompt_engine_integration"
+      ],
+      "usage_context": "lab_development_and_cursor_chat"
+    },
+    "web_scraping": {
+      "description": "Web content extraction and analysis tools",
+      "features": [
+        "single_page_scraping",
+        "website_crawling",
+        "screenshot_capture",
+        "content_extraction",
+        "performance_analysis"
+      ],
+      "usage_context": "lab_projects_and_research"
+    },
+    "terminal_automation": {
+      "description": "System command execution and automation",
+      "features": [
+        "command_execution",
+        "package_installation",
+        "system_monitoring",
+        "backup_operations",
+        "infrastructure_management"
+      ],
+      "usage_context": "lab_development_and_system_administration"
+    },
+    "mcp_server_management": {
+      "description": "Coordination and management of all MCP servers",
+      "features": [
+        "server_start_stop",
+        "server_status_monitoring",
+        "server_configuration",
+        "cross_server_coordination"
+      ],
+      "usage_context": "lab_development_and_infrastructure"
+    }
+  },
+  "development_workflows": {
+    "mission_based_development": {
+      "description": "Development workflow using mission system",
+      "steps": [
+        "mission_planning_and_briefing",
+        "execution_plan_development",
+        "phase_by_phase_implementation",
+        "progress_tracking_and_updates",
+        "debriefing_and_lessons_learned"
+      ],
+      "tools_required": ["mission_system", "enhanced_lab_mcp_server"]
+    },
+    "web_analysis_workflow": {
+      "description": "Web content analysis and archival workflow",
+      "steps": [
+        "target_identification",
+        "content_scraping_and_extraction",
+        "screenshot_capture",
+        "content_analysis_and_organization",
+        "archival_and_documentation"
+      ],
+      "tools_required": ["web_scraping_tools", "enhanced_lab_mcp_server"]
+    },
+    "infrastructure_development": {
+      "description": "Lab infrastructure and tool development workflow",
+      "steps": [
+        "requirements_analysis",
+        "tool_selection_and_installation",
+        "configuration_and_setup",
+        "testing_and_validation",
+        "documentation_and_maintenance"
+      ],
+      "tools_required": ["terminal_automation", "enhanced_lab_mcp_server"]
+    }
+  },
+  "security_and_compliance": {
+    "access_control": {
+      "lab_servers": "full_system_access_for_lab_development",
+      "app_servers": "restricted_access_within_app_boundaries",
+      "cross_server_operations": "blocked_to_prevent_privilege_escalation"
+    },
+    "audit_logging": {
+      "all_operations_logged": true,
+      "security_violations_tracked": true,
+      "mission_activities_documented": true
+    },
+    "boundary_enforcement": {
+      "automatic_boundary_checking": true,
+      "path_validation": true,
+      "operation_scope_validation": true
+    }
+  },
+  "performance_and_monitoring": {
+    "resource_monitoring": {
+      "system_resources": ["cpu", "memory", "disk", "network"],
+      "mcp_server_performance": ["response_time", "throughput", "error_rates"],
+      "mission_progress_tracking": ["completion_percentage", "time_spent", "milestones"]
+    },
+    "optimization": {
+      "async_operations": true,
+      "resource_efficient_processing": true,
+      "background_task_management": true
+    }
+  },
+  "integration_and_extensibility": {
+    "cursor_ide_integration": {
+      "dual_mode_support": true,
+      "automatic_mode_switching": true,
+      "mcp_tool_integration": true,
+      "background_agent_support": true
+    },
+    "external_tool_integration": {
+      "package_managers": ["pip", "npm", "brew"],
+      "version_control": ["git", "github_actions"],
+      "containerization": ["docker", "remote_containers"],
+      "cloud_services": ["aws", "azure", "gcp"]
+    }
+  }
+}

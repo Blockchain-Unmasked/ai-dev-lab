@@ -1,0 +1,100 @@
+{
+  "mission_name": "Lifecycle Test Mission",
+  "mission_description": "Test mission lifecycle",
+  "mission_type": "DEVELOPMENT",
+  "tool_loadout": "LAB_DEV_001",
+  "mission_id": "DEV-2025-E82FB66D",
+  "metadata": {
+    "created_at": "2025-08-26T00:02:29.474456",
+    "created_by": "AI/DEV Lab System",
+    "version": "2.0.0",
+    "last_modified": "2025-08-26T00:02:29.483486",
+    "modified_by": "AI/DEV Lab System"
+  },
+  "mission_status": "COMPLETED",
+  "current_stage": "INITIALIZATION",
+  "mission_lifecycle": {
+    "current_phase": "INITIALIZATION",
+    "phase_history": [],
+    "status_history": [
+      {
+        "timestamp": "2025-08-26T00:02:29.483502",
+        "old_status": "PLANNING",
+        "new_status": "COMPLETED",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      }
+    ],
+    "context_snapshots": [],
+    "tool_usage_log": [],
+    "performance_metrics": {},
+    "activity_log": [
+      {
+        "timestamp": "2025-08-26T00:02:29.479581",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "DEV-2025-E82FB66D"
+      }
+    ]
+  },
+  "mission_context": {
+    "execution_context": {},
+    "tool_context": {},
+    "data_context": {},
+    "user_context": {},
+    "system_context": {}
+  },
+  "tool_loadout_details": {},
+  "tool_requirements": {
+    "lab_mcp_servers": [],
+    "app_mcp_servers": [],
+    "cursor_extensions": [],
+    "system_tools": [],
+    "external_apis": []
+  },
+  "current_progress": {
+    "overall_progress": 0.0,
+    "phase_progress": {},
+    "objective_progress": {},
+    "task_progress": {},
+    "tool_utilization": {}
+  },
+  "phase_status": {},
+  "tool_usage_summary": {
+    "total_tool_usage": 0,
+    "tools_used": {},
+    "usage_by_phase": {},
+    "performance_metrics": {}
+  },
+  "rebriefing_context": {
+    "reason": "Test rebriefing",
+    "requires_tool_setup": true
+  },
+  "current_state": {
+    "mission_status": "PLANNING",
+    "current_stage": "INITIALIZATION",
+    "current_phase": null,
+    "current_task": null,
+    "recent_activities": [
+      {
+        "timestamp": "2025-08-26T00:02:29.479581",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "DEV-2025-E82FB66D"
+      }
+    ],
+    "active_blockers": [],
+    "tool_states": {},
+    "data_context": {}
+  },
+  "continuation_plan": {
+    "next_actions": [],
+    "tool_requirements": [],
+    "dependencies": [],
+    "estimated_effort": "",
+    "success_criteria": [],
+    "risk_mitigation": []
+  }
+}

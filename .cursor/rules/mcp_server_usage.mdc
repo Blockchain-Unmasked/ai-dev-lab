@@ -1,0 +1,326 @@
+---
+description: "Guidelines for proper usage of MCP servers in AI/DEV Lab project, defining boundaries between lab and app servers"
+alwaysApply: true
+---
+
+# MCP Server Usage Rules - AI/DEV Lab Project
+
+## 🎯 **MCP Server Usage Boundaries**
+
+### **CRITICAL: Server Type Separation**
+- **Lab MCP Servers**: For overall lab development and Cursor chat operations
+- **App MCP Servers**: For use within the app only, NOT for lab development
+
+---
+
+## 🏗️ **Lab MCP Servers (Cursor Chat & Lab Development)**
+
+### **Purpose & Usage**
+- **Primary Use**: Overall lab development, system administration, and Cursor chat operations
+- **Scope**: Repository-wide operations and development tasks
+- **Access Level**: Full system access for lab development needs
+
+### **When to Use Lab MCP Servers**
+✅ **Use Lab MCP Servers for:**
+- Repository-wide file operations and management
+- System-level development tasks
+- Installing packages and dependencies
+- Running terminal commands for lab development
+- Managing other MCP servers
+- Web scraping and analysis for lab projects
+- Mission system operations and coordination
+- Cross-project development tasks
+- Infrastructure management and setup
+- Lab-wide configuration changes
+
+### **Lab MCP Server Tools Available**
+```python
+# Core Lab Server Tools
+- run_terminal_command          # Execute system commands
+- install_package              # Install system packages
+- check_system_status          # Monitor system resources
+- backup_data                  # Create data backups
+- manage_mcp_servers          # Manage other MCP servers
+
+# Enhanced Lab Server Tools
+- scrape_webpage               # Web content extraction
+- crawl_website                # Website crawling
+- capture_screenshot           # Screenshot capture
+- extract_content              # Content extraction
+- analyze_performance          # Performance analysis
+- create_mission               # Mission system operations
+- get_mission_briefing         # Mission briefings
+- get_execution_plan           # Execution plans
+- update_mission_status        # Mission status updates
+- list_missions                # Mission management
+```
+
+---
+
+## 📱 **App MCP Servers (App-Only Usage)**
+
+### **Purpose & Usage**
+- **Primary Use**: Application-specific functionality within the app
+- **Scope**: Limited to app directory and app-specific operations
+- **Access Level**: Sandboxed, application-scoped access only
+
+### **When to Use App MCP Servers**
+✅ **Use App MCP Servers for:**
+- App-specific data operations
+- App user management
+- App-specific analytics and metrics
+- App content management
+- App configuration changes
+- App testing and validation
+
+❌ **NEVER Use App MCP Servers for:**
+- Lab development tasks
+- System-level operations
+- Repository-wide changes
+- Terminal command execution
+- Package installation
+- Cross-project operations
+
+### **App MCP Server Tools Available**
+```python
+# App Demo Server Tools
+- analyze_chat_conversation    # Chat analysis
+- generate_response_template    # Response generation
+- calculate_response_metrics    # Metrics calculation
+
+# Database Server Tools
+- store_conversation           # Store app data
+- add_message                  # Add app messages
+- get_conversation             # Retrieve app data
+- save_user_profile            # User management
+- record_ab_metric            # A/B testing metrics
+
+# Website Audit Server Tools
+- audit_webpage                # Page auditing
+- audit_website_structure      # Structure analysis
+- extract_page_content         # Content extraction
+- analyze_page_performance     # Performance analysis
+- save_audit_data             # Data archival
+- get_audit_summary           # Audit summaries
+```
+
+---
+
+## 🚫 **Usage Restrictions & Enforcement**
+
+### **Lab MCP Server Restrictions**
+- **Cannot be used for**: App-specific operations that should use App MCP servers
+- **Must respect**: Repository boundaries and security policies
+- **Requires approval**: For sensitive operations and system changes
+
+### **App MCP Server Restrictions**
+- **Cannot be used for**: Lab development, system operations, or Cursor chat tasks
+- **Must stay within**: App directory boundaries
+- **Cannot access**: System resources outside app scope
+
+### **Cross-Server Usage Rules**
+```python
+# ALLOWED: Lab → App coordination
+lab_server.manage_mcp_servers(action="start", server_name="app-demo-server")
+
+# ALLOWED: Lab → App data access (through proper channels)
+lab_server.run_terminal_command("ls app/mcp-servers/")
+
+# FORBIDDEN: App → Lab operations
+app_server.run_terminal_command("pip install package")  # ❌ BLOCKED
+
+# FORBIDDEN: App → System access
+app_server.access_system_files()  # ❌ BLOCKED
+```
+
+---
+
+## 🔒 **Security Enforcement**
+
+### **Access Control**
+```python
+# Lab MCP Server Access
+if operation_type == "lab_development":
+    if server_type == "lab":
+        allow_operation()  # ✅ ALLOWED
+    else:
+        block_operation()  # ❌ BLOCKED
+
+# App MCP Server Access
+if operation_type == "app_operation":
+    if server_type == "app" and within_app_bounds():
+        allow_operation()  # ✅ ALLOWED
+    else:
+        block_operation()  # ❌ BLOCKED
+```
+
+### **Path Validation**
+```python
+# Lab Server Path Validation
+def validate_lab_path(path):
+    return path.startswith(repository_root)
+
+# App Server Path Validation
+def validate_app_path(path):
+    return path.startswith(app_directory) and not path.startswith(repository_root)
+```
+
+---
+
+## 📋 **Usage Examples**
+
+### **Correct Lab MCP Server Usage**
+```python
+# ✅ CORRECT: Lab development task
+await lab_mcp_server.run_terminal_command({
+    "command": "pip install requests",
+    "working_directory": "/Users/hazael/Code/ai-dev-lab"
+})
+
+# ✅ CORRECT: Mission system operation
+await lab_mcp_server.create_mission({
+    "mission_name": "Website Audit Project",
+    "mission_type": "AUDIT",
+    "mission_description": "Audit blockchainunmasked.com website"
+})
+
+# ✅ CORRECT: Web scraping for lab project
+await lab_mcp_server.scrape_webpage({
+    "url": "https://example.com",
+    "extract_type": "all"
+})
+```
+
+### **Correct App MCP Server Usage**
+```python
+# ✅ CORRECT: App-specific operation
+await app_mcp_server.audit_webpage({
+    "url": "https://blockchainunmasked.com",
+    "audit_type": "content"
+})
+
+# ✅ CORRECT: App data management
+await app_mcp_server.store_conversation({
+    "user_id": "user123",
+    "conversation_data": {...}
+})
+
+# ✅ CORRECT: App metrics
+await app_mcp_server.record_ab_metric({
+    "test_id": "test001",
+    "variant": "A",
+    "metric": "conversion_rate"
+})
+```
+
+### **Incorrect Usage (Will Be Blocked)**
+```python
+# ❌ INCORRECT: App server trying system operations
+await app_mcp_server.run_terminal_command("pip install package")  # BLOCKED
+
+# ❌ INCORRECT: App server accessing system files
+await app_mcp_server.access_system_file("/etc/passwd")  # BLOCKED
+
+# ❌ INCORRECT: Lab server for app-specific tasks
+await lab_mcp_server.audit_webpage({...})  # WRONG SERVER TYPE
+```
+
+---
+
+## 🎯 **Cursor Chat Guidelines**
+
+### **For Lab Development Tasks**
+1. **Use Lab MCP Servers**: For system operations, development tasks
+2. **Full Context**: Access to repository-wide resources
+3. **System Operations**: Terminal commands, package installation
+4. **Mission Coordination**: Mission system operations
+
+### **For App-Specific Tasks**
+1. **Use App MCP Servers**: For app functionality and data
+2. **Limited Scope**: App directory operations only
+3. **App Operations**: User management, data storage, app metrics
+4. **No System Access**: Cannot perform system-level operations
+
+### **Task Classification**
+```python
+def classify_task(task_description):
+    if any(keyword in task_description.lower() for keyword in [
+        "system", "repository", "development", "install", "terminal", "mission"
+    ]):
+        return "LAB_MCP_SERVER"
+    elif any(keyword in task_description.lower() for keyword in [
+        "app", "user", "conversation", "audit", "metrics", "data"
+    ]):
+        return "APP_MCP_SERVER"
+    else:
+        return "UNKNOWN"
+```
+
+---
+
+## 🚨 **Violation Handling**
+
+### **Immediate Actions**
+1. **Operation Blocked**: Violating operations are immediately stopped
+2. **Logging**: All violations are logged with full context
+3. **User Notification**: Clear explanation of why operation was blocked
+4. **Corrective Guidance**: Suggest proper server usage
+
+### **Violation Examples**
+```python
+# ❌ VIOLATION: App server trying system access
+app_server.run_terminal_command("rm -rf /")  # BLOCKED + LOGGED
+
+# ❌ VIOLATION: Lab server for app-specific data
+lab_server.store_conversation({...})  # WRONG SERVER + GUIDANCE
+
+# ❌ VIOLATION: Cross-boundary access
+app_server.access_lab_files()  # BLOCKED + SECURITY ALERT
+```
+
+---
+
+## 📚 **Documentation & Training**
+
+### **Required Knowledge**
+- **All Users**: Must understand Lab vs App MCP server boundaries
+- **Developers**: Must know which server type for which tasks
+- **Reviewers**: Must validate server usage in code reviews
+
+### **Training Resources**
+- **Architecture Rules**: `MCP_SERVER_ARCHITECTURE_RULES.md`
+- **Differentiation Guide**: `MCP_SERVER_DIFFERENTIATION_SUMMARY.md`
+- **Best Practices**: `REPOSITORY_CLEANUP_AND_BEST_PRACTICES.md`
+
+---
+
+## ✅ **Compliance Checklist**
+
+### **Before Using Any MCP Server**
+- [ ] **Task Classification**: Is this a lab development or app operation?
+- [ ] **Server Selection**: Am I using the correct server type?
+- [ ] **Scope Validation**: Is the operation within the server's scope?
+- [ ] **Security Check**: Does this operation respect security boundaries?
+- [ ] **Approval Required**: Do I need approval for this operation?
+
+### **After Using MCP Server**
+- [ ] **Operation Logged**: Is the operation properly logged?
+- [ ] **Results Documented**: Are results documented appropriately?
+- [ ] **Security Maintained**: Were security boundaries respected?
+- [ ] **Next Steps Clear**: Are next steps clearly defined?
+
+---
+
+**Remember**: 
+- **Lab MCP Servers** = Overall lab development and Cursor chat operations
+- **App MCP Servers** = App-specific functionality only
+- **Clear boundaries** = Secure, maintainable, and efficient development
+- **When in doubt** = Use Lab MCP servers for development, App MCP servers for app operations
+
+---
+
+**Remember**: 
+- **Lab MCP Servers** = Overall lab development and Cursor chat operations
+- **App MCP Servers** = App-specific functionality only
+- **Clear boundaries** = Secure, maintainable, and efficient development
+- **When in doubt** = Use Lab MCP servers for development, App MCP servers for app operations

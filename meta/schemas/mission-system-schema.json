@@ -1,0 +1,370 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AI/DEV Lab Mission System Schema",
+  "description": "Comprehensive mission system for coordinating development tasks across Lab and App MCP servers",
+  "type": "object",
+  "definitions": {
+    "mission_status": {
+      "type": "string",
+      "enum": [
+        "PLANNING",
+        "BRIEFING",
+        "EXECUTION",
+        "DEBRIEFING",
+        "COMPLETED",
+        "FAILED",
+        "PAUSED",
+        "CANCELLED"
+      ]
+    },
+    "mission_priority": {
+      "type": "string",
+      "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "OPTIONAL"]
+    },
+    "mission_type": {
+      "type": "string",
+      "enum": [
+        "DEVELOPMENT",
+        "AUDIT",
+        "TESTING",
+        "DEPLOYMENT",
+        "MAINTENANCE",
+        "RESEARCH",
+        "DOCUMENTATION",
+        "SECURITY",
+        "INTEGRATION"
+      ]
+    },
+    "execution_stage": {
+      "type": "string",
+      "enum": [
+        "INITIALIZATION",
+        "ANALYSIS",
+        "IMPLEMENTATION",
+        "TESTING",
+        "VALIDATION",
+        "DEPLOYMENT",
+        "MONITORING"
+      ]
+    },
+    "mcp_server_type": {
+      "type": "string",
+      "enum": ["LAB", "APP"]
+    },
+    "prompt_type": {
+      "type": "string",
+      "enum": [
+        "MISSION_BRIEFING",
+        "EXECUTION_PLAN",
+        "DEBRIEFING",
+        "STATUS_UPDATE",
+        "ERROR_HANDLING",
+        "COMPLETION_REPORT"
+      ]
+    }
+  },
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,4}-[0-9]{4}-[A-Z0-9]{8}$",
+      "description": "Unique mission identifier (e.g., LAB-2024-AUDIT001)"
+    },
+    "mission_name": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 100,
+      "description": "Human-readable mission name"
+    },
+    "mission_description": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 1000,
+      "description": "Detailed mission description"
+    },
+    "mission_type": {
+      "$ref": "#/definitions/mission_type"
+    },
+    "mission_priority": {
+      "$ref": "#/definitions/mission_priority"
+    },
+    "mission_status": {
+      "$ref": "#/definitions/mission_status"
+    },
+    "current_stage": {
+      "$ref": "#/definitions/execution_stage"
+    },
+    "assigned_mcp_servers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "server_id": {"type": "string"},
+          "server_type": {"$ref": "#/definitions/mcp_server_type"},
+          "server_name": {"type": "string"},
+          "assigned_tasks": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "capabilities_required": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "required": ["server_id", "server_type", "server_name"]
+      }
+    },
+    "mission_objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objective_id": {"type": "string"},
+          "objective_name": {"type": "string"},
+          "objective_description": {"type": "string"},
+          "success_criteria": {"type": "string"},
+          "status": {
+            "type": "string",
+            "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"]
+          },
+          "completion_percentage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          }
+        },
+        "required": ["objective_id", "objective_name", "objective_description", "success_criteria"]
+      }
+    },
+    "mission_requirements": {
+      "type": "object",
+      "properties": {
+        "technical_requirements": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "resource_requirements": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "timeline_requirements": {
+          "type": "object",
+          "properties": {
+            "estimated_duration": {"type": "string"},
+            "deadline": {"type": "string", "format": "date-time"},
+            "milestones": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "milestone_name": {"type": "string"},
+                  "due_date": {"type": "string", "format": "date-time"},
+                  "description": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "security_requirements": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "execution_plan": {
+      "type": "object",
+      "properties": {
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "phase_id": {"type": "string"},
+              "phase_name": {"type": "string"},
+              "phase_description": {"type": "string"},
+              "phase_order": {"type": "number"},
+              "estimated_duration": {"type": "string"},
+              "dependencies": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "tasks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "task_id": {"type": "string"},
+                    "task_name": {"type": "string"},
+                    "task_description": {"type": "string"},
+                    "assigned_server": {"type": "string"},
+                    "status": {
+                      "type": "string",
+                      "enum": ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"]
+                    },
+                    "estimated_effort": {"type": "string"},
+                    "actual_effort": {"type": "string"},
+                    "outputs": {
+                      "type": "array",
+                      "items": {"type": "string"}
+                    }
+                  }
+                }
+              }
+            },
+            "required": ["phase_id", "phase_name", "phase_order"]
+          }
+        }
+      }
+    },
+    "prompt_engine": {
+      "type": "object",
+      "properties": {
+        "current_prompt": {
+          "type": "object",
+          "properties": {
+            "prompt_id": {"type": "string"},
+            "prompt_type": {"$ref": "#/definitions/prompt_type"},
+            "prompt_content": {"type": "string"},
+            "generated_at": {"type": "string", "format": "date-time"},
+            "assigned_agent": {"type": "string"},
+            "status": {
+              "type": "string",
+              "enum": ["PENDING", "EXECUTING", "COMPLETED", "FAILED"]
+            }
+          }
+        },
+        "prompt_history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "prompt_id": {"type": "string"},
+              "prompt_type": {"$ref": "#/definitions/prompt_type"},
+              "prompt_content": {"type": "string"},
+              "execution_result": {"type": "string"},
+              "execution_time": {"type": "string", "format": "date-time"},
+              "success": {"type": "boolean"},
+              "error_message": {"type": "string"}
+            }
+          }
+        },
+        "prompt_templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "template_id": {"type": "string"},
+              "template_name": {"type": "string"},
+              "template_description": {"type": "string"},
+              "template_content": {"type": "string"},
+              "variables": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "variable_name": {"type": "string"},
+                    "variable_type": {"type": "string"},
+                    "default_value": {"type": "string"},
+                    "required": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mission_log": {
+      "type": "object",
+      "properties": {
+        "log_entries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "timestamp": {"type": "string", "format": "date-time"},
+              "level": {
+                "type": "string",
+                "enum": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+              },
+              "source": {"type": "string"},
+              "message": {"type": "string"},
+              "data": {"type": "object"}
+            },
+            "required": ["timestamp", "level", "source", "message"]
+          }
+        },
+        "performance_metrics": {
+          "type": "object",
+          "properties": {
+            "total_execution_time": {"type": "string"},
+            "phases_completed": {"type": "number"},
+            "tasks_completed": {"type": "number"},
+            "success_rate": {"type": "number"},
+            "resource_utilization": {"type": "object"}
+          }
+        }
+      }
+    },
+    "risk_management": {
+      "type": "object",
+      "properties": {
+        "identified_risks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "risk_id": {"type": "string"},
+              "risk_name": {"type": "string"},
+              "risk_description": {"type": "string"},
+              "probability": {
+                "type": "string",
+                "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+              },
+              "impact": {
+                "type": "string",
+                "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+              },
+              "mitigation_strategy": {"type": "string"},
+              "status": {
+                "type": "string",
+                "enum": ["IDENTIFIED", "MITIGATED", "MONITORING", "CLOSED"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "created_at": {"type": "string", "format": "date-time"},
+        "created_by": {"type": "string"},
+        "last_modified": {"type": "string", "format": "date-time"},
+        "modified_by": {"type": "string"},
+        "version": {"type": "string"},
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "required": ["created_at", "created_by", "version"]
+    }
+  },
+  "required": [
+    "mission_id",
+    "mission_name",
+    "mission_description",
+    "mission_type",
+    "mission_priority",
+    "mission_status",
+    "current_stage",
+    "assigned_mcp_servers",
+    "mission_objectives",
+    "mission_requirements",
+    "execution_plan",
+    "prompt_engine",
+    "mission_log",
+    "risk_management",
+    "metadata"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "analysis_start_time": "2025-08-26T00:29:00.559092",
+  "reporting_flows": [],
+  "victim_support_processes": [],
+  "forms_identified": [],
+  "process_steps": [
+    {
+      "step": 1,
+      "action": "Victim identifies theft incident",
+      "status": "identified",
+      "details": "Initial recognition of crypto theft"
+    },
+    {
+      "step": 2,
+      "action": "Victim accesses reporting portal",
+      "status": "pending_analysis",
+      "details": "Navigation to theft reporting system"
+    },
+    {
+      "step": 3,
+      "action": "Victim completes theft report form",
+      "status": "pending_analysis",
+      "details": "Detailed incident reporting and documentation"
+    },
+    {
+      "step": 4,
+      "action": "Case assignment and investigation",
+      "status": "pending_analysis",
+      "details": "Internal case management and investigation initiation"
+    },
+    {
+      "step": 5,
+      "action": "Victim support and communication",
+      "status": "pending_analysis",
+      "details": "Ongoing support and case updates"
+    }
+  ],
+  "findings": [],
+  "analysis_end_time": "2025-08-26T00:29:00.559118"
+}

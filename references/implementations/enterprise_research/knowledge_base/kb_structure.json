@@ -1,0 +1,91 @@
+{
+  "access_levels": {
+    "public": {
+      "tier": 0,
+      "description": "Publicly accessible knowledge",
+      "content_types": [
+        "company_information",
+        "basic_faqs",
+        "self_service_guides"
+      ]
+    },
+    "basic": {
+      "tier": 1,
+      "description": "Basic agent knowledge",
+      "content_types": [
+        "product_overview",
+        "standard_procedures",
+        "escalation_protocols"
+      ]
+    },
+    "technical": {
+      "tier": 2,
+      "description": "Technical support knowledge",
+      "content_types": [
+        "technical_documentation",
+        "billing_procedures",
+        "internal_procedures"
+      ]
+    },
+    "advanced": {
+      "tier": 3,
+      "description": "Advanced support knowledge",
+      "content_types": [
+        "quality_assurance_procedures",
+        "process_documentation",
+        "training_materials"
+      ]
+    },
+    "management": {
+      "tier": 4,
+      "description": "Management knowledge",
+      "content_types": [
+        "management_dashboards",
+        "strategic_plans",
+        "budget_information"
+      ]
+    }
+  },
+  "content_lifecycle": {
+    "creation": {
+      "steps": [
+        "identify_need",
+        "draft_content",
+        "assign_metadata"
+      ],
+      "approval_required": true
+    },
+    "review": {
+      "steps": [
+        "peer_review",
+        "quality_validation",
+        "compliance_review"
+      ],
+      "approval_required": true
+    },
+    "approval": {
+      "steps": [
+        "manager_approval",
+        "final_review",
+        "publication_scheduling"
+      ],
+      "approval_required": true
+    },
+    "maintenance": {
+      "steps": [
+        "regular_reviews",
+        "feedback_updates",
+        "version_control"
+      ],
+      "approval_required": false
+    },
+    "retirement": {
+      "steps": [
+        "archive_content",
+        "maintain_history",
+        "update_related"
+      ],
+      "approval_required": true
+    }
+  }
+}

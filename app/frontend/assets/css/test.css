@@ -1,0 +1,19 @@
+/* Simple Test CSS */
+:root {
+  --test-color: #ff0000;
+  --test-bg: #00ff00;
+}
+
+.test-element {
+  background-color: var(--test-color);
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+.test-bg {
+  background-color: var(--test-bg);
+  padding: 10px;
+  margin: 10px;
+}

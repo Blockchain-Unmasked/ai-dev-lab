@@ -1,0 +1,57 @@
+# Guardian MCP Server Configuration
+# Security and approval policies for AI/DEV Lab project
+
+server:
+  name: "guardian-mcp"
+  version: "1.0.0"
+  description: "Security and approval gateway for Cursor operations"
+
+security:
+  security_mode: "strict"
+  approval_required: true
+  allowed_operations:
+    - "file_read"
+    - "file_write"
+    - "directory_list"
+    - "search"
+  
+  restricted_operations:
+    - "file_deletion"
+    - "system_commands"
+    - "network_requests"
+    - "background_agents"
+
+approval_gates:
+  file_operations:
+    - "deletion"
+    - "modification_outside_project_root"
+  
+  system_operations:
+    - "long_running_computations"
+    - "background_agent_launch"
+    - "mcp_tool_side_effects"
+
+policies:
+  project_root: "~/Code/ai-dev-lab"
+  allowed_paths:
+    - "README.md"
+    - ".cursor/*"
+    - "mcp-server/*"
+    - "meta/*"
+    - "docs/*"
+    - "sandbox/*"
+    - "scripts/*"
+    - "input/*"
+  
+  forbidden_paths:
+    - "~/.ssh/**"
+    - "~/.aws/**"
+    - "~/**/secrets/**"
+    - "/etc/**"
+    - "/usr/**"
+    - "/System/**"
+
+logging:
+  level: "info"
+  file: "guardian.log"
+  audit_trail: true

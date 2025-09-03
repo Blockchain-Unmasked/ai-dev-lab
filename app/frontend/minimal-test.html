@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Minimal CSS Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background: #f0f0f0; 
+        }
+        .test-box { 
+            background: #007bff; 
+            color: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 10px 0; 
+        }
+        .test-button { 
+            background: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Minimal CSS Test</h1>
+    <div class="test-box">
+        <p>This is a test box with inline CSS styling.</p>
+    </div>
+    <button class="test-button">Test Button</button>
+    
+    <h2>Now testing external CSS:</h2>
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
+    <div style="background: var(--primary-500); color: white; padding: 10px; margin: 10px 0;">
+        Testing CSS variable: var(--primary-500)
+    </div>
+</body>
+</html>

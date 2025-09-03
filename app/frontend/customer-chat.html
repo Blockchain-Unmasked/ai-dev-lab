@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/DEV Lab - Customer Chat</title>
+    <meta name="description" content="Professional AI-powered customer support chat interface">
+    
+    <!-- Favicon - Multiple sizes for cross-platform compatibility -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/site.webmanifest">
+    
+    <!-- Prevent caching -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
+    <link rel="stylesheet" href="assets/css/components/toggle-switch.css?v=1.0.2&t=20250826">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.0.3&t=20250826">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <!-- Professional Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>AI/DEV Lab</h1>
+                    <span class="subtitle">Customer Support Chat</span>
+                </div>
+                <div class="header-controls">
+                    <!-- Header Controls -->
+                    <div class="header-toggle-group">
+                        <div class="toggle-switch-container header-toggle">
+                            <div id="ai-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
+                            <span class="toggle-switch-label">AI Mode</span>
+                        </div>
+
+                        <div class="toggle-switch-container header-toggle">
+                            <div id="stealth-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
+                            <span class="toggle-switch-label">Human-like</span>
+                        </div>
+                    </div>
+                    
+                    <div class="header-buttons">
+                        <a href="index.html" class="btn btn-secondary">🏠 Home</a>
+                        <a href="qa-dashboard.html" target="_blank" class="btn btn-secondary">🔧 QA Dashboard</a>
+                        <button id="theme-toggle" class="btn btn-icon" title="Toggle theme" aria-label="Toggle dark/light theme">☀️</button>
+                        <button id="new-session" class="btn btn-secondary">New Session</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Dual-Mode Interface -->
+            <div class="interface-container">
+                <!-- Customer Mode (Default) -->
+                <div id="customer-mode" class="interface-mode active">
+                    <section class="chat-interface customer-chat">
+                        <div class="chat-header">
+                            <h2>Customer Support Chat</h2>
+                            <div class="chat-controls">
+                                <button id="clear-chat" class="btn btn-secondary">Clear Chat</button>
+                                <button id="test-connection" class="btn btn-secondary">Test Connection</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chat-container">
+                            <div id="chat-messages" class="chat-messages">
+                                <!-- Messages will be populated by JavaScript -->
+                            </div>
+                            
+                            <form id="chat-form" class="chat-form">
+                                <div class="input-group">
+                                    <input type="text" id="chat-input" class="chat-input" placeholder="Type your message..." required>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+            <!-- Model Configuration Panel -->
+            <section class="model-config-panel">
+                <div class="panel-header">
+                    <h3>⚙️ Model Configuration</h3>
+                    <div class="header-info">
+                        <span class="current-model">Current: Gemini</span>
+                        <div class="api-key-display">
+                            <span class="api-key-label">API Key:</span>
+                            <span class="api-key-value" id="api-key-display">••••••••••••••••</span>
+                            <button id="toggle-api-key" class="btn btn-icon btn-sm" title="Toggle API key visibility">👁️</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-grid">
+                    <div class="config-section">
+                        <h4>Response Parameters</h4>
+                        <div class="slider-group">
+                            <label for="temperature-slider" class="slider-label">
+                                <span>Temperature</span>
+                                <span class="slider-value" id="temperature-value">0.7</span>
+                            </label>
+                            <input type="range" id="temperature-slider" class="slider" min="0" max="2" step="0.1" value="0.7">
+                            <div class="slider-range">
+                                <span>Conservative</span>
+                                <span>Balanced</span>
+                                <span>Creative</span>
+                            </div>
+                        </div>
+                        
+                        <div class="slider-group">
+                            <label for="max-tokens-slider" class="slider-label">
+                                <span>Max Tokens</span>
+                                <span class="slider-value" id="max-tokens-value">1000</span>
+                            </label>
+                            <input type="range" id="max-tokens-slider" class="slider" min="100" max="4000" step="100" value="1000">
+                            <div class="slider-range">
+                                <span>Short</span>
+                                <span>Medium</span>
+                                <span>Long</span>
+                            </div>
+                        </div>
+                        
+                        <div class="slider-group">
+                            <label for="top-p-slider" class="slider-label">
+                                <span>Top P</span>
+                                <span class="slider-value" id="top-p-value">0.9</span>
+                            </label>
+                            <input type="range" id="top-p-slider" class="slider" min="0" max="1" step="0.1" value="0.9">
+                            <div class="slider-range">
+                                <span>Focused</span>
+                                <span>Balanced</span>
+                                <span>Diverse</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="config-section">
+                        <h4>Quick Presets</h4>
+                        <div class="preset-grid">
+                            <button class="btn btn-secondary preset-btn" data-preset="conservative">Conservative</button>
+                            <button class="btn btn-secondary preset-btn" data-preset="balanced">Balanced</button>
+                            <button class="btn btn-secondary preset-btn" data-preset="creative">Creative</button>
+                        </div>
+                        
+                        <div class="preset-info">
+                            <p class="preset-description">Choose a preset to quickly configure all parameters for your use case.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 AI/DEV Lab. Professional AI-powered customer support demo.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Components -->
+    <script src="scripts/components/toggle-switch.js?v=1.0.1"></script>
+    <script src="scripts/chat-agent.js?v=1.0.1"></script>
+    <script src="scripts/main.js?v=1.0.1"></script>
+</body>
+</html>

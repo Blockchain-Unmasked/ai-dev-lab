@@ -1,0 +1,219 @@
+{
+  "tier_0": {
+    "name": "Self-Service",
+    "description": "Customer self-help through FAQs, chatbots, and IVR systems",
+    "capabilities": [
+      "faq_resolution",
+      "basic_troubleshooting",
+      "account_information",
+      "order_status",
+      "payment_processing"
+    ],
+    "knowledge_access": [
+      "public_faqs",
+      "self_service_guides",
+      "interactive_troubleshooters"
+    ],
+    "restrictions": [
+      "no_sensitive_data_access",
+      "no_account_changes",
+      "no_complex_issue_resolution"
+    ],
+    "escalation_triggers": [
+      "customer_request_human",
+      "complex_issue_detected",
+      "frustration_detected",
+      "multiple_attempts_failed"
+    ],
+    "max_session_duration": 300,
+    "deflection_rate_target": 0.65,
+    "performance_metrics": [
+      "deflection_rate",
+      "escalation_rate",
+      "customer_satisfaction"
+    ]
+  },
+  "tier_1": {
+    "name": "Entry Level Support",
+    "description": "Frontline customer support with broad but basic knowledge",
+    "capabilities": [
+      "basic_customer_greeting",
+      "simple_issue_resolution",
+      "basic_product_information",
+      "escalation_triggering",
+      "scripted_troubleshooting",
+      "account_verification"
+    ],
+    "knowledge_access": [
+      "basic_faq",
+      "product_overview",
+      "contact_information",
+      "escalation_procedures",
+      "standard_scripts",
+      "basic_troubleshooting_guides"
+    ],
+    "restrictions": [
+      "no_financial_transactions",
+      "no_legal_advice",
+      "no_system_configuration",
+      "limited_case_access",
+      "no_policy_exceptions"
+    ],
+    "escalation_triggers": [
+      "complex_technical_issues",
+      "financial_concerns",
+      "legal_questions",
+      "customer_complaints",
+      "escalation_requests",
+      "billing_disputes",
+      "policy_exceptions"
+    ],
+    "max_session_duration": 900,
+    "target_fcr": 0.75,
+    "target_aht": 480,
+    "performance_metrics": [
+      "first_contact_resolution",
+      "average_handle_time",
+      "escalation_accuracy",
+      "customer_satisfaction"
+    ]
+  },
+  "tier_2": {
+    "name": "Intermediate Support",
+    "description": "Specialized support and complex issue resolution",
+    "capabilities": [
+      "advanced_issue_resolution",
+      "technical_support",
+      "billing_support",
+      "case_management",
+      "supervisor_support",
+      "remote_diagnostics",
+      "account_changes",
+      "policy_exception_handling"
+    ],
+    "knowledge_access": [
+      "technical_documentation",
+      "billing_procedures",
+      "case_management_tools",
+      "escalation_guidelines",
+      "quality_assurance_procedures",
+      "internal_troubleshooting_guides",
+      "admin_dashboards"
+    ],
+    "restrictions": [
+      "no_legal_advice",
+      "no_system_administration",
+      "limited_financial_authority",
+      "no_code_changes"
+    ],
+    "escalation_triggers": [
+      "legal_issues",
+      "system_administration",
+      "financial_disputes",
+      "complex_technical_issues",
+      "management_escalation",
+      "vendor_escalation"
+    ],
+    "max_session_duration": 1800,
+    "target_resolution_rate": 0.85,
+    "target_aht": 1200,
+    "performance_metrics": [
+      "resolution_rate",
+      "escalation_accuracy",
+      "customer_satisfaction",
+      "case_completion",
+      "technical_competency"
+    ]
+  },
+  "tier_3": {
+    "name": "Senior/Expert Support",
+    "description": "Complex case resolution and quality oversight",
+    "capabilities": [
+      "complex_case_resolution",
+      "quality_assurance",
+      "agent_training",
+      "process_improvement",
+      "management_support",
+      "bug_investigation",
+      "integration_troubleshooting",
+      "design_change_approval"
+    ],
+    "knowledge_access": [
+      "full_system_access",
+      "quality_assurance_tools",
+      "training_materials",
+      "process_documentation",
+      "management_reports",
+      "engineering_notes",
+      "error_logs",
+      "development_team_access"
+    ],
+    "restrictions": [
+      "no_legal_advice",
+      "compliance_with_company_policies",
+      "approval_required_for_major_changes"
+    ],
+    "escalation_triggers": [
+      "legal_issues",
+      "compliance_violations",
+      "management_approval_required",
+      "vendor_escalation",
+      "executive_escalation"
+    ],
+    "max_session_duration": 3600,
+    "target_complex_resolution_rate": 0.9,
+    "target_aht": 2700,
+    "performance_metrics": [
+      "complex_resolution_rate",
+      "quality_scores",
+      "training_effectiveness",
+      "process_improvement",
+      "knowledge_contribution"
+    ]
+  },
+  "tier_4": {
+    "name": "Supervisor/Manager",
+    "description": "Team management and strategic oversight",
+    "capabilities": [
+      "team_management",
+      "performance_monitoring",
+      "strategic_decision_making",
+      "process_optimization",
+      "stakeholder_communication",
+      "resource_allocation",
+      "crisis_management",
+      "policy_approval"
+    ],
+    "knowledge_access": [
+      "management_dashboard",
+      "performance_analytics",
+      "strategic_plans",
+      "budget_information",
+      "stakeholder_contacts",
+      "executive_reports",
+      "compliance_dashboards"
+    ],
+    "restrictions": [
+      "compliance_with_company_policies",
+      "approval_required_for_major_changes",
+      "board_approval_for_budget_changes"
+    ],
+    "escalation_triggers": [
+      "legal_issues",
+      "compliance_violations",
+      "budget_exceeded",
+      "stakeholder_concerns",
+      "executive_escalation"
+    ],
+    "max_session_duration": null,
+    "target_team_performance": 0.9,
+    "target_customer_satisfaction": 4.5,
+    "performance_metrics": [
+      "team_performance",
+      "customer_satisfaction",
+      "operational_efficiency",
+      "strategic_goals",
+      "cost_management"
+    ]
+  }
+}

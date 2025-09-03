@@ -1,0 +1,526 @@
+{
+  "prompt_engine_templates": {
+    "mission_briefing": {
+      "template_id": "MISSION_BRIEFING_001",
+      "template_name": "Standard Mission Briefing",
+      "template_description": "Template for briefing agents on new missions",
+      "template_content": "🎯 **MISSION BRIEFING**\n\n**Mission ID**: {{mission_id}}\n**Mission Name**: {{mission_name}}\n**Mission Type**: {{mission_type}}\n**Priority**: {{mission_priority}}\n**Status**: {{mission_status}}\n\n**Mission Description**:\n{{mission_description}}\n\n**Objectives**:\n{{#each mission_objectives}}\n- **{{objective_name}}**: {{objective_description}}\n  - Success Criteria: {{success_criteria}}\n{{/each}}\n\n**Assigned MCP Servers**:\n{{#each assigned_mcp_servers}}\n- **{{server_name}}** ({{server_type}}): {{#each assigned_tasks}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n{{/each}}\n\n**Execution Plan**:\n{{#each execution_plan.phases}}\n**Phase {{phase_order}}: {{phase_name}}**\n{{phase_description}}\nEstimated Duration: {{estimated_duration}}\n{{#if dependencies}}Dependencies: {{#each dependencies}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{/if}}\n\n{{#each tasks}}\n- **{{task_name}}**: {{task_description}}\n  - Assigned to: {{assigned_server}}\n  - Estimated Effort: {{estimated_effort}}\n{{/each}}\n\n{{/each}}\n\n**Requirements**:\n- Technical: {{#each mission_requirements.technical_requirements}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n- Resources: {{#each mission_requirements.resource_requirements}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n- Security: {{#each mission_requirements.security_requirements}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n\n**Timeline**:\n- Estimated Duration: {{mission_requirements.timeline_requirements.estimated_duration}}\n- Deadline: {{mission_requirements.timeline_requirements.deadline}}\n\n**Risk Assessment**:\n{{#each risk_management.identified_risks}}\n- **{{risk_name}}** ({{probability}}/{{impact}}): {{risk_description}}\n  - Mitigation: {{mitigation_strategy}}\n{{/each}}\n\n**Next Steps**:\n1. Acknowledge mission briefing\n2. Review assigned tasks and capabilities\n3. Begin execution phase\n4. Report status updates\n\n**Mission Control**: Ready for execution? Respond with 'MISSION ACKNOWLEDGED' to begin.",
+      "variables": [
+        {
+          "variable_name": "mission_id",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_type",
+          "variable_type": "string",
+          "default_value": "DEVELOPMENT",
+          "required": true
+        },
+        {
+          "variable_name": "mission_priority",
+          "variable_type": "string",
+          "default_value": "MEDIUM",
+          "required": true
+        },
+        {
+          "variable_name": "mission_status",
+          "variable_type": "string",
+          "default_value": "BRIEFING",
+          "required": true
+        },
+        {
+          "variable_name": "mission_description",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_objectives",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "assigned_mcp_servers",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "execution_plan",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "mission_requirements",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "risk_management",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        }
+      ]
+    },
+    "execution_plan": {
+      "template_id": "EXECUTION_PLAN_001",
+      "template_name": "Phase Execution Plan",
+      "template_description": "Template for executing specific mission phases",
+      "template_content": "🚀 **PHASE EXECUTION PLAN**\n\n**Mission**: {{mission_name}} ({{mission_id}})\n**Current Phase**: {{current_phase.phase_name}}\n**Phase Order**: {{current_phase.phase_order}}\n**Status**: {{current_phase.status}}\n\n**Phase Description**:\n{{current_phase.phase_description}}\n\n**Phase Tasks**:\n{{#each current_phase.tasks}}\n**Task {{@index}}: {{task_name}}**\n- Description: {{task_description}}\n- Assigned Server: {{assigned_server}}\n- Status: {{status}}\n- Estimated Effort: {{estimated_effort}}\n- Dependencies: {{#if dependencies}}{{#each dependencies}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{else}}None{{/if}}\n\n**Execution Steps**:\n1. Validate prerequisites and dependencies\n2. Execute task using assigned MCP server capabilities\n3. Monitor progress and handle any errors\n4. Document outputs and results\n5. Update task status\n6. Report completion\n\n**Expected Outputs**:\n{{#each outputs}}\n- {{this}}\n{{/each}}\n\n**Success Criteria**:\n- All tasks in phase completed successfully\n- All outputs generated and documented\n- Phase dependencies satisfied\n- Phase status updated to 'COMPLETED'\n\n**Error Handling**:\n- If task fails, document error details\n- Attempt retry with modified parameters if applicable\n- Escalate to mission control if critical failure\n- Update risk assessment if new risks identified\n\n**Progress Tracking**:\n- Update task status in real-time\n- Log all activities and decisions\n- Track time spent vs. estimated effort\n- Report phase completion percentage\n\n**Next Phase**: {{next_phase.phase_name}}\n\n**Ready to execute phase {{current_phase.phase_name}}?**\nRespond with 'PHASE EXECUTION STARTED' to begin.",
+      "variables": [
+        {
+          "variable_name": "mission_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_id",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "current_phase",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "next_phase",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        }
+      ]
+    },
+    "debriefing": {
+      "template_id": "DEBRIEFING_001",
+      "template_name": "Mission Debriefing Report",
+      "template_description": "Template for debriefing completed missions",
+      "template_content": "📋 **MISSION DEBRIEFING REPORT**\n\n**Mission**: {{mission_name}} ({{mission_id}})\n**Mission Type**: {{mission_type}}\n**Completion Date**: {{completion_date}}\n**Total Duration**: {{total_duration}}\n**Overall Status**: {{overall_status}}\n\n**Mission Summary**:\n{{mission_summary}}\n\n**Objectives Achievement**:\n{{#each mission_objectives}}\n**{{objective_name}}**:\n- Status: {{status}}\n- Completion: {{completion_percentage}}%\n- Success Criteria Met: {{#if success_criteria_met}}✅ Yes{{else}}❌ No{{/if}}\n- Notes: {{notes}}\n{{/each}}\n\n**Phase Execution Summary**:\n{{#each execution_summary}}\n**Phase {{phase_order}}: {{phase_name}}**\n- Status: {{status}}\n- Duration: {{actual_duration}}\n- Tasks Completed: {{tasks_completed}}/{{total_tasks}}\n- Success Rate: {{success_rate}}%\n- Key Achievements: {{key_achievements}}\n- Challenges Faced: {{challenges_faced}}\n{{/each}}\n\n**Performance Metrics**:\n- Total Execution Time: {{performance_metrics.total_execution_time}}\n- Phases Completed: {{performance_metrics.phases_completed}}\n- Tasks Completed: {{performance_metrics.tasks_completed}}\n- Overall Success Rate: {{performance_metrics.success_rate}}%\n- Resource Utilization: {{performance_metrics.resource_utilization}}\n\n**Key Deliverables**:\n{{#each key_deliverables}}\n- **{{deliverable_name}}**: {{deliverable_description}}\n  - Status: {{status}}\n  - Location: {{location}}\n  - Quality: {{quality_rating}}\n{{/each}}\n\n**Risk Assessment Results**:\n{{#each risk_results}}\n- **{{risk_name}}**: {{risk_status}}\n  - Mitigation Success: {{mitigation_success}}\n  - Impact Realized: {{impact_realized}}\n  - Lessons Learned: {{lessons_learned}}\n{{/each}}\n\n**Lessons Learned**:\n{{#each lessons_learned}}\n- **Category**: {{category}}\n- **Lesson**: {{lesson_description}}\n- **Impact**: {{impact}}\n- **Recommendations**: {{recommendations}}\n{{/each}}\n\n**Improvement Recommendations**:\n{{#each improvement_recommendations}}\n- **Area**: {{area}}\n- **Current State**: {{current_state}}\n- **Recommended State**: {{recommended_state}}\n- **Priority**: {{priority}}\n- **Effort Required**: {{effort_required}}\n{{/each}}\n\n**Next Mission Considerations**:\n{{#each next_mission_considerations}}\n- **Consideration**: {{consideration_description}}\n- **Priority**: {{priority}}\n- **Timeline**: {{timeline}}\n{{/each}}\n\n**Mission Control**: Mission {{mission_id}} debriefing complete. Status: {{overall_status}}.\n\n**Signature**: {{agent_signature}}\n**Date**: {{debriefing_date}}\n\n**Next Steps**:\n1. Review debriefing report\n2. Update mission templates and procedures\n3. Plan next mission based on recommendations\n4. Archive mission data and documentation",
+      "variables": [
+        {
+          "variable_name": "mission_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_id",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_type",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "completion_date",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "total_duration",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "overall_status",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_summary",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_objectives",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "execution_summary",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "performance_metrics",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "key_deliverables",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "risk_results",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "lessons_learned",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "improvement_recommendations",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "next_mission_considerations",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "agent_signature",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "debriefing_date",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        }
+      ]
+    },
+    "status_update": {
+      "template_id": "STATUS_UPDATE_001",
+      "template_name": "Mission Status Update",
+      "template_description": "Template for regular mission status updates",
+      "template_content": "📊 **MISSION STATUS UPDATE**\n\n**Mission**: {{mission_name}} ({{mission_id}})\n**Update Time**: {{update_timestamp}}\n**Current Status**: {{mission_status}}\n**Current Stage**: {{current_stage}}\n**Progress**: {{overall_progress}}%\n\n**Recent Activities**:\n{{#each recent_activities}}\n- **{{timestamp}}**: {{activity_description}}\n  - Status: {{status}}\n  - Agent: {{agent_name}}\n  - Details: {{details}}\n{{/each}}\n\n**Current Phase Status**:\n**Phase {{current_phase.phase_order}}: {{current_phase.phase_name}}**\n- Progress: {{current_phase.progress}}%\n- Tasks: {{current_phase.tasks_completed}}/{{current_phase.total_tasks}} completed\n- Estimated Completion: {{current_phase.estimated_completion}}\n- Current Task: {{current_phase.current_task}}\n\n**Objective Progress**:\n{{#each objective_progress}}\n- **{{objective_name}}**: {{completion_percentage}}% complete\n  - Status: {{status}}\n  - Recent Updates: {{recent_updates}}\n{{/each}}\n\n**Resource Utilization**:\n- MCP Servers Active: {{resource_utilization.active_servers}}/{{resource_utilization.total_servers}}\n- System Resources: {{resource_utilization.system_status}}\n- Network Status: {{resource_utilization.network_status}}\n\n**Risk Status**:\n{{#each risk_status}}\n- **{{risk_name}}**: {{current_status}}\n  - Probability: {{probability}}\n  - Impact: {{impact}}\n  - Mitigation Status: {{mitigation_status}}\n{{/each}}\n\n**Upcoming Milestones**:\n{{#each upcoming_milestones}}\n- **{{milestone_name}}**: {{due_date}}\n  - Description: {{description}}\n  - Dependencies: {{dependencies}}\n{{/each}}\n\n**Blockers and Issues**:\n{{#if blockers_and_issues}}\n{{#each blockers_and_issues}}\n- **{{issue_type}}**: {{issue_description}}\n  - Severity: {{severity}}\n  - Assigned To: {{assigned_to}}\n  - Expected Resolution: {{expected_resolution}}\n{{/each}}\n{{else}}No current blockers or issues.{{/if}}\n\n**Next Actions**:\n{{#each next_actions}}\n{{@index}}. {{action_description}}\n   - Assigned To: {{assigned_to}}\n   - Due By: {{due_by}}\n   - Priority: {{priority}}\n{{/each}}\n\n**Mission Control**: Status update complete. Mission {{mission_id}} progressing as planned.\n\n**Next Update**: {{next_update_time}}\n\n**Agent**: {{agent_name}}\n**Timestamp**: {{update_timestamp}}",
+      "variables": [
+        {
+          "variable_name": "mission_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_id",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "update_timestamp",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_status",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "current_stage",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "overall_progress",
+          "variable_type": "number",
+          "default_value": 0,
+          "required": true
+        },
+        {
+          "variable_name": "recent_activities",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "current_phase",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "objective_progress",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "resource_utilization",
+          "variable_type": "object",
+          "default_value": {},
+          "required": true
+        },
+        {
+          "variable_name": "risk_status",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "upcoming_milestones",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "blockers_and_issues",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "next_actions",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "next_update_time",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "agent_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        }
+      ]
+    },
+    "error_handling": {
+      "template_id": "ERROR_HANDLING_001",
+      "template_name": "Error Handling and Recovery",
+      "template_description": "Template for handling mission errors and recovery",
+      "template_content": "🚨 **ERROR HANDLING & RECOVERY**\n\n**Mission**: {{mission_name}} ({{mission_id}})\n**Error Time**: {{error_timestamp}}\n**Error Severity**: {{error_severity}}\n**Current Status**: {{mission_status}}\n\n**Error Details**:\n- **Error Type**: {{error_type}}\n- **Error Location**: {{error_location}}\n- **Error Message**: {{error_message}}\n- **Error Code**: {{error_code}}\n- **Stack Trace**: {{stack_trace}}\n\n**Impact Assessment**:\n- **Affected Components**: {{#each affected_components}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n- **Mission Progress Impact**: {{mission_impact}}\n- **Timeline Impact**: {{timeline_impact}}\n- **Resource Impact**: {{resource_impact}}\n\n**Root Cause Analysis**:\n{{root_cause_analysis}}\n\n**Immediate Response Actions**:\n{{#each immediate_actions}}\n{{@index}}. {{action_description}}\n   - Status: {{status}}\n   - Assigned To: {{assigned_to}}\n   - Priority: {{priority}}\n   - Expected Completion: {{expected_completion}}\n{{/each}}\n\n**Recovery Plan**:\n{{#each recovery_steps}}\n**Step {{@index}}**: {{step_description}}\n- Objective: {{objective}}\n- Success Criteria: {{success_criteria}}\n- Estimated Duration: {{estimated_duration}}\n- Dependencies: {{dependencies}}\n- Rollback Plan: {{rollback_plan}}\n{{/each}}\n\n**Risk Mitigation**:\n{{#each risk_mitigation}}\n- **Risk**: {{risk_description}}\n  - Probability: {{probability}}\n  - Impact: {{impact}}\n  - Mitigation Strategy: {{mitigation_strategy}}\n  - Contingency Plan: {{contingency_plan}}\n{{/each}}\n\n**Communication Plan**:\n- **Stakeholders Notified**: {{#each stakeholders_notified}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}\n- **Next Update**: {{next_update_time}}\n- **Escalation Path**: {{escalation_path}}\n\n**Recovery Status**:\n- **Current Phase**: {{recovery_phase}}\n- **Progress**: {{recovery_progress}}%\n- **Estimated Recovery Time**: {{estimated_recovery_time}}\n- **Next Milestone**: {{next_milestone}}\n\n**Lessons Learned**:\n{{#each lessons_learned}}\n- **Category**: {{category}}\n- **Lesson**: {{lesson_description}}\n- **Prevention Strategy**: {{prevention_strategy}}\n{{/each}}\n\n**Mission Control**: Error handling initiated for mission {{mission_id}}.\n\n**Recovery Team**: {{recovery_team}}\n**Incident Commander**: {{incident_commander}}\n**Next Review**: {{next_review_time}}\n\n**Status**: {{recovery_status}}\n**Priority**: {{recovery_priority}}",
+      "variables": [
+        {
+          "variable_name": "mission_name",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_id",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_timestamp",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_severity",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "mission_status",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_type",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_location",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_message",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "error_code",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "stack_trace",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "affected_components",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "mission_impact",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "timeline_impact",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "resource_impact",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "root_cause_analysis",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "immediate_actions",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "recovery_steps",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "risk_mitigation",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "stakeholders_notified",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "next_update_time",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "escalation_path",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "recovery_phase",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "recovery_progress",
+          "variable_type": "number",
+          "default_value": 0,
+          "required": true
+        },
+        {
+          "variable_name": "estimated_recovery_time",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "next_milestone",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "lessons_learned",
+          "variable_type": "array",
+          "default_value": [],
+          "required": true
+        },
+        {
+          "variable_name": "recovery_team",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "incident_commander",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "next_review_time",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "recovery_status",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        },
+        {
+          "variable_name": "recovery_priority",
+          "variable_type": "string",
+          "default_value": "",
+          "required": true
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2024-08-26T00:00:00Z",
+    "created_by": "AI/DEV Lab System",
+    "description": "Comprehensive prompt engine templates for mission execution",
+    "template_count": 5,
+    "last_updated": "2024-08-26T00:00:00Z"
+  }
+}

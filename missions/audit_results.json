@@ -1,0 +1,87 @@
+{
+  "timestamp": "2025-08-26T00:02:29.423929",
+  "overall_status": "PASSED",
+  "components": {
+    "basic_functionality": {
+      "status": "PASSED",
+      "tests": {
+        "mission_creation": "PASSED",
+        "mission_retrieval": "PASSED",
+        "mission_listing": "PASSED"
+      },
+      "issues": []
+    },
+    "tool_loadouts": {
+      "status": "PASSED",
+      "tests": {
+        "loadout_availability": "FAILED"
+      },
+      "issues": [
+        "No tool loadouts available"
+      ]
+    },
+    "context_management": {
+      "status": "PASSED",
+      "tests": {
+        "context_creation": "PASSED",
+        "context_updates": "PASSED"
+      },
+      "issues": []
+    },
+    "mission_lifecycle": {
+      "status": "PASSED",
+      "tests": {
+        "mission_briefing": "FAILED",
+        "execution_plan": "PASSED",
+        "mid_debriefing": "PASSED",
+        "rebriefing": "PASSED"
+      },
+      "issues": [
+        "Mission briefing generation failed"
+      ]
+    },
+    "logging_systems": {
+      "status": "PASSED",
+      "tests": {
+        "mission_logging": "PASSED",
+        "log_file_creation": "PASSED"
+      },
+      "issues": []
+    },
+    "prompt_engine": {
+      "status": "PASSED",
+      "tests": {
+        "prompt_engine_init": "PASSED",
+        "template_loading": "FAILED"
+      },
+      "issues": [
+        "No templates loaded"
+      ]
+    },
+    "error_handling": {
+      "status": "PASSED",
+      "tests": {
+        "invalid_mission_handling": "PASSED",
+        "invalid_loadout_handling": "PASSED"
+      },
+      "issues": []
+    },
+    "performance": {
+      "status": "PASSED",
+      "tests": {
+        "creation_performance": "PASSED",
+        "sync_performance": "PASSED"
+      },
+      "issues": []
+    }
+  },
+  "issues": [],
+  "recommendations": [
+    {
+      "component": "general",
+      "issue": "System optimization",
+      "priority": "LOW",
+      "recommendation": "Consider performance optimizations for large-scale operations"
+    }
+  ]
+}

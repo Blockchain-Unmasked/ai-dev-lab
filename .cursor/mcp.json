@@ -1,0 +1,187 @@
+{
+  "mcpServers": {
+    "ai-dev-lab-core": {
+      "command": "python3",
+      "args": ["mcp-server/server.py"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/mcp-server:${workspaceFolder}/app/backend",
+        "AI_DEV_PROJECT_ROOT": "${workspaceFolder}",
+        "AI_DEV_MCP_MODE": "development",
+        "PROMPT_ENGINE_MODE": "enhanced"
+      },
+      "description": "AI/DEV Lab Core MCP Server - Overall lab development and Cursor chat operations",
+      "server_type": "lab",
+      "usage": "overall_lab_development_and_cursor_chat",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true,
+        "enhanced_prompt_engine": true
+      },
+      "security": {
+        "guardian_enabled": true,
+        "approval_required": true,
+        "project_confinement": true
+      }
+    },
+    "ai-dev-lab-enhanced": {
+      "command": "python3",
+      "args": ["mcp-server/enhanced_server.py"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/mcp-server:${workspaceFolder}/app/backend",
+        "AI_DEV_PROJECT_ROOT": "${workspaceFolder}",
+        "AI_DEV_MCP_MODE": "development",
+        "PROMPT_ENGINE_MODE": "enhanced",
+        "MISSION_SYSTEM_ENABLED": "true"
+      },
+      "description": "AI/DEV Lab Enhanced MCP Server - Mission system, web scraping, advanced lab operations, and enhanced prompt engine",
+      "server_type": "lab",
+      "usage": "overall_lab_development_and_cursor_chat",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true,
+        "enhanced_prompt_engine": true,
+        "mission_system": true,
+        "web_scraping": true,
+        "tool_loadouts": true
+      },
+      "security": {
+        "guardian_enabled": true,
+        "approval_required": true,
+        "project_confinement": true
+      }
+    },
+    "ai-dev-lab-app-demo": {
+      "command": "python3",
+      "args": ["app/mcp-servers/app-demo-server/server.py"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/app/mcp-servers/app-demo-server",
+        "AI_DEV_APP_MODE": "demo",
+        "PROMPT_ENGINE_MODE": "app_enhanced"
+      },
+      "description": "AI/DEV Lab App Demo MCP Server - App-specific functionality with enhanced prompt engine",
+      "server_type": "app",
+      "usage": "app_specific_functionality_only",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true,
+        "enhanced_prompt_engine": true,
+        "persona_management": true,
+        "guardrails": true,
+        "context_management": true
+      },
+      "security": {
+        "guardian_enabled": true,
+        "approval_required": false,
+        "project_confinement": true,
+        "app_directory_only": true
+      }
+    },
+    "ai-dev-lab-database": {
+      "command": "python3",
+      "args": ["app/mcp-servers/database-server/server.py"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/app/mcp-servers/database-server",
+        "AI_DEV_APP_MODE": "demo",
+        "DATABASE_MODE": "sqlite"
+      },
+      "description": "AI/DEV Lab Database MCP Server - App data persistence and management",
+      "server_type": "app",
+      "usage": "app_specific_functionality_only",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": false,
+        "data_persistence": true,
+        "user_management": true,
+        "metrics_tracking": true
+      },
+      "security": {
+        "guardian_enabled": true,
+        "approval_required": false,
+        "project_confinement": true,
+        "app_directory_only": true
+      }
+    }
+  },
+  "server_usage_policy": {
+    "enforce_boundaries": true,
+    "lab_servers": {
+      "purpose": "overall_lab_development_and_cursor_chat",
+      "allowed_operations": ["system_commands", "package_installation", "file_management", "mission_operations", "web_scraping", "infrastructure_management", "enhanced_prompt_engineering"],
+      "scope": "repository_wide",
+      "usage_context": "cursor_chat_and_lab_development"
+    },
+    "app_servers": {
+      "purpose": "app_specific_functionality_only",
+      "allowed_operations": ["app_data_operations", "app_user_management", "app_metrics", "app_content_management", "app_prompt_engineering", "app_persona_management"],
+      "scope": "app_directory_only",
+      "restricted_operations": ["system_commands", "package_installation", "repository_wide_access", "terminal_operations"],
+      "usage_context": "within_app_only"
+    },
+    "boundary_enforcement": {
+      "cross_server_operations_blocked": true,
+      "security_violations_logged": true,
+      "automatic_boundary_checking": true
+    }
+  },
+  "cursorIntegration": {
+    "dualMode": {
+      "enabled": true,
+      "defaultMode": "free",
+      "autoSwitch": true,
+      "freeMode": {
+        "mcpTools": "limited",
+        "backgroundAgents": "disabled",
+        "maxContextLength": "100K",
+        "enhancedPromptEngine": "disabled"
+      },
+      "enterpriseMode": {
+        "mcpTools": "full",
+        "backgroundAgents": "enabled_with_approval",
+        "maxContextLength": "1M",
+        "enhancedPromptEngine": "enabled"
+      }
+    },
+    "mcpTools": {
+      "enabled": true,
+      "autoDiscover": true,
+      "securityScanning": true,
+      "enhancedPromptEngine": true
+    },
+    "backgroundAgents": {
+      "enabled": true,
+      "approvalRequired": true,
+      "maxConcurrent": 3
+    },
+    "enhancedPromptEngine": {
+      "enabled": true,
+      "personaManagement": true,
+      "guardrails": true,
+      "contextManagement": true,
+      "performanceMonitoring": true
+    }
+  },
+  "projectSettings": {
+    "aiDevLab": {
+      "mcpServer": "ai-dev-lab-enhanced",
+      "guardianConfig": "mcp-server/guardian_config.yaml",
+      "cursorRules": ".cursor/rules",
+      "webAppPath": "app",
+      "documentationPath": "docs",
+      "enhancedPromptEngine": {
+        "enabled": true,
+        "mode": "enhanced",
+        "personaManagement": true,
+        "guardrails": true,
+        "contextManagement": true
+      }
+    }
+  }
+}

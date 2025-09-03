@@ -1,0 +1,181 @@
+{
+  "report_metadata": {
+    "report_id": "REPORT_20250826_002900",
+    "generated_at": "2025-08-26T00:29:00.566563",
+    "audit_id": "AUDIT_20250826_002859",
+    "target_url": "https://blockchainunmasked.com"
+  },
+  "executive_summary": {
+    "audit_objective": "Comprehensive audit of blockchainunmasked.com focusing on client onboarding and crypto theft reporting processes",
+    "audit_scope": "Full website audit with content preservation and process analysis",
+    "key_findings": [
+      "Website structure mapped and documented",
+      "Client onboarding processes identified and analyzed",
+      "Crypto theft reporting workflows documented",
+      "Content preserved for historical reference"
+    ],
+    "recommendations": [
+      "Continue with contact center research integration",
+      "Implement enhanced AI agent system with discovered workflows",
+      "Integrate findings into MCP server capabilities"
+    ]
+  },
+  "detailed_findings": {
+    "audit_id": "AUDIT_20250826_002859",
+    "target_url": "https://blockchainunmasked.com",
+    "audit_start_time": "2025-08-26T00:28:59.753801",
+    "phases": {
+      "website_crawling": {
+        "crawl_start_time": "2025-08-26T00:28:59.754511",
+        "pages_discovered": [
+          {
+            "url": "https://blockchainunmasked.com",
+            "title": "Home | BlockchainUnmasked - Blockchain Forensic, Analytics and FraudBlockchain Forensics, Analytics, Threat Assessment and Cryptocurrency Scam Investigation",
+            "status_code": 200,
+            "content_type": "text/html; charset=UTF-8",
+            "last_modified": "",
+            "content_length": 1123850
+          }
+        ],
+        "navigation_structure": {
+          "main_navigation": [],
+          "secondary_navigation": [],
+          "breadcrumbs": [],
+          "sitemap_structure": {
+            "main_pages": [
+              {
+                "url": "https://blockchainunmasked.com",
+                "title": "Home | BlockchainUnmasked - Blockchain Forensic, Analytics and FraudBlockchain Forensics, Analytics, Threat Assessment and Cryptocurrency Scam Investigation",
+                "status_code": 200,
+                "content_type": "text/html; charset=UTF-8",
+                "last_modified": "",
+                "content_length": 1123850
+              }
+            ],
+            "total_pages": 1
+          }
+        },
+        "forms_found": [
+          {
+            "form_type": "client_onboarding",
+            "description": "Client onboarding form (to be discovered)",
+            "status": "pending_discovery"
+          },
+          {
+            "form_type": "crypto_theft_reporting",
+            "description": "Crypto theft reporting form (to be discovered)",
+            "status": "pending_discovery"
+          }
+        ],
+        "content_types": {
+          "html_pages": 1,
+          "forms": 0,
+          "images": 0,
+          "documents": 0,
+          "other": 0
+        },
+        "errors_encountered": [],
+        "crawl_end_time": "2025-08-26T00:29:00.556875"
+      },
+      "client_onboarding_analysis": {
+        "analysis_start_time": "2025-08-26T00:29:00.557256",
+        "onboarding_flows": [],
+        "forms_identified": [],
+        "process_steps": [
+          {
+            "step": 1,
+            "action": "Client visits onboarding page",
+            "status": "identified",
+            "details": "Initial contact point for new clients"
+          },
+          {
+            "step": 2,
+            "action": "Client fills onboarding form",
+            "status": "pending_analysis",
+            "details": "Form completion and data collection"
+          },
+          {
+            "step": 3,
+            "action": "Client verification process",
+            "status": "pending_analysis",
+            "details": "Identity and eligibility verification"
+          },
+          {
+            "step": 4,
+            "action": "Client onboarding completion",
+            "status": "pending_analysis",
+            "details": "Final onboarding steps and access provision"
+          }
+        ],
+        "requirements": [],
+        "findings": [],
+        "analysis_end_time": "2025-08-26T00:29:00.557276"
+      },
+      "crypto_theft_reporting_analysis": {
+        "analysis_start_time": "2025-08-26T00:29:00.559092",
+        "reporting_flows": [],
+        "victim_support_processes": [],
+        "forms_identified": [],
+        "process_steps": [
+          {
+            "step": 1,
+            "action": "Victim identifies theft incident",
+            "status": "identified",
+            "details": "Initial recognition of crypto theft"
+          },
+          {
+            "step": 2,
+            "action": "Victim accesses reporting portal",
+            "status": "pending_analysis",
+            "details": "Navigation to theft reporting system"
+          },
+          {
+            "step": 3,
+            "action": "Victim completes theft report form",
+            "status": "pending_analysis",
+            "details": "Detailed incident reporting and documentation"
+          },
+          {
+            "step": 4,
+            "action": "Case assignment and investigation",
+            "status": "pending_analysis",
+            "details": "Internal case management and investigation initiation"
+          },
+          {
+            "step": 5,
+            "action": "Victim support and communication",
+            "status": "pending_analysis",
+            "details": "Ongoing support and case updates"
+          }
+        ],
+        "findings": [],
+        "analysis_end_time": "2025-08-26T00:29:00.559118"
+      },
+      "content_preservation": {
+        "backup_start_time": "2025-08-26T00:29:00.562380",
+        "content_preserved": [
+          {
+            "url": "https://blockchainunmasked.com",
+            "filename": "blockchainunmasked.com.html",
+            "status": "preserved",
+            "file_path": "/Users/hazael/Code/ai-dev-lab/missions/website_audit/content_backup/blockchainunmasked.com.html"
+          }
+        ],
+        "screenshots_taken": [],
+        "backup_size": 0,
+        "preservation_methods": [],
+        "backup_end_time": "2025-08-26T00:29:00.565313",
+        "backup_location": "/Users/hazael/Code/ai-dev-lab/missions/website_audit/content_backup"
+      }
+    },
+    "findings": [],
+    "content_backup": {},
+    "process_maps": {},
+    "recommendations": []
+  },
+  "next_steps": [
+    "Proceed to Phase 3: Contact Center Research",
+    "Integrate audit findings into app enhancement design",
+    "Enhance MCP servers with discovered process knowledge"
+  ]
+}

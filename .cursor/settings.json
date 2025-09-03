@@ -1,0 +1,52 @@
+{
+  "ai": {
+    "enabled": true,
+    "model": "claude-3.5-sonnet",
+    "maxTokens": 1000000,
+    "temperature": 0.1
+  },
+  "mcp": {
+    "enabled": true,
+    "servers": ["ai-dev-lab-core", "ai-dev-lab-enhanced", "ai-dev-lab-app-demo"],
+    "autoConnect": true,
+    "security": {
+      "guardian": true,
+      "approvalRequired": true
+    }
+  },
+  "cursor": {
+    "dualMode": {
+      "enabled": true,
+      "defaultMode": "free",
+      "autoSwitch": true
+    },
+    "backgroundAgents": {
+      "enabled": true,
+      "maxConcurrent": 3,
+      "approvalRequired": true
+    },
+    "rules": {
+      "enabled": true,
+      "path": ".cursor/rules"
+    }
+  },
+  "extensions": {
+    "recommended": [
+      "ms-python.python",
+      "ms-python.black-formatter",
+      "ms-python.isort",
+      "ms-python.flake8",
+      "ms-python.mypy-type-checker",
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-json"
+    ]
+  },
+  "promptEngine": {
+    "enabled": true,
+    "mode": "enhanced",
+    "personaManagement": true,
+    "guardrails": true,
+    "contextManagement": true
+  }
+}

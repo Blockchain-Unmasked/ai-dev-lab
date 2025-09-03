@@ -1,0 +1,69 @@
+{
+  "mission_name": "Logging Test Mission",
+  "mission_description": "Test logging systems",
+  "mission_type": "DEVELOPMENT",
+  "mission_id": "DEV-2025-ECC3774A",
+  "metadata": {
+    "created_at": "2025-08-26T00:02:29.491829",
+    "created_by": "AI/DEV Lab System",
+    "version": "2.0.0",
+    "last_modified": "2025-08-26T00:02:29.500246",
+    "modified_by": "AI/DEV Lab System"
+  },
+  "mission_status": "COMPLETED",
+  "current_stage": "INITIALIZATION",
+  "mission_lifecycle": {
+    "current_phase": "INITIALIZATION",
+    "phase_history": [],
+    "status_history": [
+      {
+        "timestamp": "2025-08-26T00:02:29.500265",
+        "old_status": "PLANNING",
+        "new_status": "COMPLETED",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      }
+    ],
+    "context_snapshots": [],
+    "tool_usage_log": [
+      {
+        "tool_name": "test_tool",
+        "operation": "test_operation"
+      }
+    ],
+    "performance_metrics": {},
+    "activity_log": [
+      {
+        "timestamp": "2025-08-26T00:02:29.494670",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "DEV-2025-ECC3774A"
+      }
+    ]
+  },
+  "mission_context": {
+    "execution_context": {},
+    "tool_context": {},
+    "data_context": {},
+    "user_context": {},
+    "system_context": {}
+  },
+  "mission_log": {
+    "log_entries": [
+      {
+        "timestamp": "2025-08-26T00:02:29.495052",
+        "level": "INFO",
+        "source": "audit_test",
+        "message": "Test log entry",
+        "data": {
+          "test_key": "test_value"
+        },
+        "tool_usage": {
+          "tool_name": "test_tool",
+          "operation": "test_operation"
+        }
+      }
+    ]
+  }
+}

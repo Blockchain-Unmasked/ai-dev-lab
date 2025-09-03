@@ -1,0 +1,159 @@
+{
+  "general_support": {
+    "id": "general_support",
+    "name": "General Support Quality Scorecard",
+    "description": "Quality evaluation criteria for Tier 1 support interactions",
+    "version": "1.0",
+    "last_updated": "2025-08-26T02:12:02.074288",
+    "tier_level": 1,
+    "criteria": [
+      {
+        "id": "greeting_and_opening",
+        "name": "Greeting and Call Opening",
+        "description": "Proper greeting, verification, and call opening procedures",
+        "weight": 10,
+        "max_score": 10,
+        "required": true,
+        "auto_fail": false,
+        "sub_criteria": [
+          {
+            "name": "Professional greeting used",
+            "points": 3
+          },
+          {
+            "name": "Company name stated",
+            "points": 2
+          },
+          {
+            "name": "Customer verification completed",
+            "points": 3
+          },
+          {
+            "name": "Purpose of call confirmed",
+            "points": 2
+          }
+        ]
+      },
+      {
+        "id": "product_knowledge",
+        "name": "Product Knowledge and Accuracy",
+        "description": "Accuracy of information provided about products and services",
+        "weight": 20,
+        "max_score": 20,
+        "required": true,
+        "auto_fail": true,
+        "sub_criteria": [
+          {
+            "name": "Correct product information",
+            "points": 8
+          },
+          {
+            "name": "Accurate policy information",
+            "points": 6
+          },
+          {
+            "name": "Proper procedure explanation",
+            "points": 6
+          }
+        ]
+      },
+      {
+        "id": "problem_solving",
+        "name": "Problem-Solving Skills",
+        "description": "Ability to diagnose and resolve customer issues",
+        "weight": 25,
+        "max_score": 25,
+        "required": true,
+        "auto_fail": false,
+        "sub_criteria": [
+          {
+            "name": "Proper issue diagnosis",
+            "points": 8
+          },
+          {
+            "name": "Appropriate solution provided",
+            "points": 10
+          },
+          {
+            "name": "Escalation when needed",
+            "points": 7
+          }
+        ]
+      },
+      {
+        "id": "communication_skills",
+        "name": "Communication Skills",
+        "description": "Clarity, tone, professionalism, and empathy",
+        "weight": 20,
+        "max_score": 20,
+        "required": false,
+        "auto_fail": false,
+        "sub_criteria": [
+          {
+            "name": "Clear and concise communication",
+            "points": 5
+          },
+          {
+            "name": "Professional tone maintained",
+            "points": 5
+          },
+          {
+            "name": "Empathy demonstrated",
+            "points": 5
+          },
+          {
+            "name": "Active listening shown",
+            "points": 5
+          }
+        ]
+      },
+      {
+        "id": "compliance_and_policies",
+        "name": "Compliance and Policy Adherence",
+        "description": "Following required procedures and compliance requirements",
+        "weight": 15,
+        "max_score": 15,
+        "required": true,
+        "auto_fail": true,
+        "sub_criteria": [
+          {
+            "name": "Required disclosures given",
+            "points": 8
+          },
+          {
+            "name": "Policy procedures followed",
+            "points": 7
+          }
+        ]
+      },
+      {
+        "id": "call_closure",
+        "name": "Call Closure and Follow-up",
+        "description": "Proper call closure and next steps confirmation",
+        "weight": 10,
+        "max_score": 10,
+        "required": false,
+        "auto_fail": false,
+        "sub_criteria": [
+          {
+            "name": "Resolution confirmed",
+            "points": 4
+          },
+          {
+            "name": "Next steps explained",
+            "points": 3
+          },
+          {
+            "name": "Professional closing",
+            "points": 3
+          }
+        ]
+      }
+    ],
+    "passing_score": 85,
+    "auto_fail_criteria": [
+      "product_knowledge",
+      "compliance_and_policies"
+    ]
+  }
+}

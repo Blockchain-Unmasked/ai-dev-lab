@@ -1,0 +1,28 @@
+# AI/DEV Lab MCP Server Dependencies
+# Core requirements for MCP server functionality
+
+# MCP Protocol Support
+mcp>=1.0.0
+
+# HTTP and API Support
+requests>=2.31.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+
+# Data Processing
+pydantic>=2.0.0
+python-multipart>=0.0.6
+
+# Security
+cryptography>=40.0.0
+
+# Development and Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Optional: Enhanced Features
+beautifulsoup4>=4.12.0  # For web scraping
+selenium>=4.0.0          # For advanced web automation
+pillow>=10.0.0           # For image processing

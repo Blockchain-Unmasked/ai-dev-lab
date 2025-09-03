@@ -1,0 +1,986 @@
+.
+├── AGENTS.md
+├── LAB_MCP_TOOLS_REPORT.md
+├── MCP_AUDIT_AND_HARDENING_CHECKLIST.md
+├── MCP_SERVERS_FIXED_SUMMARY.md
+├── PROJECT_RENAME_SUMMARY.md
+├── QUICK_START_MCP_AUDIT.md
+├── README.md
+├── REPOSITORY_CLEANUP_AND_ORGANIZATION_SUMMARY.md
+├── ai-dev-tree.txt
+├── app
+│   ├── ARCHITECTURE_OVERVIEW.md
+│   ├── PORT_CONFIGURATION.md
+│   ├── README.md
+│   ├── app
+│   │   └── secrets
+│   ├── backend
+│   │   ├── __pycache__
+│   │   ├── api
+│   │   ├── app.log
+│   │   ├── backend.log
+│   │   ├── core
+│   │   ├── main.py
+│   │   ├── main.py.backup
+│   │   ├── main.py.before_static
+│   │   ├── main.py.function_order_issue
+│   │   ├── main.py.route_order_issue
+│   │   ├── main.py.static_issue
+│   │   ├── models
+│   │   ├── requirements.txt
+│   │   ├── run.py
+│   │   ├── run_backend.py
+│   │   ├── services
+│   │   ├── start_server.sh
+│   │   ├── start_simple.py
+│   │   ├── uploads
+│   │   ├── utils
+│   │   └── venv
+│   ├── backups
+│   ├── database
+│   │   ├── config.py
+│   │   ├── demo_database.db
+│   │   ├── migrations
+│   │   ├── schemas
+│   │   └── seeds
+│   ├── deployment
+│   │   ├── docker
+│   │   ├── nginx
+│   │   ├── ssl
+│   │   └── systemd
+│   ├── docs
+│   ├── env.example
+│   ├── frontend
+│   │   ├── README.md
+│   │   ├── assets
+│   │   ├── components
+│   │   ├── css-test.html
+│   │   ├── customer-chat-3000.html
+│   │   ├── customer-chat.html
+│   │   ├── env.example.js
+│   │   ├── env.js
+│   │   ├── index-3000.html
+│   │   ├── index.html
+│   │   ├── minimal-test.html
+│   │   ├── pages
+│   │   ├── qa-dashboard.html
+│   │   ├── scripts
+│   │   ├── simple-test.html
+│   │   └── test.html
+│   ├── logs
+│   ├── mcp-servers
+│   │   ├── app-demo-server
+│   │   ├── content-archive
+│   │   ├── database-server
+│   │   └── website-audit
+│   ├── secrets
+│   │   └── secrets.json
+│   ├── shared
+│   │   ├── constants
+│   │   ├── types
+│   │   └── validation
+│   ├── start_dev.sh
+│   ├── storage
+│   └── test_gemini_api.py
+├── app.log
+├── demo_database.db
+├── docs
+│   ├── README.md
+│   ├── architecture
+│   │   ├── MCP_SERVER_ARCHITECTURE_RULES.md
+│   │   ├── MCP_SERVER_DIFFERENTIATION_SUMMARY.md
+│   │   ├── MCP_SERVER_USAGE_RULES_SUMMARY.md
+│   │   ├── PROMPT_ENGINE_IMPLEMENTATION_PLAN.md
+│   │   ├── PROMPT_ENGINE_IMPLEMENTATION_SUMMARY.md
+│   │   ├── PROMPT_ENGINE_RESEARCH.md
+│   │   └── REPOSITORY_CLEANUP_AND_BEST_PRACTICES.md
+│   ├── architecture.md
+│   ├── cursor-integration
+│   │   ├── APP_MCP_SERVERS_CLEANUP_SUMMARY.md
+│   │   ├── CURSOR_CONFIGURATION_STATUS.md
+│   │   └── CURSOR_SETUP_COMPLETE.md
+│   ├── cursor_usage.md
+│   ├── mcp-servers
+│   ├── missions
+│   │   ├── MISSION_COMPLETE.md
+│   │   └── MISSION_SYSTEM_AUDIT_AND_SETUP_SUMMARY.md
+│   ├── research
+│   │   ├── CONTACT_CENTER_RESEARCH_PROMPT.md
+│   │   └── ENTERPRISE_RESEARCH_INTEGRATION_PLAN.md
+│   ├── security
+│   ├── security.md
+│   ├── setup
+│   │   └── LAB_DEVELOPMENT_SETUP_GUIDE.md
+│   ├── setup.md
+│   └── threat_model.md
+├── implementations
+│   └── enterprise_research
+│       ├── documentation
+│       ├── implementation_summary.json
+│       ├── knowledge_base
+│       ├── performance_monitoring
+│       ├── quality_assurance
+│       ├── tiered_agent_system
+│       └── workflow_integration
+├── input
+│   ├── 1.txt
+│   ├── 2.txt
+│   ├── 3.txt
+│   ├── Enterprise Contact Center Operations_ Comprehensive Research Findings.txt
+│   ├── README.md
+│   └── meta-documentation
+│       ├── CHANGELOG.md
+│       ├── LICENSE.txt
+│       ├── README.md
+│       ├── docs
+│       ├── improvements.md
+│       ├── poetry.lock
+│       └── review
+├── logs
+│   ├── audits
+│   ├── development
+│   │   ├── contact_center_research.log
+│   │   ├── mission_system_audit.log
+│   │   └── website_audit.log
+│   ├── mcp_tests
+│   └── missions
+├── mcp-server
+│   ├── ENVIRONMENT_CONTROL_README.md
+│   ├── README.md
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── enhanced_server.cpython-313.pyc
+│   │   ├── http_server.cpython-313.pyc
+│   │   ├── mission_system.cpython-313.pyc
+│   │   └── server.cpython-313.pyc
+│   ├── audit_mission_system.py
+│   ├── config.yaml
+│   ├── create_research_mission.py
+│   ├── enhanced_mission_system.py
+│   ├── enhanced_prompt_engine.py
+│   ├── enhanced_server.py
+│   ├── execute_app_enhancement.py
+│   ├── execute_contact_center_research.py
+│   ├── execute_website_audit.py
+│   ├── guardian_config.yaml
+│   ├── http_server.py
+│   ├── implement_enterprise_research.py
+│   ├── mcp_server.log
+│   ├── mission_system.py
+│   ├── requirements.txt
+│   ├── server.py
+│   ├── setup_lab_development_mode.py
+│   ├── start_server.bat
+│   ├── start_server.sh
+│   ├── test_comprehensive_mcp.py
+│   ├── test_environment_control.py
+│   ├── test_environment_control_focused.py
+│   ├── tool_loadouts
+│   │   └── lab_development_loadout.json
+│   └── venv
+│       ├── bin
+│       ├── include
+│       ├── lib
+│       └── pyvenv.cfg
+├── mcp_conformance_results_1756236112.json
+├── mcp_conformance_results_1756236691.json
+├── meta
+│   ├── README.md
+│   ├── checklists
+│   │   └── implementation_checklist.md
+│   ├── decisions
+│   │   └── decisions.md
+│   ├── features
+│   │   └── feature_grid.md
+│   ├── prompts.md
+│   ├── schemas
+│   │   └── mission-system-schema.json
+│   └── templates
+│       └── prompt-engine-templates.json
+├── missions
+│   ├── APP_DEMO_100_SCORE_IMPLEMENTATION_PLAN.json
+│   ├── APP_DEMO_100_SCORE_MISSION_PRD.json
+│   ├── APP_DEMO_100_SCORE_SUPER_AUTO_PROMPT.json
+│   ├── AUD-2025-7CABB6CE.json
+│   ├── DEV-2025-03E1C294.json
+│   ├── DEV-2025-41FDD931.json
+│   ├── DEV-2025-759E96DB.json
+│   ├── DEV-2025-777A13D3.json
+│   ├── DEV-2025-8244D156.json
+│   ├── DEV-2025-85B5F034.json
+│   ├── DEV-2025-99E26C5A.json
+│   ├── DEV-2025-AB401B61.json
+│   ├── DEV-2025-B530188D.json
+│   ├── DEV-2025-C75B675C.json
+│   ├── DEV-2025-E82FB66D.json
+│   ├── DEV-2025-ECC3774A.json
+│   ├── DEV-2025-F274E34F.json
+│   ├── DEV-2025-F32A8A5C.json
+│   ├── FRONTEND_DESIGN_SPECIFICATIONS.md
+│   ├── FRONTEND_OVERHAUL_IMPLEMENTATION_PLAN.json
+│   ├── FRONTEND_OVERHAUL_IMPLEMENTATION_SUMMARY.md
+│   ├── FRONTEND_OVERHAUL_MISSION_PRD.json
+│   ├── FRONTEND_OVERHAUL_SUPER_AUTO_PROMPT.json
+│   ├── MCP_INTEGRATION_FIX_PRD.json
+│   ├── RES-2025-C06DFE89.json
+│   ├── RES-2025-D10709C2.json
+│   ├── TES-2025-6EE18612.json
+│   ├── audit_results.json
+│   ├── contact_center_research
+│   │   ├── agent_tier_system_research.json
+│   │   ├── comprehensive_research_report.json
+│   │   ├── kb_architecture_research.json
+│   │   ├── qa_process_research.json
+│   │   ├── research_config.json
+│   │   ├── research_results.json
+│   │   └── workflow_integration_research.json
+│   ├── contexts
+│   │   ├── context_AUD-2025-7CABB6CE.json
+│   │   ├── context_DEV-2025-03E1C294.json
+│   │   ├── context_DEV-2025-41FDD931.json
+│   │   ├── context_DEV-2025-777A13D3.json
+│   │   ├── context_DEV-2025-8244D156.json
+│   │   ├── context_DEV-2025-AB401B61.json
+│   │   ├── context_DEV-2025-B530188D.json
+│   │   ├── context_DEV-2025-E82FB66D.json
+│   │   ├── context_DEV-2025-ECC3774A.json
+│   │   ├── context_DEV-2025-F274E34F.json
+│   │   ├── context_DEV-2025-F32A8A5C.json
+│   │   ├── context_RES-2025-C06DFE89.json
+│   │   └── context_RES-2025-D10709C2.json
+│   ├── lab_development_setup_summary.json
+│   ├── logs
+│   │   ├── context_changes.log
+│   │   ├── mission_activities.log
+│   │   └── tool_usage.log
+│   ├── research_mission_summary.json
+│   ├── tool_loadouts
+│   └── website_audit
+│       ├── audit_config.json
+│       ├── audit_results.json
+│       ├── client_onboarding_analysis.json
+│       ├── comprehensive_audit_report.json
+│       ├── content_backup
+│       └── crypto_theft_reporting_analysis.json
+├── node_modules
+│   ├── @babel
+│   │   ├── code-frame
+│   │   └── helper-validator-identifier
+│   ├── @puppeteer
+│   │   └── browsers
+│   ├── @tootallnate
+│   │   └── quickjs-emscripten
+│   ├── @types
+│   │   ├── node
+│   │   └── yauzl
+│   ├── agent-base
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── ansi-regex
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── ansi-styles
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── argparse
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── argparse.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── ast-types
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── def
+│   │   ├── fork.d.ts
+│   │   ├── fork.js
+│   │   ├── gen
+│   │   ├── lib
+│   │   ├── main.d.ts
+│   │   ├── main.js
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   ├── types.d.ts
+│   │   └── types.js
+│   ├── b4a
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── browser.js
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── bare-events
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── bare-fs
+│   │   ├── CMakeLists.txt
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── binding.c
+│   │   ├── binding.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── lib
+│   │   ├── package.json
+│   │   ├── prebuilds
+│   │   ├── promises.d.ts
+│   │   └── promises.js
+│   ├── bare-os
+│   │   ├── CMakeLists.txt
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── binding.c
+│   │   ├── binding.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── lib
+│   │   ├── package.json
+│   │   └── prebuilds
+│   ├── bare-path
+│   │   ├── LICENSE
+│   │   ├── NOTICE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── bare-stream
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── global.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   ├── promises.js
+│   │   ├── web.d.ts
+│   │   └── web.js
+│   ├── basic-ftp
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── buffer-crc32
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── callsites
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── chromium-bidi
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── lib
+│   │   └── package.json
+│   ├── cliui
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── build
+│   │   ├── index.mjs
+│   │   └── package.json
+│   ├── color-convert
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── conversions.js
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── route.js
+│   ├── color-name
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── cosmiconfig
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── data-uri-to-buffer
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── debug
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── package.json
+│   │   └── src
+│   ├── degenerator
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── devtools-protocol
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── json
+│   │   ├── package.json
+│   │   ├── pdl
+│   │   └── types
+│   ├── emoji-regex
+│   │   ├── LICENSE-MIT.txt
+│   │   ├── README.md
+│   │   ├── es2015
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── text.js
+│   ├── end-of-stream
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── env-paths
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── error-ex
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── escalade
+│   │   ├── dist
+│   │   ├── index.d.mts
+│   │   ├── index.d.ts
+│   │   ├── license
+│   │   ├── package.json
+│   │   ├── readme.md
+│   │   └── sync
+│   ├── escodegen
+│   │   ├── LICENSE.BSD
+│   │   ├── README.md
+│   │   ├── bin
+│   │   ├── escodegen.js
+│   │   └── package.json
+│   ├── esprima
+│   │   ├── ChangeLog
+│   │   ├── LICENSE.BSD
+│   │   ├── README.md
+│   │   ├── bin
+│   │   ├── dist
+│   │   └── package.json
+│   ├── estraverse
+│   │   ├── LICENSE.BSD
+│   │   ├── README.md
+│   │   ├── estraverse.js
+│   │   ├── gulpfile.js
+│   │   └── package.json
+│   ├── esutils
+│   │   ├── LICENSE.BSD
+│   │   ├── README.md
+│   │   ├── lib
+│   │   └── package.json
+│   ├── extract-zip
+│   │   ├── LICENSE
+│   │   ├── cli.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── fast-fifo
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── fixed-size.js
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── fd-slicer
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── test
+│   ├── get-caller-file
+│   │   ├── LICENSE.md
+│   │   ├── README.md
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── index.js.map
+│   │   └── package.json
+│   ├── get-stream
+│   │   ├── buffer-stream.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── get-uri
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── http-proxy-agent
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── https-proxy-agent
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── import-fresh
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── ip-address
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   ├── package.json
+│   │   └── src
+│   ├── is-arrayish
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── is-fullwidth-code-point
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── js-tokens
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── js-yaml
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── bin
+│   │   ├── dist
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── json-parse-even-better-errors
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE.md
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── lines-and-columns
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── build
+│   │   └── package.json
+│   ├── lru-cache
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── index.mjs
+│   │   └── package.json
+│   ├── mitt
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   ├── index.d.ts
+│   │   └── package.json
+│   ├── ms
+│   │   ├── index.js
+│   │   ├── license.md
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── netmask
+│   │   ├── CHANGELOG.md
+│   │   ├── CREDITS.md
+│   │   ├── README.md
+│   │   ├── example
+│   │   ├── lib
+│   │   ├── package.json
+│   │   ├── test
+│   │   └── tests
+│   ├── once
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── once.js
+│   │   └── package.json
+│   ├── pac-proxy-agent
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── pac-resolver
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── parent-module
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── parse-json
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── pend
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── test.js
+│   ├── picocolors
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── package.json
+│   │   ├── picocolors.browser.js
+│   │   ├── picocolors.d.ts
+│   │   ├── picocolors.js
+│   │   └── types.d.ts
+│   ├── playwright
+│   │   ├── LICENSE
+│   │   ├── NOTICE
+│   │   ├── README.md
+│   │   ├── ThirdPartyNotices.txt
+│   │   ├── cli.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── index.mjs
+│   │   ├── jsx-runtime.js
+│   │   ├── jsx-runtime.mjs
+│   │   ├── lib
+│   │   ├── package.json
+│   │   ├── test.d.ts
+│   │   ├── test.js
+│   │   ├── test.mjs
+│   │   └── types
+│   ├── playwright-core
+│   │   ├── LICENSE
+│   │   ├── NOTICE
+│   │   ├── README.md
+│   │   ├── ThirdPartyNotices.txt
+│   │   ├── bin
+│   │   ├── browsers.json
+│   │   ├── cli.js
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── index.mjs
+│   │   ├── lib
+│   │   ├── package.json
+│   │   └── types
+│   ├── progress
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── Makefile
+│   │   ├── Readme.md
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── proxy-agent
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── proxy-from-env
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   └── test.js
+│   ├── pump
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── SECURITY.md
+│   │   ├── index.js
+│   │   ├── package.json
+│   │   ├── test-browser.js
+│   │   └── test-node.js
+│   ├── puppeteer
+│   │   ├── README.md
+│   │   ├── install.mjs
+│   │   ├── lib
+│   │   ├── package.json
+│   │   └── src
+│   ├── puppeteer-core
+│   │   ├── README.md
+│   │   ├── lib
+│   │   ├── package.json
+│   │   └── src
+│   ├── require-directory
+│   │   ├── LICENSE
+│   │   ├── README.markdown
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── resolve-from
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── semver
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── bin
+│   │   ├── classes
+│   │   ├── functions
+│   │   ├── index.js
+│   │   ├── internal
+│   │   ├── package.json
+│   │   ├── preload.js
+│   │   ├── range.bnf
+│   │   └── ranges
+│   ├── smart-buffer
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── build
+│   │   ├── docs
+│   │   ├── package.json
+│   │   └── typings
+│   ├── socks
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── build
+│   │   ├── docs
+│   │   ├── package.json
+│   │   └── typings
+│   ├── socks-proxy-agent
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   └── package.json
+│   ├── source-map
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── dist
+│   │   ├── lib
+│   │   ├── package.json
+│   │   ├── source-map.d.ts
+│   │   └── source-map.js
+│   ├── streamx
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── string-width
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── strip-ansi
+│   │   ├── index.d.ts
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── tar-fs
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   ├── tar-stream
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── constants.js
+│   │   ├── extract.js
+│   │   ├── headers.js
+│   │   ├── index.js
+│   │   ├── pack.js
+│   │   └── package.json
+│   ├── text-decoder
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   ├── lib
+│   │   └── package.json
+│   ├── tslib
+│   │   ├── CopyrightNotice.txt
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── SECURITY.md
+│   │   ├── modules
+│   │   ├── package.json
+│   │   ├── tslib.d.ts
+│   │   ├── tslib.es6.html
+│   │   ├── tslib.es6.js
+│   │   ├── tslib.es6.mjs
+│   │   ├── tslib.html
+│   │   └── tslib.js
+│   ├── typed-query-selector
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── package.json
+│   │   ├── parser.d.ts
+│   │   ├── shim.d.ts
+│   │   └── strict.d.ts
+│   ├── undici-types
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── agent.d.ts
+│   │   ├── api.d.ts
+│   │   ├── balanced-pool.d.ts
+│   │   ├── cache-interceptor.d.ts
+│   │   ├── cache.d.ts
+│   │   ├── client-stats.d.ts
+│   │   ├── client.d.ts
+│   │   ├── connector.d.ts
+│   │   ├── content-type.d.ts
+│   │   ├── cookies.d.ts
+│   │   ├── diagnostics-channel.d.ts
+│   │   ├── dispatcher.d.ts
+│   │   ├── env-http-proxy-agent.d.ts
+│   │   ├── errors.d.ts
+│   │   ├── eventsource.d.ts
+│   │   ├── fetch.d.ts
+│   │   ├── formdata.d.ts
+│   │   ├── global-dispatcher.d.ts
+│   │   ├── global-origin.d.ts
+│   │   ├── h2c-client.d.ts
+│   │   ├── handlers.d.ts
+│   │   ├── header.d.ts
+│   │   ├── index.d.ts
+│   │   ├── interceptors.d.ts
+│   │   ├── mock-agent.d.ts
+│   │   ├── mock-call-history.d.ts
+│   │   ├── mock-client.d.ts
+│   │   ├── mock-errors.d.ts
+│   │   ├── mock-interceptor.d.ts
+│   │   ├── mock-pool.d.ts
+│   │   ├── package.json
+│   │   ├── patch.d.ts
+│   │   ├── pool-stats.d.ts
+│   │   ├── pool.d.ts
+│   │   ├── proxy-agent.d.ts
+│   │   ├── readable.d.ts
+│   │   ├── retry-agent.d.ts
+│   │   ├── retry-handler.d.ts
+│   │   ├── util.d.ts
+│   │   ├── utility.d.ts
+│   │   ├── webidl.d.ts
+│   │   └── websocket.d.ts
+│   ├── wrap-ansi
+│   │   ├── index.js
+│   │   ├── license
+│   │   ├── package.json
+│   │   └── readme.md
+│   ├── wrappy
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── package.json
+│   │   └── wrappy.js
+│   ├── ws
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── browser.js
+│   │   ├── index.js
+│   │   ├── lib
+│   │   ├── package.json
+│   │   └── wrapper.mjs
+│   ├── y18n
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── build
+│   │   ├── index.mjs
+│   │   └── package.json
+│   ├── yargs
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── browser.d.ts
+│   │   ├── browser.mjs
+│   │   ├── build
+│   │   ├── helpers
+│   │   ├── index.cjs
+│   │   ├── index.mjs
+│   │   ├── lib
+│   │   ├── locales
+│   │   ├── package.json
+│   │   ├── yargs
+│   │   └── yargs.mjs
+│   ├── yargs-parser
+│   │   ├── CHANGELOG.md
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── browser.js
+│   │   ├── build
+│   │   └── package.json
+│   ├── yauzl
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── index.js
+│   │   └── package.json
+│   └── zod
+│       ├── LICENSE
+│       ├── README.md
+│       ├── index.cjs
+│       ├── index.d.cts
+│       ├── index.d.ts
+│       ├── index.js
+│       ├── package.json
+│       ├── src
+│       ├── v3
+│       ├── v4
+│       └── v4-mini
+├── organization_validation_report.json
+├── package-lock.json
+├── package.json
+├── projects
+│   ├── README.md
+│   ├── blockchainunmasked-audit
+│   │   ├── BLOCKCHAINUNMASKED_AUDIT_PRD.md
+│   │   ├── BLOCKCHAINUNMASKED_IMPLEMENTATION_PLAN.md
+│   │   └── BLOCKCHAINUNMASKED_SUPER_AUTO_PROMPT.json
+│   └── enterprise-research
+├── sandbox
+│   └── README.md
+├── scripts
+│   ├── README.md
+│   ├── mcp_conformance_test_suite.py
+│   ├── setup_environment.py
+│   ├── setup_mcp_testing.py
+│   ├── simple_mcp_test.py
+│   ├── smoke_run.sh
+│   ├── switch_mode.py
+│   ├── test_cursor_integration.py
+│   ├── test_mcp_connection.py
+│   ├── test_mcp_server.py
+│   ├── validate_organization.py
+│   ├── verify_cursor_mcp.py
+│   └── verify_cursor_rules.py
+├── test_mcp_cursor_integration.py
+├── test_mcp_servers.py
+├── test_results
+└── tests
+    ├── README.md
+    ├── app.log
+    ├── backend
+    │   ├── test_api.py
+    │   ├── test_api_routes.py
+    │   └── test_core_components.py
+    ├── conftest.py
+    ├── mcp
+    │   └── test_lab_server.py
+    ├── pytest.ini
+    ├── requirements.txt
+    ├── run_tests.py
+    ├── security
+    │   └── test_authentication.py
+    └── test_framework.py
+
+282 directories, 702 files

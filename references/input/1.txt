@@ -1,0 +1,103 @@
+﻿AI/DEV Research — Project Structure & Plan Start Date: August 21, 2025 — 2:22 AM EST\ Phase: Research & Prep (Web‑based ChatGPT Session) 
+ Core Mission 
+This project explores how to use AI agents, MCP (Model Context Protocol) servers, and agent-driven development in a structured environment. Since we are not building local folders yet, all planning, documentation, and research will be conducted within this ChatGPT project folder (canvas). The end goal is to prepare a foundation that can later run inside Cursor IDE with clear separation of sandboxing, MCP setup, and references. 
+Key goals: 
+•  
+Keep the setup independent and unbiased. 
+•  
+Provide a clear research blueprint before local setup. 
+•  
+Document findings and decisions in this project folder (web-based). •  
+Prepare for both minimal/free Cursor usage and full premium/enterprise usage. •  
+Map Cursor’s features, costs, and capabilities into an X–Y feature grid. •  
+Incorporate MCP security best practices. 
+ Virtual Folder Structure (for planning only) 
+Even though we are not creating local folders yet, this structure acts as the conceptual map: 
+•  
+sandbox/ → Independent experimentation (agents, tests, notes). •  
+mcp-server/ → MCP schemas, endpoints, configs, docs. •  
+references/ → Read-only repositories and docs. 
+•  
+meta/ → Research notes, prompts, roadmap, decision logs, feature grid. •  
+docs/ → Setup, architecture, findings, cursor notes, security checklist. •  
+scripts/ → Future automation helpers. 
+This lives here in ChatGPT project canvas until we migrate to a real repo. 
+ Cursor IDE Integration 
+•  
+Cursor can eventually consume this plan once local folders are created. 
+•  
+Research must account for two scenarios: 
+•  
+Free/Pro: Only chat features, manual MCP setup. 
+•  
+Premium/Enterprise: Background Agents, Bugbot, Memories, Jupyter, one‑click MCP. 1
+•  
+.cursor/rules and workspace hygiene best practices will be documented here first. 
+ Feature Grid Analysis (X–Y) 
+X-axis → Cost (Free → Paid/Enterprise).\ Y-axis → Capability (Basic → Advanced). Quadrants: 
+1.  
+Low Cost / Low Capability → Free tier basics. 
+2.  
+High Cost / Low Capability → Paid, minimal usage. 
+3.  
+Low Cost / High Capability → Maximized free features, workarounds. 4.  
+High Cost / High Capability → Premium/enterprise, full feature set. 
+Current Feature Mapping (Aug 21, 2025): 
+•  
+Free Tier → Chat, code edits, .cursor/rules , manual MCP. •  
+Pro Tier → Faster response, larger contexts. 
+•  
+Premium → Background Agent, Bugbot, Memories, Jupyter, one‑click MCP. •  
+Enterprise → Multi‑seat, org‑wide, deep integrations. 
+This mapping will guide our dual-mode planning. 
+ MCP Security Strategy 
+•  
+Track vulnerabilities: prompt injection, tool poisoning, unauthorized access. •  
+Integrate MCPSafetyScanner (academic scanning tool). 
+•  
+Use MCP Guardian for auth, rate-limiting, and WAF protection. •  
+Reference MCPLIB threat taxonomy for systematic analysis. •  
+Document mitigations here in docs/security.md (conceptually). 
+ Additions Beyond Initial Idea 
+•  
+Meta folder for prompts, decision logs, research. •  
+Docs for setup, architecture, cursor notes, security. •  
+Scripts for automation. 
+•  
+Feature Grid to align Cursor features vs. budget. •  
+Dual Mode Plan for free vs. premium. •  
+Security hardening (Scanner, Guardian, Taxonomy). 2
+ Next Steps (Web-based Research Session) 
+1.  
+Use this canvas to log meta/research-notes directly in chat. 2.  
+Draft first feature grid table here in canvas. 
+3.  
+Capture best practices from Cursor updates, Reddit, and MCP docs. 4.  
+Create dual‑path super prompt templates in chat (Free vs Premium modes). 5.  
+Summarize MCP schema stubs (concept only, no code yet). 
+6.  
+Build first Cursor audit prompt to validate when local setup begins. 
+7.  
+Export this plan as PDF so it can be attached into a fresh ChatGPT session as the research 
+foundation. 
+Research Session Prep:\ We are now ready to run a fresh ChatGPT research session within this project folder (canvas). No local folders yet — everything will be documented here until we migrate. The session will: 
+•  
+Validate the conceptual structure against MCP spec. 
+•  
+Draft X–Y feature grid in detail. •  
+Compare Cursor workflows (Free vs Premium). 
+•  
+Begin documenting security guardrails. •  
+Output dual-path super prompts for Cursor IDE. 
+ Prompt for Fresh ChatGPT Research Session 
+Instruction:\ "Start a new ChatGPT session. Import the AI/DEV Research — Project Structure & Plan document in PDF form. Treat it as the core reference for this research project. Continue research by: 
+1.  
+Validating MCP structure against official documentation. 
+2.  
+Expanding the feature grid with detail and use-cases. 3.  
+Capturing latest Cursor IDE best practices and mapping them. 
+4.  
+Proposing dual-path prompt templates (Free vs Premium modes). 
+5.  
+Documenting security strategies with MCP Guardian, SafetyScanner, and MCPLIB taxonomy. 6.  
+Iterating all findings back into the research plan systematically." 3

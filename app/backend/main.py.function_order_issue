@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+"""
+AI/DEV Lab Web Application - Main FastAPI Application
+Following OCINT architecture standards and security requirements.
+
+This application demonstrates the integration of AI/DEV Lab systems
+(MCP server, Cursor dual-mode, Guardian security) while implementing
+established OCINT architectural patterns.
+"""
+
+import logging
+import os
+from contextlib import asynccontextmanager
+from typing import Dict, Any
+
+from fastapi import FastAPI, Request, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.security import HTTPBearer
+import structlog
+
+from .core.config import config
+from .core.database import init_database, close_database
+from .core.security import verify_token
+from .api.routes import api_router
+from .api.static_routes import static_router
+from .core.logging import setup_logging
+
+# Security token bearer
+security = HTTPBearer()
+
+# Setup structured logging following OCINT standards
+setup_logging()
+logger = structlog.get_logger()
+
+# Global settings
+settings = config
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Application lifespan management following OCINT standards."""
+    # Startup
+    logger.info("Starting AI/DEV Lab Web Application")
+    logger.info("Following OCINT architecture standards")
+    
+    # Initialize database connections
+    await init_database()
+    logger.info("Database connections initialized")
+    
+    # Initialize MCP server integration
+    logger.info("MCP server integration ready")
+    
+    yield
+    
+    # Shutdown
+    logger.info("Shutting down AI/DEV Lab Web Application")
+    await close_database()
+    logger.info("Database connections closed")
+
+# Create FastAPI application with OCINT-compliant configuration
+app = FastAPI(
+    title="AI/DEV Lab Web Application",
+    description="Built according to OCINT architecture standards and development practices",
+    version="1.0.0",
+    docs_url="/docs" if settings.APP_ENV == "development" else None,
+    redoc_url="/redoc" if settings.APP_ENV == "development" else None,
+    lifespan=lifespan
+)
+
+# Frontend directory path
+FRONTEND_DIR = "/Users/hazael/Code/ai-dev-lab/app/frontend"
+
+# IMPORTANT: API endpoints must be defined BEFORE the catch-all route
+# API information endpoint
+@app.get("/api/info")
+async def api_info() -> Dict[str, Any]:
+    """API information endpoint with application details."""
+    return {
+        "application": "AI/DEV Lab Web Application",
+        "description": "Built according to OCINT architecture standards",
+        "version": "1.0.0",
+        "documentation": "/docs" if settings.APP_ENV == "development" else None,
+        "health_check": "/health",
+        "architecture": {
+            "frontend": "Vanilla JS + Web Components + Custom CSS Design System",
+            "backend": "Python FastAPI + SQLite + SQLAlchemy",
+            "security": "Guardian MCP + OCINT Standards",
+            "ai_integration": "Gemini models through MCP server"
+        }
+    }
+
+# Health check endpoint (no authentication required)
+@app.get("/health")
+async def health_check() -> Dict[str, Any]:
+    """Health check endpoint following OCINT standards."""
+    return {
+        "status": "healthy",
+        "application": "AI/DEV Lab Web Application",
+        "architecture": "OCINT Standards Compliant",
+        "version": "1.0.0",
+        "environment": settings.APP_ENV
+    }
+
+# Security status endpoint (requires authentication)
+@app.get("/security/status")
+async def security_status(auth: Dict[str, Any] = Depends(verify_authentication)) -> Dict[str, Any]:
+    """Security status endpoint following OCINT security standards."""
+    return {
+        "security_status": "active",
+        "guardian_integration": "enabled",
+        "mcp_server": "connected",
+        "audit_logging": "enabled",
+        "user": auth.get("sub"),
+        "permissions": auth.get("permissions", [])
+    }
+
+# Root endpoint - Serve index.html
+@app.get("/")
+async def root():
+    """Root endpoint serves the main frontend application"""
+    try:
+        return FileResponse(f"{FRONTEND_DIR}/index.html")
+    except Exception as e:
+        logger.error(f"Failed to serve frontend: {e}")
+        raise HTTPException(status_code=500, detail="Frontend not available")
+
+# Catch-all route for frontend files (HTML, CSS, JS, images, etc.)
+# This must come AFTER all specific API routes
+@app.get("/{file_path:path}")
+async def serve_frontend_files(file_path: str):
+    """Serve frontend files (HTML, CSS, JS, images, etc.)"""
+    # Skip API endpoints (shouldn't reach here if routes are ordered correctly)
+    if file_path.startswith(('api/', 'docs', 'health', 'security')):
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    try:
+        full_path = f"{FRONTEND_DIR}/{file_path}"
+        
+        # Security: Prevent directory traversal
+        if not os.path.abspath(full_path).startswith(FRONTEND_DIR):
+            raise HTTPException(status_code=403, detail="Access denied")
+        
+        # Check if file exists
+        if not os.path.exists(full_path) or not os.path.isfile(full_path):
+            raise HTTPException(status_code=404, detail="File not found")
+        
+        # Return the file with proper MIME type detection
+        return FileResponse(full_path)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Failed to serve file: {e}")
+        raise HTTPException(status_code=500, detail="Error serving file")
+
+# Security middleware following OCINT standards
+# Allow test hostnames in testing environment
+if settings.APP_ENV == "testing":
+    allowed_hosts = ["localhost", "127.0.0.1", "testserver", "test"]
+else:
+    allowed_hosts = ["localhost", "127.0.0.1"]
+
+# Only add TrustedHostMiddleware if not in testing mode
+if settings.APP_ENV != "testing":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=allowed_hosts
+    )
+
+# CORS middleware for development
+if settings.APP_ENV == "development":
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.CORS_ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_headers=["*"],
+    )
+
+# Global exception handler following OCINT security standards
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Global exception handler with security-conscious error responses."""
+    logger.error("Unhandled exception", 
+                path=request.url.path,
+                method=request.method,
+                error=str(exc),
+                exc_info=True)
+    
+    # Security: Don't expose internal error details in production
+    if settings.APP_ENV == "production":
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "Internal server error"}
+        )
+    else:
+        return JSONResponse(
+            status_code=500,
+            content={"detail": str(exc)}
+        )
+
+# Security middleware for token verification
+async def verify_authentication(token: str = Depends(security)):
+    """Verify authentication token following OCINT security standards."""
+    try:
+        payload = verify_token(token.credentials)
+        return payload
+    except Exception as e:
+        logger.warning("Authentication failed", error=str(e))
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid authentication credentials"
+        )
+
+# Include API routes
+app.include_router(api_router)
+
+# Include static routes for frontend assets (keeping for backward compatibility)
+app.include_router(static_router)
+
+if __name__ == "__main__":
+    import uvicorn
+    
+    uvicorn.run(
+        "main:app",
+        host=settings.APP_HOST,
+        port=settings.APP_PORT,
+        reload=settings.APP_ENV == "development",
+        log_level="info"
+    )

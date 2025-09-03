@@ -1,0 +1,47 @@
+{
+  "mission_name": "Error Test Mission",
+  "mission_description": "Test error handling",
+  "mission_type": "DEVELOPMENT",
+  "mission_id": "DEV-2025-B530188D",
+  "metadata": {
+    "created_at": "2025-08-26T00:02:29.509009",
+    "created_by": "AI/DEV Lab System",
+    "version": "2.0.0",
+    "last_modified": "2025-08-26T00:02:29.513377",
+    "modified_by": "AI/DEV Lab System"
+  },
+  "mission_status": "COMPLETED",
+  "current_stage": "INITIALIZATION",
+  "mission_lifecycle": {
+    "current_phase": "INITIALIZATION",
+    "phase_history": [],
+    "status_history": [
+      {
+        "timestamp": "2025-08-26T00:02:29.513392",
+        "old_status": "PLANNING",
+        "new_status": "COMPLETED",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      }
+    ],
+    "context_snapshots": [],
+    "tool_usage_log": [],
+    "performance_metrics": {},
+    "activity_log": [
+      {
+        "timestamp": "2025-08-26T00:02:29.512819",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "DEV-2025-B530188D"
+      }
+    ]
+  },
+  "mission_context": {
+    "execution_context": {},
+    "tool_context": {},
+    "data_context": {},
+    "user_context": {},
+    "system_context": {}
+  }
+}

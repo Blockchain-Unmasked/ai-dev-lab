@@ -1,0 +1,83 @@
+{
+  "mission_name": "Performance Test Mission",
+  "mission_description": "Test system performance",
+  "mission_type": "DEVELOPMENT",
+  "mission_id": "DEV-2025-777A13D3",
+  "metadata": {
+    "created_at": "2025-08-26T00:02:29.519739",
+    "created_by": "AI/DEV Lab System",
+    "version": "2.0.0",
+    "last_modified": "2025-08-26T00:02:29.535826",
+    "modified_by": "AI/DEV Lab System"
+  },
+  "mission_status": "COMPLETED",
+  "current_stage": "INITIALIZATION",
+  "mission_lifecycle": {
+    "current_phase": "INITIALIZATION",
+    "phase_history": [],
+    "status_history": [
+      {
+        "timestamp": "2025-08-26T00:02:29.526969",
+        "old_status": "PLANNING",
+        "new_status": "EXECUTION",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      },
+      {
+        "timestamp": "2025-08-26T00:02:29.535861",
+        "old_status": "EXECUTION",
+        "new_status": "COMPLETED",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      }
+    ],
+    "context_snapshots": [
+      {
+        "timestamp": "2025-08-26T00:02:29.526989",
+        "context_data": {
+          "context_id": "DEV-2025-777A13D3_context",
+          "mission_id": "DEV-2025-777A13D3",
+          "current_phase": "INITIALIZATION",
+          "current_task": "",
+          "execution_state": {
+            "performance_test": "running"
+          },
+          "tool_states": {
+            "test_tool": "active"
+          },
+          "data_context": {},
+          "user_context": {},
+          "system_context": {},
+          "timestamp": "2025-08-26T00:02:29.526989",
+          "version": "2.0.0"
+        },
+        "version": "2.0.0"
+      }
+    ],
+    "tool_usage_log": [],
+    "performance_metrics": {},
+    "activity_log": [
+      {
+        "timestamp": "2025-08-26T00:02:29.525940",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "DEV-2025-777A13D3"
+      },
+      {
+        "timestamp": "2025-08-26T00:02:29.533509",
+        "activity_type": "STATUS_UPDATED",
+        "description": "Status changed from PLANNING to EXECUTION",
+        "data": {},
+        "mission_id": "DEV-2025-777A13D3"
+      }
+    ]
+  },
+  "mission_context": {
+    "execution_context": {},
+    "tool_context": {},
+    "data_context": {},
+    "user_context": {},
+    "system_context": {}
+  }
+}

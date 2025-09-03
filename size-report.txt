@@ -1,0 +1,23 @@
+  0B	.benchmarks
+  0B	logs
+4.0K	.env
+4.0K	.github
+4.0K	.gitignore
+4.0K	AGENTS.md
+4.0K	organization_validation_report.json
+8.0K	.DS_Store
+8.0K	README.md
+ 16K	phase-cleanup-tree.txt
+ 36K	ai-dev-tree.txt
+ 56K	.cursor
+124K	scripts
+148K	meta
+168K	tests
+248K	docs
+412K	sandbox
+464K	missions
+540K	mcp-server
+948K	app
+3.4M	references
+ 61M	node_modules
+394M	.venv

@@ -1,0 +1,75 @@
+{
+  "mission_name": "Audit Test Mission",
+  "mission_description": "Test mission for system audit",
+  "mission_type": "AUDIT",
+  "mission_priority": "HIGH",
+  "mission_objectives": [
+    {
+      "objective_id": "OBJ001",
+      "objective_name": "System Validation",
+      "objective_description": "Validate mission system functionality",
+      "success_criteria": "All tests pass"
+    }
+  ],
+  "execution_plan": {
+    "phases": [
+      {
+        "phase_id": "PHASE001",
+        "phase_name": "Testing Phase",
+        "phase_description": "Execute system tests",
+        "phase_order": 1,
+        "estimated_duration": "5 minutes",
+        "tasks": [
+          {
+            "task_id": "TASK001",
+            "task_name": "System Test",
+            "task_description": "Test system components",
+            "assigned_server": "enhanced_lab_mcp_server"
+          }
+        ]
+      }
+    ]
+  },
+  "mission_id": "AUD-2025-7CABB6CE",
+  "metadata": {
+    "created_at": "2025-08-26T00:02:29.432542",
+    "created_by": "AI/DEV Lab System",
+    "version": "2.0.0",
+    "last_modified": "2025-08-26T00:02:29.441977",
+    "modified_by": "AI/DEV Lab System"
+  },
+  "mission_status": "COMPLETED",
+  "current_stage": "INITIALIZATION",
+  "mission_lifecycle": {
+    "current_phase": "INITIALIZATION",
+    "phase_history": [],
+    "status_history": [
+      {
+        "timestamp": "2025-08-26T00:02:29.441994",
+        "old_status": "PLANNING",
+        "new_status": "COMPLETED",
+        "stage": null,
+        "agent": "AI/DEV Lab System"
+      }
+    ],
+    "context_snapshots": [],
+    "tool_usage_log": [],
+    "performance_metrics": {},
+    "activity_log": [
+      {
+        "timestamp": "2025-08-26T00:02:29.439786",
+        "activity_type": "MISSION_CREATED",
+        "description": "Mission created successfully",
+        "data": {},
+        "mission_id": "AUD-2025-7CABB6CE"
+      }
+    ]
+  },
+  "mission_context": {
+    "execution_context": {},
+    "tool_context": {},
+    "data_context": {},
+    "user_context": {},
+    "system_context": {}
+  }
+}

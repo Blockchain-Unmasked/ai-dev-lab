@@ -1,0 +1,16 @@
+{
+  "target_url": "https://blockchainunmasked.com",
+  "audit_start_time": "2025-08-26T00:28:59.753801",
+  "focus_areas": [
+    "client_onboarding",
+    "crypto_theft_reporting",
+    "general_content",
+    "navigation_structure"
+  ],
+  "audit_methods": [
+    "page_crawling",
+    "content_analysis",
+    "process_mapping",
+    "screenshot_capture"
+  ]
+}

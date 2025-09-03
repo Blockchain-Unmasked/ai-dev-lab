@@ -1,0 +1,59 @@
+name: MCP Audit
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          
+      - name: Run MCP Audit Smoke Test
+        shell: bash
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          chmod +x scripts/smoke_run.sh
+          ./scripts/smoke_run.sh
+          
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp_audit_report
+          path: docs/08-audit/mcp_audit_report.md
+          
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = 'docs/08-audit/mcp_audit_report.md';
+            
+            if (fs.existsSync(reportPath)) {
+              const report = fs.readFileSync(reportPath, 'utf8');
+              const summary = report.split('\n').slice(0, 20).join('\n');
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🔍 MCP Audit Results\n\n✅ **Audit completed successfully**\n\n📊 **Report Summary:**\n\`\`\`\n${summary}\n\`\`\`\n\n📝 **Full Report:** Available as workflow artifact`
+              });
+            } else {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## ❌ MCP Audit Failed\n\n❌ **Audit report not generated**\n\nPlease check the workflow logs for details.`
+              });
+            }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Variables Test</title>
+    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
+    <style>
+        .test-primary { background-color: var(--primary-500); color: white; padding: 20px; margin: 10px 0; }
+        .test-neutral { background-color: var(--neutral-100); color: var(--neutral-800); padding: 20px; margin: 10px 0; }
+        .test-space { margin: var(--space-8); padding: var(--space-4); }
+        .test-radius { border-radius: var(--radius-lg); }
+        .test-shadow { box-shadow: var(--shadow-md); }
+    </style>
+</head>
+<body>
+    <h1>CSS Variables Test</h1>
+    
+    <div class="test-primary test-space test-radius test-shadow">
+        <h2>Primary Color Test</h2>
+        <p>This should have a blue background using var(--primary-500)</p>
+    </div>
+    
+    <div class="test-neutral test-space test-radius test-shadow">
+        <h2>Neutral Color Test</h2>
+        <p>This should have a light gray background using var(--neutral-100)</p>
+    </div>
+    
+    <div style="background: var(--primary-100); padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <h3>Inline Style Test</h3>
+        <p>Testing inline styles with CSS variables</p>
+    </div>
+    
+    <script>
+        // Test if CSS variables are accessible via JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const computedStyle = getComputedStyle(document.documentElement);
+            const primaryColor = computedStyle.getPropertyValue('--primary-500');
+            const neutralColor = computedStyle.getPropertyValue('--neutral-100');
+            
+            console.log('Primary color:', primaryColor);
+            console.log('Neutral color:', neutralColor);
+            
+            if (primaryColor && primaryColor.trim() !== '') {
+                document.body.innerHTML += '<div style="background: green; color: white; padding: 10px; margin: 10px 0;">✅ CSS Variables are loading correctly!</div>';
+            } else {
+                document.body.innerHTML += '<div style="background: red; color: white; padding: 10px; margin: 10px 0;">❌ CSS Variables are NOT loading!</div>';
+            }
+        });
+    </script>
+</body>
+</html>

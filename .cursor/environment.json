@@ -1,0 +1,33 @@
+{
+  "name": "AI/DEV Lab",
+  "version": "1.0.0",
+  "description": "Comprehensive development environment with MCP server integration and mission systems",
+  "mode": "enterprise",
+  "capabilities": {
+    "mcp_servers": true,
+    "mission_system": true,
+    "background_agents": true,
+    "security_hardening": true,
+    "team_collaboration": true
+  },
+  "directories": {
+    "mcp_server": "mcp-server/",
+    "meta": "meta/",
+    "docs": "docs/",
+    "sandbox": "sandbox/",
+    "scripts": "scripts/",
+    "references": "references/",
+    "tests": "tests/",
+    "missions": "missions/"
+  },
+  "security": {
+    "guardian_enabled": true,
+    "audit_logging": true,
+    "access_control": true
+  },
+  "development": {
+    "auto_cleanup": true,
+    "log_management": "sandbox/",
+    "experimental_files": "sandbox/"
+  }
+}

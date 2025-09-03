@@ -1,0 +1,41 @@
+# App-Specific MCP Server Configuration
+# For AI Intake/Support Agent Demo
+
+server:
+  name: "ai-dev-lab-app"
+  version: "1.0.0"
+  description: "MCP Server for AI Intake/Support Agent Demo"
+  
+capabilities:
+  tools:
+    - analyze_chat_conversation
+    - generate_response_template
+    - calculate_response_metrics
+  
+  resources:
+    - app://chat-templates
+    - app://qa-guidelines
+    - app://ab-testing-config
+  
+  prompts:
+    - customer_greeting
+    - problem_escalation
+
+settings:
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  performance:
+    max_concurrent_requests: 10
+    request_timeout: 30
+  
+  security:
+    allowed_origins: ["http://localhost:3000", "http://127.0.0.1:3000"]
+    require_authentication: false  # For demo purposes
+
+demo_features:
+  chat_analysis: true
+  response_templates: true
+  metrics_calculation: true
+  ab_testing_support: true
