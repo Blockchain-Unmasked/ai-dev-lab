@@ -191,3 +191,7 @@ sandbox/logs/
 test_results/
 coverage/
 .pytest_cache/
+
+# App database files
+app/mcp-servers/database-server/data/*.sqlite
+app/mcp-servers/database-server/data/*.db

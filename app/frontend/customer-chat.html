@@ -4,65 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI/DEV Lab - Customer Chat</title>
-    <meta name="description" content="Professional AI-powered customer support chat interface">
-    
-    <!-- Favicon - Multiple sizes for cross-platform compatibility -->
-    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
-    <link rel="manifest" href="assets/images/site.webmanifest">
-    
-    <!-- Prevent caching -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/design-system.css?v=1.0.2&t=20250826">
-    <link rel="stylesheet" href="assets/css/components/toggle-switch.css?v=1.0.2&t=20250826">
-    <link rel="stylesheet" href="assets/css/main.css?v=1.0.3&t=20250826">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
     <style>
         html {
             scroll-behavior: smooth;
+            height: 100%;
+            overflow-x: hidden;
         }
         body {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
     </style>
 </head>
 <body>
-    <!-- Professional Header -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <div class="logo">
+                <div class="header-brand">
                     <h1>AI/DEV Lab</h1>
                     <span class="subtitle">Customer Support Chat</span>
                 </div>
-                <div class="header-controls">
-                    <!-- Header Controls -->
-                    <div class="header-toggle-group">
-                        <div class="toggle-switch-container header-toggle">
-                            <div id="ai-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
-                            <span class="toggle-switch-label">AI Mode</span>
-                        </div>
-
-                        <div class="toggle-switch-container header-toggle">
-                            <div id="stealth-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
-                            <span class="toggle-switch-label">Human-like</span>
-                        </div>
-                    </div>
-                    
-                    <div class="header-buttons">
-                        <a href="index.html" class="btn btn-secondary">🏠 Home</a>
-                        <a href="qa-dashboard.html" target="_blank" class="btn btn-secondary">🔧 QA Dashboard</a>
-                        <button id="theme-toggle" class="btn btn-icon" title="Toggle theme" aria-label="Toggle dark/light theme">☀️</button>
-                        <button id="new-session" class="btn btn-secondary">New Session</button>
-                    </div>
+                <div class="header-actions">
+                    <a href="index.html" class="btn btn-secondary">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                        Home
+                    </a>
+                    <a href="qa-dashboard.html" class="btn btn-secondary">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                        </svg>
+                        QA Dashboard
+                    </a>
+                    <button id="new-session" class="btn btn-secondary">New Session</button>
                 </div>
             </div>
         </div>
@@ -71,119 +58,193 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Dual-Mode Interface -->
-            <div class="interface-container">
-                <!-- Customer Mode (Default) -->
-                <div id="customer-mode" class="interface-mode active">
-                    <section class="chat-interface customer-chat">
-                        <div class="chat-header">
-                            <h2>Customer Support Chat</h2>
-                            <div class="chat-controls">
-                                <button id="clear-chat" class="btn btn-secondary">Clear Chat</button>
-                                <button id="test-connection" class="btn btn-secondary">Test Connection</button>
-                            </div>
+            <div class="app-layout">
+                <!-- Chat Panel -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Customer Support Chat</h2>
+                    </div>
+                    <div class="card-sub-header chat-sub-header">
+                        <div class="toggle-switch-container">
+                            <div id="ai-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
+                            <span class="toggle-switch-label">AI Mode</span>
                         </div>
-                        
-                        <div class="chat-container">
-                            <div id="chat-messages" class="chat-messages">
-                                <!-- Messages will be populated by JavaScript -->
+                        <div class="toggle-switch-container">
+                            <div id="stealth-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
+                            <span class="toggle-switch-label">Human-like</span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="chat-messages" id="chat-messages">
+                            <!-- Messages will be populated by JavaScript -->
+                        </div>
+                        <form id="chat-form" class="chat-form">
+                            <div class="input-group">
+                                <input type="text" id="chat-input" class="chat-input" placeholder="Type your message..." required>
+                                <button type="submit" class="btn btn-primary">Send</button>
                             </div>
-                            
-                            <form id="chat-form" class="chat-form">
-                                <div class="input-group">
-                                    <input type="text" id="chat-input" class="chat-input" placeholder="Type your message..." required>
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Config Panel -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>
+                            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                            </svg>
+                            Model Settings
+                        </h2>
+                    </div>
+                    <div class="card-sub-header">
+                        <div class="model-info">
+                            <div class="model-badge" id="model-badge">
+                                <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <circle cx="12" cy="16" r="1"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                Gemini Pro
+                            </div>
+                            <div class="model-status" id="model-status">Ready</div>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="config-grid">
+                            <!-- Model Selection -->
+                            <div class="config-section">
+                                <h4>Model Selection</h4>
+                                <select id="model-select" class="model-select">
+                                    <option value="gemini-pro">Gemini Pro (Google)</option>
+                                    <option value="gemini-flash">Gemini Flash (Google)</option>
+                                    <option value="claude-3">Claude 3 (Anthropic)</option>
+                                </select>
+                            </div>
+
+                            <!-- API Key -->
+                            <div class="config-section">
+                                <h4>API Key</h4>
+                                <form class="api-key-form">
+                                    <input type="text" name="username" autocomplete="username" style="display: none;" tabindex="-1">
+                                    <input type="password" id="api-key-input" class="api-key-input" placeholder="Enter your API key..." autocomplete="new-password">
+                                </form>
+                                <div class="api-key-actions">
+                                    <button type="button" class="btn btn-secondary" id="copy-api-key">
+                                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                        </svg>
+                                        Copy
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="test-api-key">
+                                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M9 12l2 2 4-4"/>
+                                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                                            <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"/>
+                                            <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/>
+                                        </svg>
+                                        Test
+                                    </button>
                                 </div>
-                            </form>
+                                <div class="api-key-status" id="api-key-status">No API key configured</div>
+                            </div>
+
+                            <!-- Response Parameters -->
+                            <div class="config-section">
+                                <h4>
+                                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                    </svg>
+                                    Response Parameters
+                                </h4>
+                                <div class="parameter-group">
+                                    <label for="temperature-slider" class="parameter-label">
+                                        <span>Temperature</span>
+                                        <span class="parameter-value" id="temperature-value">0.7</span>
+                                    </label>
+                                    <input type="range" id="temperature-slider" class="parameter-slider" min="0" max="2" step="0.1" value="0.7">
+                                    <div class="parameter-range">
+                                        <span>Conservative</span>
+                                        <span>Creative</span>
+                                    </div>
+                                </div>
+                                <div class="parameter-group">
+                                    <label for="max-tokens-slider" class="parameter-label">
+                                        <span>Max Tokens</span>
+                                        <span class="parameter-value" id="max-tokens-value">1000</span>
+                                    </label>
+                                    <input type="range" id="max-tokens-slider" class="parameter-slider" min="100" max="4000" step="100" value="1000">
+                                    <div class="parameter-range">
+                                        <span>Short</span>
+                                        <span>Long</span>
+                                    </div>
+                                </div>
+                                <div class="parameter-group">
+                                    <label for="top-p-slider" class="parameter-label">
+                                        <span>Top P</span>
+                                        <span class="parameter-value" id="top-p-value">0.9</span>
+                                    </label>
+                                    <input type="range" id="top-p-slider" class="parameter-slider" min="0" max="1" step="0.1" value="0.9">
+                                    <div class="parameter-range">
+                                        <span>Focused</span>
+                                        <span>Diverse</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Presets -->
+                            <div class="config-section">
+                                <h4>
+                                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                    </svg>
+                                    Quick Presets
+                                </h4>
+                                <div class="preset-grid">
+                                    <button class="preset-btn" data-preset="conservative">
+                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                        Conservative
+                                    </button>
+                                    <button class="preset-btn active" data-preset="balanced">
+                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="3"/>
+                                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                                        </svg>
+                                        Balanced
+                                    </button>
+                                    <button class="preset-btn" data-preset="creative">
+                                        <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                        Creative
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </section>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Model Configuration Panel -->
-            <section class="model-config-panel">
-                <div class="panel-header">
-                    <h3>⚙️ Model Configuration</h3>
-                    <div class="header-info">
-                        <span class="current-model">Current: Gemini</span>
-                        <div class="api-key-display">
-                            <span class="api-key-label">API Key:</span>
-                            <span class="api-key-value" id="api-key-display">••••••••••••••••</span>
-                            <button id="toggle-api-key" class="btn btn-icon btn-sm" title="Toggle API key visibility">👁️</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="config-grid">
-                    <div class="config-section">
-                        <h4>Response Parameters</h4>
-                        <div class="slider-group">
-                            <label for="temperature-slider" class="slider-label">
-                                <span>Temperature</span>
-                                <span class="slider-value" id="temperature-value">0.7</span>
-                            </label>
-                            <input type="range" id="temperature-slider" class="slider" min="0" max="2" step="0.1" value="0.7">
-                            <div class="slider-range">
-                                <span>Conservative</span>
-                                <span>Balanced</span>
-                                <span>Creative</span>
-                            </div>
-                        </div>
-                        
-                        <div class="slider-group">
-                            <label for="max-tokens-slider" class="slider-label">
-                                <span>Max Tokens</span>
-                                <span class="slider-value" id="max-tokens-value">1000</span>
-                            </label>
-                            <input type="range" id="max-tokens-slider" class="slider" min="100" max="4000" step="100" value="1000">
-                            <div class="slider-range">
-                                <span>Short</span>
-                                <span>Medium</span>
-                                <span>Long</span>
-                            </div>
-                        </div>
-                        
-                        <div class="slider-group">
-                            <label for="top-p-slider" class="slider-label">
-                                <span>Top P</span>
-                                <span class="slider-value" id="top-p-value">0.9</span>
-                            </label>
-                            <input type="range" id="top-p-slider" class="slider" min="0" max="1" step="0.1" value="0.9">
-                            <div class="slider-range">
-                                <span>Focused</span>
-                                <span>Balanced</span>
-                                <span>Diverse</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="config-section">
-                        <h4>Quick Presets</h4>
-                        <div class="preset-grid">
-                            <button class="btn btn-secondary preset-btn" data-preset="conservative">Conservative</button>
-                            <button class="btn btn-secondary preset-btn" data-preset="balanced">Balanced</button>
-                            <button class="btn btn-secondary preset-btn" data-preset="creative">Creative</button>
-                        </div>
-                        
-                        <div class="preset-info">
-                            <p class="preset-description">Choose a preset to quickly configure all parameters for your use case.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     </main>
 
-    <!-- Professional Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 AI/DEV Lab. Professional AI-powered customer support demo.</p>
+            <p>&copy; 2025 AI/DEV Lab. Professional AI-powered customer support demo.</p>
         </div>
     </footer>
 
     <!-- JavaScript Components -->
     <script src="scripts/components/toggle-switch.js?v=1.0.1"></script>
-    <script src="scripts/chat-agent.js?v=1.0.1"></script>
+    <script src="scripts/gemini-api.js?v=1.0.1"></script>
+    <script src="scripts/chat-agent.js?v=1.0.4"></script>
     <script src="scripts/main.js?v=1.0.1"></script>
 </body>
 </html>

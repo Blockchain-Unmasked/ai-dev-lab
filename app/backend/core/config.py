@@ -9,9 +9,14 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Load environment variables
-env_path = Path(".env")
+# Look for .env file in the app directory (parent of backend)
+# Use absolute path to avoid issues with __file__ resolution
+env_path = Path("/Users/hazael/Code/ai-dev-lab/app/.env")
 if env_path.exists():
     load_dotenv(env_path)
+    print(f"✅ Loaded environment variables from: {env_path}")
+else:
+    print(f"⚠️ No .env file found at: {env_path}")
 
 class Config:
     """Application configuration class"""
@@ -34,8 +39,14 @@ class Config:
     
     # AI API Configuration
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-pro")
+    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
     GEMINI_TEMPERATURE = float(os.getenv("GEMINI_TEMPERATURE", "0.7"))
+    
+    # Debug: Print API key status (without exposing the actual key)
+    if GEMINI_API_KEY:
+        print(f"✅ Gemini API key loaded: {GEMINI_API_KEY[:10]}...")
+    else:
+        print("⚠️ No Gemini API key found in environment variables")
     
     # MCP Server Configuration
     MCP_SERVER_HOST = os.getenv("MCP_SERVER_HOST", "localhost")

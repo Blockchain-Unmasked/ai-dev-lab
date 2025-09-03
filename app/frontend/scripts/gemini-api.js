@@ -13,7 +13,9 @@ class GeminiAPI {
     this.model = 'gemini-1.5-pro';
     this.temperature = 0.7;
     this.baseURL = 'https://generativelanguage.googleapis.com/v1beta/models';
+    this.backendURL = window.location.origin.replace('3000', '8000') || 'http://localhost:8000';
     this._configured = false;
+    this._backendConfigured = false;
     
     this.init();
   }
@@ -25,13 +27,22 @@ class GeminiAPI {
     try {
       console.log('🔌 Initializing Gemini API Integration...');
       
-      // Load saved configuration
-      this.loadConfiguration();
+      // First, try to get configuration from backend
+      await this.loadBackendConfiguration();
       
-      // Check if API key is available
-      if (this.apiKey) {
+      // If no backend config, load saved configuration
+      if (!this.apiKey) {
+        this.loadConfiguration();
+      }
+      
+      // Check if API key is available (either frontend or backend)
+      if (this.apiKey || this._backendConfigured) {
         this._configured = true;
-        console.log('✅ Gemini API configured with saved key');
+        if (this._backendConfigured) {
+          console.log('✅ Gemini API configured (backend)');
+        } else {
+          console.log('✅ Gemini API configured (frontend)');
+        }
       } else {
         console.log('⚠️ Gemini API not configured - using mock responses');
       }
@@ -42,18 +53,56 @@ class GeminiAPI {
   }
   
   /**
-   * Load configuration from localStorage
+   * Load configuration from backend
+   */
+  async loadBackendConfiguration() {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      
+      const response = await fetch(`${this.backendURL}/api/v1/ai/config`, {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (response.ok) {
+        const config = await response.json();
+        if (config.gemini && config.gemini.api_key_configured) {
+          // Backend has API key configured, but we can't access it directly
+          // We'll use a special flag to indicate backend configuration
+          this._backendConfigured = true;
+          this.model = config.gemini.model || this.model;
+          this.temperature = config.gemini.temperature || this.temperature;
+          console.log('✅ Backend has Gemini API configured');
+        }
+      }
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log('ℹ️ Backend configuration request timed out');
+      } else {
+        console.log('ℹ️ Backend configuration not available:', error.message);
+      }
+    }
+  }
+
+  /**
+   * Load configuration from localStorage (excluding API keys for security)
    */
   loadConfiguration() {
     try {
       const savedConfig = localStorage.getItem('ai-dev-lab-config');
       if (savedConfig) {
         const config = JSON.parse(savedConfig);
-        this.apiKey = config.apiKey || null;
-        this.model = config.model || 'gemini-pro';
+        // Don't load API key from localStorage for security reasons
+        // API keys should only be configured through backend or secure methods
+        this.model = config.model || 'gemini-1.5-pro';
         this.temperature = config.temperature || 0.7;
         
-        // Update UI if elements exist
+        // Update UI if elements exist (without API key)
         this.updateConfigurationUI(config);
       }
     } catch (error) {
@@ -71,8 +120,10 @@ class GeminiAPI {
       const temperatureRange = document.getElementById('temperature');
       const temperatureValue = document.getElementById('temperature-value');
       
-      if (apiKeyInput && config.apiKey) {
-        apiKeyInput.value = config.apiKey;
+      // Don't populate API key field for security reasons
+      if (apiKeyInput) {
+        apiKeyInput.value = '';
+        apiKeyInput.placeholder = 'API key configured via backend';
       }
       
       if (modelSelect && config.model) {
@@ -101,7 +152,7 @@ class GeminiAPI {
       this.model = config.model || this.model;
       this.temperature = config.temperature || this.temperature;
       
-      this._configured = !!this.apiKey;
+      this._configured = !!this.apiKey || this._backendConfigured;
       
       console.log('✅ Gemini API configuration updated:', {
         model: this.model,
@@ -118,7 +169,7 @@ class GeminiAPI {
    * Check if API is properly configured
    */
   isConfigured() {
-    return this._configured && !!this.apiKey;
+    return (this._configured && !!this.apiKey) || this._backendConfigured;
   }
   
   /**
@@ -126,6 +177,19 @@ class GeminiAPI {
    */
   async generateResponse(customerMessage) {
     try {
+      // Input validation
+      if (!customerMessage || typeof customerMessage !== 'string') {
+        throw new Error('Invalid customer message provided');
+      }
+      
+      if (customerMessage.trim().length === 0) {
+        throw new Error('Customer message cannot be empty');
+      }
+      
+      if (customerMessage.length > 1000) {
+        throw new Error('Customer message too long (max 1000 characters)');
+      }
+      
       if (!this.isConfigured()) {
         throw new Error('Gemini API not configured');
       }
@@ -199,18 +263,34 @@ class GeminiAPI {
    * Build the prompt for the AI
    */
   buildPrompt(customerMessage) {
-    return `You are an AI support agent for a technology company. Your role is to help customers with their questions and issues in a helpful, professional, and empathetic manner.
+    // Sanitize the customer message to prevent prompt injection
+    const sanitizedMessage = customerMessage
+      .replace(/[<>]/g, '') // Remove potential HTML tags
+      .replace(/[\r\n\t]/g, ' ') // Replace line breaks with spaces
+      .trim();
+    
+    return `You are an expert AI customer support agent for a technology company. You have deep knowledge of technology, software, hardware, and customer service best practices.
 
-Customer Message: "${customerMessage}"
+Customer Message: "${sanitizedMessage}"
 
-Please provide a helpful response that:
-1. Addresses the customer's question or concern directly
-2. Is professional yet friendly in tone
-3. Provides actionable advice or solutions when possible
-4. Asks clarifying questions if more information is needed
-5. Maintains a helpful and supportive attitude
+Please provide an intelligent, helpful response that:
+1. **Directly addresses** the customer's specific question or concern
+2. **Shows understanding** of their situation and demonstrates expertise
+3. **Provides actionable solutions** or step-by-step guidance when possible
+4. **Asks clarifying questions** if you need more information to help effectively
+5. **Maintains a professional yet friendly tone** that builds trust
+6. **Demonstrates technical knowledge** when relevant to their issue
+7. **Offers additional help** or resources if appropriate
 
-Keep your response concise but thorough (2-4 sentences). Focus on being genuinely helpful rather than just providing generic responses.`;
+Guidelines:
+- Be specific and detailed in your responses
+- Use technical terms appropriately but explain when needed
+- Show empathy for their situation
+- Provide multiple solution options when possible
+- Keep responses concise (2-4 sentences) but thorough
+- Focus on being genuinely helpful rather than generic
+
+Remember: You're not just responding to text - you're helping a real person solve a real problem.`;
   }
   
   /**
@@ -316,6 +396,11 @@ Keep your response concise but thorough (2-4 sentences). Focus on being genuinel
         };
       }
       
+      // If backend is configured, test through backend
+      if (this._backendConfigured && !this.apiKey) {
+        return await this.testBackendConnection();
+      }
+      
       console.log('🧪 Testing Gemini API connection...');
       
       const testPayload = {
@@ -358,17 +443,59 @@ Keep your response concise but thorough (2-4 sentences). Focus on being genuinel
       };
     }
   }
+
+  /**
+   * Test backend API connection
+   */
+  async testBackendConnection() {
+    try {
+      console.log('🧪 Testing backend Gemini API connection...');
+      
+      const response = await fetch(`${this.backendURL}/api/v1/ai/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: 'Hello, this is a test message. Please respond with "Test successful" if you can see this.'
+        })
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        return {
+          success: true,
+          message: 'Backend API connection successful',
+          response: data.response || 'Test successful'
+        };
+      } else {
+        return {
+          success: false,
+          error: `Backend API error: ${response.statusText}`
+        };
+      }
+      
+    } catch (error) {
+      console.error('❌ Backend API connection test failed:', error);
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
   
   /**
    * Get API status information
    */
   getStatus() {
     return {
-      isConfigured: this._configured,
+      isConfigured: this.isConfigured(),
+      isBackendConfigured: this._backendConfigured,
       model: this.model,
       temperature: this.temperature,
       hasApiKey: !!this.apiKey,
-      baseURL: this.baseURL
+      baseURL: this.baseURL,
+      backendURL: this.backendURL
     };
   }
   
@@ -398,14 +525,15 @@ Keep your response concise but thorough (2-4 sentences). Focus on being genuinel
   }
   
   /**
-   * Set API key
+   * Set API key (deprecated - use backend configuration instead)
    */
   setApiKey(apiKey) {
     try {
+      console.warn('⚠️ Setting API key directly is deprecated. Use backend configuration instead.');
       if (this.validateApiKey(apiKey)) {
         this.apiKey = apiKey;
         this._configured = true;
-        console.log('✅ API key set successfully');
+        console.log('✅ API key set successfully (consider using backend configuration)');
         return true;
       } else {
         console.error('❌ Invalid API key format');
@@ -423,7 +551,10 @@ Keep your response concise but thorough (2-4 sentences). Focus on being genuinel
   clearApiKey() {
     try {
       this.apiKey = null;
-      this._configured = false;
+      // Only set _configured to false if we're not using backend configuration
+      if (!this._backendConfigured) {
+        this._configured = false;
+      }
       console.log('✅ API key cleared');
     } catch (error) {
       console.error('❌ Error clearing API key:', error);
@@ -436,14 +567,14 @@ Keep your response concise but thorough (2-4 sentences). Focus on being genuinel
   getAvailableModels() {
     return [
       {
-        id: 'gemini-pro',
-        name: 'Gemini Pro',
+        id: 'gemini-1.5-pro',
+        name: 'Gemini 1.5 Pro',
         description: 'Most capable model for complex tasks',
-        maxTokens: 30720
+        maxTokens: 8192
       },
       {
-        id: 'gemini-flash',
-        name: 'Gemini Flash',
+        id: 'gemini-1.5-flash',
+        name: 'Gemini 1.5 Flash',
         description: 'Fast and efficient for simple tasks',
         maxTokens: 8192
       }
@@ -540,5 +671,5 @@ document.addEventListener('DOMContentLoaded', () => {
   window.geminiAPI = new GeminiAPI();
 });
 
-// Export for module usage
-export default GeminiAPI;
+// Make GeminiAPI available globally
+window.GeminiAPI = GeminiAPI;

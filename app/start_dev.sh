@@ -69,11 +69,16 @@ pip install -r requirements.txt
 echo "✅ Python dependencies installed"
 cd ..
 
-# Install frontend dependencies
-echo "📦 Installing frontend dependencies..."
+# Check frontend dependencies (skip npm install for vanilla JS frontend)
+echo "📦 Checking frontend dependencies..."
 cd frontend
-npm install
-echo "✅ Frontend dependencies installed"
+if [ -f "package.json" ]; then
+    echo "📦 Installing frontend dependencies..."
+    npm install
+    echo "✅ Frontend dependencies installed"
+else
+    echo "✅ Frontend uses vanilla JavaScript (no npm dependencies needed)"
+fi
 cd ..
 
 # Set environment variables
@@ -107,7 +112,6 @@ if lsof -i :8000 > /dev/null 2>&1; then
 fi
 
 echo "    🚀 Starting backend using working simple startup script..."
-cd backend
 python start_simple.py &
 BACKEND_PID=$!
 cd ..

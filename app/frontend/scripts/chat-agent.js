@@ -29,11 +29,15 @@ class ChatAgent {
 
     initialize() {
         this.bindEvents();
-        this.loadTheme();
         this.setupToggleSwitches();
         this.addWelcomeMessage();
         this.updateMetrics();
         this.startMetricsUpdate();
+        
+        // Initialize API key display after a short delay to ensure geminiAPI is loaded
+        setTimeout(() => {
+            this.updateApiKeyDisplay();
+        }, 100);
     }
 
     setupToggleSwitches() {
@@ -83,13 +87,7 @@ class ChatAgent {
             });
         }
 
-        // Clear chat buttons
-        const clearChatBtn = document.getElementById('clear-chat');
-        if (clearChatBtn) {
-            clearChatBtn.addEventListener('click', () => {
-                this.clearChat();
-            });
-        }
+        // Clear chat button removed for MVP - will implement proper session management later
 
         const qaClearChatBtn = document.getElementById('qa-clear-chat');
         if (qaClearChatBtn) {
@@ -98,11 +96,30 @@ class ChatAgent {
             });
         }
 
-        // Test buttons
-        const testConnectionBtn = document.getElementById('test-connection');
-        if (testConnectionBtn) {
-            testConnectionBtn.addEventListener('click', () => {
-                this.testConnection();
+        // Test connection button removed from chat interface
+
+        // API Key management
+        const saveApiKeyBtn = document.getElementById('save-api-key');
+        const clearApiKeyBtn = document.getElementById('clear-api-key');
+        const apiKeyInput = document.getElementById('api-key-input');
+        
+        if (saveApiKeyBtn) {
+            saveApiKeyBtn.addEventListener('click', () => {
+                this.saveApiKey();
+            });
+        }
+        
+        if (clearApiKeyBtn) {
+            clearApiKeyBtn.addEventListener('click', () => {
+                this.clearApiKey();
+            });
+        }
+        
+        if (apiKeyInput) {
+            apiKeyInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.saveApiKey();
+                }
             });
         }
 
@@ -113,13 +130,7 @@ class ChatAgent {
             });
         }
 
-        // Theme toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        if (themeToggle) {
-            themeToggle.addEventListener('click', () => {
-                this.toggleTheme();
-            });
-        }
+
 
         // New session button
         const newSessionBtn = document.getElementById('new-session');
@@ -194,7 +205,7 @@ class ChatAgent {
     addWelcomeMessage() {
         const welcomeMessage = {
             type: 'system',
-            content: '👋 Welcome to AI/DEV Lab Customer Support! How can I help you today?',
+            content: 'Welcome to AI/DEV Lab Customer Support! How can I help you today?',
             timestamp: new Date()
         };
         this.messages.push(welcomeMessage);
@@ -210,7 +221,7 @@ class ChatAgent {
         this.displayMessage(qaWelcomeMessage, 'qa');
     }
 
-    sendMessage() {
+    async sendMessage() {
         const input = document.getElementById('chat-input');
         const message = input.value.trim();
         
@@ -218,7 +229,7 @@ class ChatAgent {
 
         // Add user message
         const userMessage = {
-            type: 'user',
+            type: 'customer',
             content: message,
             timestamp: new Date()
         };
@@ -227,8 +238,56 @@ class ChatAgent {
         this.displayMessage(userMessage, 'customer');
         input.value = '';
 
-        // Simulate AI response
-        this.simulateAIResponse(message, 'customer');
+        // Show typing indicator
+        this.showTypingIndicator('chat-messages');
+
+        try {
+            // Use real AI response via backend
+            const response = await fetch('http://localhost:8000/api/v1/ai/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            // Hide typing indicator
+            this.hideTypingIndicator();
+            
+            // Add AI response to chat
+            const aiMessage = {
+                type: 'agent',
+                content: data.ai_response,
+                timestamp: new Date(),
+                metadata: {
+                    model: data.model,
+                    mcp_tools_used: data.mcp_tools_used,
+                    confidence: data.confidence,
+                    quality: data.quality,
+                    mcp_integration: data.mcp_integration,
+                    isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+                }
+            };
+            
+            this.messages.push(aiMessage);
+            this.displayMessage(aiMessage, 'customer');
+            
+            // Update AI status indicator
+            this.updateAIStatus(data);
+            
+        } catch (error) {
+            console.error('Error sending message:', error);
+            this.hideTypingIndicator();
+            
+            // Fallback to simulated response
+            this.simulateAIResponse(message, 'customer');
+        }
     }
 
     sendQAMessage() {
@@ -413,17 +472,47 @@ class ChatAgent {
         if (!chatMessages) return;
         
         const messageElement = document.createElement('div');
-        messageElement.className = `message ${message.type}-message`;
+        messageElement.className = `message ${message.type}`;
         
-        let content = `<div class="message-content"><p>${message.content}</p>`;
+        // Determine message type and avatar
+        let messageType = message.type;
+        let avatarText = '';
+        let avatarClass = '';
         
-        // Add QA-specific information if available
-        if (mode === 'qa' && message.metadata) {
+        if (message.type === 'customer' || message.type === 'user') {
+            messageType = 'user';
+            avatarText = 'U';
+            avatarClass = 'user';
+        } else if (message.type === 'agent' || message.type === 'ai') {
+            messageType = 'agent';
+            avatarText = 'AI';
+            avatarClass = 'agent';
+        } else if (message.type === 'system') {
+            messageType = 'system';
+            avatarText = 'S';
+            avatarClass = 'system';
+        }
+        
+        let content = `
+            <div class="message-avatar ${avatarClass}">${avatarText}</div>
+            <div class="message-bubble ${messageType}">
+                <div class="message-content">${message.content}</div>
+        `;
+        
+        // Add metadata information if available
+        if (message.metadata) {
             if (message.confidence) {
                 content += `<div class="message-meta"><small>Confidence: ${(message.confidence * 100).toFixed(1)}%</small></div>`;
             }
-            if (message.metadata.responseQuality) {
-                content += `<div class="message-meta"><small>Quality: ${message.metadata.responseQuality}/100</small></div>`;
+            if (message.metadata.quality) {
+                content += `<div class="message-meta"><small>Quality: ${(message.metadata.quality * 100).toFixed(1)}%</small></div>`;
+            }
+            if (message.metadata.model) {
+                content += `<div class="message-meta"><small>Model: ${message.metadata.model}</small></div>`;
+            }
+            if (message.metadata.isRealAI !== undefined) {
+                const aiStatus = message.metadata.isRealAI ? '🤖 Real AI' : '⚠️ Fallback';
+                content += `<div class="message-meta"><small>${aiStatus}</small></div>`;
             }
         }
         
@@ -434,8 +523,67 @@ class ChatAgent {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    showTypingIndicator() {
+        // Wait for DOM to be ready if needed
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.showTypingIndicator());
+            return;
+        }
+        
+        const chatMessages = document.getElementById('chat-messages');
+        if (!chatMessages) {
+            console.error('Chat messages container not found. Available elements:', 
+                Array.from(document.querySelectorAll('[id*="chat"]')).map(el => el.id));
+            return;
+        }
+        
+        // Remove existing typing indicator
+        this.hideTypingIndicator();
+        
+        const typingElement = document.createElement('div');
+        typingElement.id = 'typing-indicator';
+        typingElement.className = 'message agent typing-indicator';
+        
+        const content = `
+            <div class="message-avatar agent">AI</div>
+            <div class="message-bubble agent">
+                <div class="message-content">AI is thinking...</div>
+            </div>
+        `;
+        
+        typingElement.innerHTML = content;
+        chatMessages.appendChild(typingElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    updateAIStatus(data) {
+        // Update the model status indicator in the config panel
+        const modelStatus = document.querySelector('.model-status');
+        if (modelStatus && data) {
+            if (data.mcp_integration === 'active' && data.model !== 'fallback-model') {
+                modelStatus.textContent = '🤖 AI Active';
+                modelStatus.className = 'model-status ready';
+            } else {
+                modelStatus.textContent = '⚠️ Fallback';
+                modelStatus.className = 'model-status warning';
+            }
+        }
+    }
+
     showTypingIndicator(chatMessagesId) {
         const chatMessages = document.getElementById(chatMessagesId);
+        if (!chatMessages) {
+            console.error('Chat messages container not found for ID:', chatMessagesId);
+            return null;
+        }
+        
         const typingElement = document.createElement('div');
         typingElement.className = 'message agent-message typing-indicator';
         typingElement.innerHTML = `
@@ -474,24 +622,29 @@ class ChatAgent {
         this.addWelcomeMessage();
     }
 
-    testConnection() {
-        const button = document.getElementById('test-connection');
-        const originalText = button.textContent;
-        
-        button.textContent = 'Testing...';
-        button.disabled = true;
-        
-        // Simulate connection test
-        setTimeout(() => {
-            button.textContent = 'Connected!';
-            button.style.background = 'var(--success-500)';
+    async testConnection() {
+        try {
+            // Check if Gemini API is available
+            if (!window.geminiAPI) {
+                throw new Error('Gemini API not loaded');
+            }
             
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.disabled = false;
-                button.style.background = '';
-            }, 2000);
-        }, 1000);
+            // Test the actual Gemini API connection
+            const result = await window.geminiAPI.testConnection();
+            
+            if (result.success) {
+                // Show success message
+                this.showNotification('API connection successful!', 'success');
+            } else {
+                throw new Error(result.error || 'Connection test failed');
+            }
+            
+        } catch (error) {
+            console.error('Connection test failed:', error);
+            
+            // Show error message
+            this.showNotification(`Connection failed: ${error.message}`, 'error');
+        }
     }
 
     testAI() {
@@ -622,30 +775,7 @@ class ChatAgent {
         }, 5000);
     }
 
-    toggleTheme() {
-        const body = document.body;
-        const themeToggle = document.getElementById('theme-toggle');
-        
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            themeToggle.textContent = '☀️';
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '🌙';
-            localStorage.setItem('theme', 'dark');
-        }
-    }
 
-    loadTheme() {
-        const savedTheme = localStorage.getItem('theme');
-        const themeToggle = document.getElementById('theme-toggle');
-        
-        if (savedTheme === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '🌙';
-        }
-    }
 
     startNewSession() {
         this.clearChat();
@@ -707,6 +837,155 @@ class ChatAgent {
         
         this.updateMetrics();
         console.log('🔄 Metrics reset successfully');
+    }
+
+    /**
+     * Save API key
+     */
+    saveApiKey() {
+        const apiKeyInput = document.getElementById('api-key-input');
+        const apiKeyStatus = document.getElementById('api-key-status');
+        
+        if (!apiKeyInput) return;
+        
+        const apiKey = apiKeyInput.value.trim();
+        
+        if (!apiKey) {
+            this.showNotification('Please enter an API key', 'error');
+            return;
+        }
+        
+        // Validate API key format
+        if (!window.geminiAPI || !window.geminiAPI.validateApiKey(apiKey)) {
+            this.showNotification('Invalid API key format', 'error');
+            return;
+        }
+        
+        // Set the API key
+        if (window.geminiAPI.setApiKey(apiKey)) {
+            // Save to localStorage
+            const config = {
+                apiKey: apiKey,
+                model: window.geminiAPI.model || 'gemini-1.5-pro',
+                temperature: window.geminiAPI.temperature || 0.7
+            };
+            localStorage.setItem('ai-dev-lab-config', JSON.stringify(config));
+            
+            // Update UI
+            apiKeyInput.value = '';
+            apiKeyStatus.textContent = 'API key saved successfully';
+            apiKeyStatus.style.color = '#10b981';
+            
+            this.showNotification('API key saved successfully!', 'success');
+            
+            // Update the API key display
+            this.updateApiKeyDisplay();
+        } else {
+            this.showNotification('Failed to save API key', 'error');
+        }
+    }
+    
+    /**
+     * Clear API key
+     */
+    clearApiKey() {
+        const apiKeyInput = document.getElementById('api-key-input');
+        const apiKeyStatus = document.getElementById('api-key-status');
+        
+        if (window.geminiAPI) {
+            window.geminiAPI.clearApiKey();
+        }
+        
+        // Clear from localStorage
+        localStorage.removeItem('ai-dev-lab-config');
+        
+        // Update UI
+        if (apiKeyInput) apiKeyInput.value = '';
+        if (apiKeyStatus) {
+            apiKeyStatus.textContent = 'No API key configured';
+            apiKeyStatus.style.color = '#6b7280';
+        }
+        
+        this.showNotification('API key cleared', 'info');
+        this.updateApiKeyDisplay();
+    }
+    
+    /**
+     * Update API key display
+     */
+    updateApiKeyDisplay() {
+        const apiKeyStatus = document.getElementById('api-key-status');
+        
+        if (window.geminiAPI && window.geminiAPI.isConfigured()) {
+            if (apiKeyStatus) {
+                apiKeyStatus.textContent = 'API key configured';
+                apiKeyStatus.style.color = '#10b981';
+            }
+        } else {
+            if (apiKeyStatus) {
+                apiKeyStatus.textContent = 'No API key configured';
+                apiKeyStatus.style.color = '#6b7280';
+            }
+        }
+    }
+
+    /**
+     * Show notification message
+     */
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        
+        // Style the notification
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 10000;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        `;
+        
+        // Set background color based on type
+        switch (type) {
+            case 'success':
+                notification.style.background = '#10b981';
+                break;
+            case 'error':
+                notification.style.background = '#ef4444';
+                break;
+            case 'warning':
+                notification.style.background = '#f59e0b';
+                break;
+            default:
+                notification.style.background = '#3b82f6';
+        }
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Auto-remove after 4 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 4000);
     }
 }
 

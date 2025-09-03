@@ -129,6 +129,9 @@ async def security_status(auth: Dict[str, Any] = Depends(verify_authentication))
         "permissions": auth.get("permissions", [])
     }
 
+# Include API routes BEFORE catch-all route
+app.include_router(api_router)
+
 # Root endpoint - Serve index.html
 @app.get("/")
 async def root():
@@ -213,9 +216,6 @@ async def global_exception_handler(request: Request, exc: Exception):
             status_code=500,
             content={"detail": str(exc)}
         )
-
-# Include API routes
-app.include_router(api_router)
 
 # Include static routes for frontend assets (keeping for backward compatibility)
 app.include_router(static_router)

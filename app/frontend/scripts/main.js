@@ -49,9 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize scroll functionality
     initializeScrollFeatures();
     
-    // Initialize QA dashboard
-    initializeQADashboard();
-    
     // Initialize API key functionality
     initializeAPIKeyFeatures();
     
@@ -124,9 +121,6 @@ function setupGlobalEventListeners() {
 }
 
 function initializeEnhancedFeatures() {
-    // Initialize theme system
-    initializeThemeSystem();
-    
     // Initialize performance monitoring
     initializePerformanceMonitoring();
     
@@ -143,15 +137,25 @@ function setupPerformanceMonitoring() {
     // Monitor interaction performance
     let lastFrameTime = performance.now();
     
+    let frameCount = 0;
+    let lastCheckTime = performance.now();
+    
     function monitorPerformance(currentTime) {
-        const deltaTime = currentTime - lastFrameTime;
-        const fps = 1000 / deltaTime;
+        frameCount++;
         
-        if (fps < 30) {
-            console.warn('⚠️ Low FPS detected:', Math.round(fps));
+        // Only check FPS every 2 seconds to reduce console spam
+        if (currentTime - lastCheckTime >= 2000) {
+            const fps = Math.round((frameCount * 1000) / (currentTime - lastCheckTime));
+            
+            // Only warn for very low FPS (< 20) to reduce noise
+            if (fps < 20) {
+                console.warn('⚠️ Low FPS detected:', fps);
+            }
+            
+            frameCount = 0;
+            lastCheckTime = currentTime;
         }
         
-        lastFrameTime = currentTime;
         requestAnimationFrame(monitorPerformance);
     }
     
@@ -216,45 +220,15 @@ function addAriaLiveRegions() {
     window.liveRegion = liveRegion;
 }
 
-function initializeThemeSystem() {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('ai-dev-lab-theme') || 'light';
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    // Set initial theme
-    const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
-    setTheme(theme);
-    
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (localStorage.getItem('ai-dev-lab-theme') === 'auto') {
-            setTheme(e.matches ? 'dark' : 'light');
-        }
-    });
-}
 
-function setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    window.appState.theme = theme;
-    
-    // Update theme toggle button
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
-    }
-    
-    // Save theme preference
-    localStorage.setItem('ai-dev-lab-theme', theme);
-    
-    console.log(`🎨 Theme set to: ${theme}`);
-}
 
 function initializePerformanceMonitoring() {
-    // Monitor long tasks
+    // Monitor long tasks (only for very long tasks to reduce noise)
     if ('PerformanceObserver' in window) {
         const observer = new PerformanceObserver((list) => {
             for (const entry of list.getEntries()) {
-                if (entry.duration > 50) {
+                // Only warn for tasks longer than 100ms to reduce false positives
+                if (entry.duration > 100) {
                     console.warn('⚠️ Long task detected:', entry.duration + 'ms');
                 }
             }
@@ -553,48 +527,258 @@ function initializeScrollFeatures() {
 function initializeAPIKeyFeatures() {
     console.log('🔑 Initializing API key features...');
     
-    // Load saved API key
-    const savedKey = localStorage.getItem('ai-dev-lab-gemini-api-key');
-    if (savedKey) {
-        updateAPIKeyDisplay(savedKey, true);
-    }
+    // Initialize model selection
+    initializeModelSelection();
     
-    // Add event listeners for API key toggle
-    const toggleBtn = document.getElementById('toggle-api-key');
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', toggleAPIKeyVisibility);
+    // Check backend API status first
+    checkBackendAPIStatus();
+    
+    // Add event listeners for API key management
+    const saveBtn = document.getElementById('save-api-key');
+    const clearBtn = document.getElementById('clear-api-key');
+    
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveAPIKey);
+    }
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearAPIKey);
     }
     
     console.log('✅ API key features initialized');
 }
 
-function updateAPIKeyDisplay(apiKey, isVisible = false) {
-    const displayElement = document.getElementById('api-key-display');
-    if (displayElement) {
-        if (isVisible) {
-            displayElement.textContent = apiKey.substring(0, 8) + '...' + apiKey.substring(apiKey.length - 4);
-            displayElement.classList.add('visible');
+function initializeModelSelection() {
+    const modelSelect = document.getElementById('model-select');
+    const modelInfo = document.getElementById('model-info');
+    const apiKeyLabel = document.getElementById('api-key-label');
+    
+    if (!modelSelect) return;
+    
+    // Load saved model selection
+    const savedModel = localStorage.getItem('ai-dev-lab-selected-model') || 'gemini-pro';
+    modelSelect.value = savedModel;
+    updateModelSelection(savedModel);
+    
+    // Add event listener for model changes
+    modelSelect.addEventListener('change', (e) => {
+        const selectedModel = e.target.value;
+        updateModelSelection(selectedModel);
+        localStorage.setItem('ai-dev-lab-selected-model', selectedModel);
+        trackEvent('model_selection_changed', { model: selectedModel });
+    });
+}
+
+function updateModelSelection(model) {
+    const modelInfo = document.getElementById('model-info');
+    const apiKeyLabel = document.getElementById('api-key-label');
+    const modelBadge = document.querySelector('.model-badge');
+    
+    // Update model descriptions and labels
+    const modelConfigs = {
+        'gemini-pro': {
+            name: 'Gemini Pro',
+            provider: 'Google',
+            description: 'Google\'s advanced AI model with strong reasoning capabilities',
+            apiKeyLabel: 'Gemini API Key:',
+            placeholder: 'Enter your Gemini API key...',
+            helpText: 'Get your API key from Google AI Studio (makersuite.google.com)'
+        },
+        'gpt-4': {
+            name: 'GPT-4',
+            provider: 'OpenAI',
+            description: 'OpenAI\'s most capable model with excellent conversation skills',
+            apiKeyLabel: 'OpenAI API Key:',
+            placeholder: 'Enter your OpenAI API key...',
+            helpText: 'Get your API key from OpenAI Platform (platform.openai.com)'
+        },
+        'claude-3': {
+            name: 'Claude 3',
+            provider: 'Anthropic',
+            description: 'Anthropic\'s helpful, harmless, and honest AI assistant',
+            apiKeyLabel: 'Anthropic API Key:',
+            placeholder: 'Enter your Anthropic API key...',
+            helpText: 'Get your API key from Anthropic Console (console.anthropic.com)'
+        }
+    };
+    
+    const config = modelConfigs[model];
+    if (!config) return;
+    
+    // Update model badge
+    if (modelBadge) {
+        modelBadge.textContent = config.name;
+    }
+    
+    // Update API key label
+    if (apiKeyLabel) {
+        apiKeyLabel.textContent = config.apiKeyLabel;
+    }
+    
+    // Update API key input placeholder
+    const apiKeyInput = document.getElementById('api-key-input');
+    if (apiKeyInput) {
+        apiKeyInput.placeholder = config.placeholder;
+    }
+    
+    // Update help tooltip
+    const helpTooltip = document.querySelector('.help-tooltip');
+    if (helpTooltip) {
+        helpTooltip.setAttribute('data-tooltip', config.helpText);
+    }
+    
+    // Update model info
+    if (modelInfo) {
+        modelInfo.innerHTML = `
+            <span class="model-description">${config.description}</span>
+            <div class="model-provider">Provider: ${config.provider}</div>
+        `;
+    }
+}
+
+async function checkBackendAPIStatus() {
+    try {
+        // Use the correct backend URL (port 8000)
+        const backendURL = window.location.origin.replace('3000', '8000') || 'http://localhost:8000';
+        const response = await fetch(`${backendURL}/api/v1/ai/config`);
+        
+        if (response.ok) {
+            const config = await response.json();
+            const geminiStatus = config.gemini;
+            
+            if (geminiStatus && geminiStatus.api_key_configured) {
+                // Backend has API key configured
+                updateModelStatus('ready');
+                const statusElement = document.getElementById('api-key-status');
+                if (statusElement) {
+                    statusElement.textContent = 'API key configured (backend)';
+                    statusElement.style.color = '#10b981';
+                }
+                console.log('✅ Backend API key detected');
+            } else {
+                // Check localStorage for frontend API key
+                const savedKey = localStorage.getItem('ai-dev-lab-gemini-api-key');
+                if (savedKey) {
+                    document.getElementById('api-key-input').value = savedKey;
+                    updateModelStatus('ready');
+                    const statusElement = document.getElementById('api-key-status');
+                    if (statusElement) {
+                        statusElement.textContent = 'API key configured (frontend)';
+                        statusElement.style.color = '#10b981';
+                    }
+                    console.log('✅ Frontend API key detected');
+                } else {
+                    updateModelStatus('not-configured');
+                    console.log('⚠️ No API key found');
+                }
+            }
         } else {
-            displayElement.textContent = '••••••••••••••••';
-            displayElement.classList.remove('visible');
+            console.warn('Backend API status check failed:', response.status);
+            // Fallback to localStorage check
+            const savedKey = localStorage.getItem('ai-dev-lab-gemini-api-key');
+            if (savedKey) {
+                document.getElementById('api-key-input').value = savedKey;
+                updateModelStatus('ready');
+            } else {
+                updateModelStatus('not-configured');
+            }
+        }
+    } catch (error) {
+        console.warn('Could not check backend API status:', error);
+        // Fallback to localStorage check
+        const savedKey = localStorage.getItem('ai-dev-lab-gemini-api-key');
+        if (savedKey) {
+            document.getElementById('api-key-input').value = savedKey;
+            updateModelStatus('ready');
+        } else {
+            updateModelStatus('not-configured');
         }
     }
 }
 
-function toggleAPIKeyVisibility() {
-    const displayElement = document.getElementById('api-key-display');
-    const toggleBtn = document.getElementById('toggle-api-key');
+// Model status and API connection functions
+function updateModelStatus(status) {
+    const statusElement = document.getElementById('model-status');
+    if (!statusElement) return;
     
-    if (displayElement && toggleBtn) {
-        const savedKey = localStorage.getItem('ai-dev-lab-gemini-api-key');
-        if (savedKey) {
-            const isCurrentlyVisible = displayElement.classList.contains('visible');
-            updateAPIKeyDisplay(savedKey, !isCurrentlyVisible);
-            
-            // Update button text
-            toggleBtn.textContent = isCurrentlyVisible ? '👁️' : '🙈';
-        }
+    // Remove existing status classes
+    statusElement.classList.remove('testing', 'error');
+    
+    switch (status) {
+        case 'ready':
+            statusElement.textContent = 'Ready';
+            statusElement.className = 'model-status';
+            break;
+        case 'testing':
+            statusElement.textContent = 'Testing...';
+            statusElement.className = 'model-status testing';
+            break;
+        case 'error':
+            statusElement.textContent = 'Error';
+            statusElement.className = 'model-status error';
+            break;
+        case 'not-configured':
+            statusElement.textContent = 'Not Configured';
+            statusElement.className = 'model-status error';
+            break;
+        default:
+            statusElement.textContent = 'Unknown';
+            statusElement.className = 'model-status error';
     }
+}
+
+// testAPIConnection function moved to Model Configuration panel only
+
+function saveAPIKey() {
+    const apiKeyInput = document.getElementById('api-key-input');
+    const apiKey = apiKeyInput.value.trim();
+    
+    if (!apiKey) {
+        showNotification('Please enter an API key', 'warning');
+        return;
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('ai-dev-lab-gemini-api-key', apiKey);
+    
+    // Update model status
+    updateModelStatus('ready');
+    
+    // Update API key status display
+    const statusElement = document.getElementById('api-key-status');
+    if (statusElement) {
+        statusElement.textContent = 'API key configured';
+        statusElement.style.color = '#10b981';
+    }
+    
+    // Track the event
+    trackEvent('api_key_saved', { hasKey: true });
+    
+    showNotification('✅ API key saved successfully', 'success');
+}
+
+function clearAPIKey() {
+    const apiKeyInput = document.getElementById('api-key-input');
+    
+    // Clear the input
+    apiKeyInput.value = '';
+    
+    // Remove from localStorage
+    localStorage.removeItem('ai-dev-lab-gemini-api-key');
+    
+    // Update model status
+    updateModelStatus('not-configured');
+    
+    // Update API key status display
+    const statusElement = document.getElementById('api-key-status');
+    if (statusElement) {
+        statusElement.textContent = 'No API key configured';
+        statusElement.style.color = '#6b7280';
+    }
+    
+    // Track the event
+    trackEvent('api_key_cleared', { hasKey: false });
+    
+    showNotification('🗑️ API key cleared', 'info');
 }
 
 function initializeSliders() {
