@@ -238,11 +238,27 @@ class ChatAgent {
         this.displayMessage(userMessage, 'customer');
         input.value = '';
 
+        // Log user message
+        console.log('👤 User message sent:', {
+            message: message,
+            length: message.length,
+            timestamp: new Date().toISOString()
+        });
+
+        // Track the interaction
+        if (window.trackEvent) {
+            window.trackEvent('chat_message', {
+                type: 'user_message',
+                length: message.length,
+                mode: 'customer'
+            });
+        }
+
         // Show typing indicator
         this.showTypingIndicator('chat-messages');
 
         try {
-            // Use real AI response via backend
+            // Use enhanced AI response via backend
             const response = await fetch('http://localhost:8000/api/v1/ai/chat', {
                 method: 'POST',
                 headers: {
@@ -256,6 +272,17 @@ class ChatAgent {
             }
             
             const data = await response.json();
+            
+            // Log AI response details
+            console.log('🤖 AI Response received:', {
+                model: data.model,
+                client_type: data.client_type,
+                mcp_integration: data.mcp_integration,
+                confidence: data.confidence,
+                quality: data.quality,
+                response_length: data.ai_response?.length || 0,
+                isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+            });
             
             // Hide typing indicator
             this.hideTypingIndicator();
@@ -271,7 +298,9 @@ class ChatAgent {
                     confidence: data.confidence,
                     quality: data.quality,
                     mcp_integration: data.mcp_integration,
-                    isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+                    client_type: data.client_type || 'legacy',
+                    isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model',
+                    isEnhanced: data.client_type === 'enhanced'
                 }
             };
             
@@ -280,6 +309,19 @@ class ChatAgent {
             
             // Update AI status indicator
             this.updateAIStatus(data);
+
+            // Track the AI response
+            if (window.trackEvent) {
+                window.trackEvent('ai_response', {
+                    model: data.model,
+                    client_type: data.client_type,
+                    mcp_integration: data.mcp_integration,
+                    confidence: data.confidence,
+                    quality: data.quality,
+                    response_length: data.ai_response?.length || 0,
+                    isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+                });
+            }
             
         } catch (error) {
             console.error('Error sending message:', error);

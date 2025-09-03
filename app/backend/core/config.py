@@ -39,8 +39,11 @@ class Config:
     
     # AI API Configuration
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-1.5-pro")
+    GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")  # Updated to latest model
     GEMINI_TEMPERATURE = float(os.getenv("GEMINI_TEMPERATURE", "0.7"))
+    GEMINI_MAX_TOKENS = int(os.getenv("GEMINI_MAX_TOKENS", "2048"))
+    GEMINI_TOP_P = float(os.getenv("GEMINI_TOP_P", "0.95"))
+    GEMINI_TOP_K = int(os.getenv("GEMINI_TOP_K", "40"))
     
     # Debug: Print API key status (without exposing the actual key)
     if GEMINI_API_KEY:

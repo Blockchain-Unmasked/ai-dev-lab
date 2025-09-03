@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Gemini API Test - AI/DEV Lab</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #1e293b;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        .header p {
+            color: #64748b;
+            margin: 10px 0 0 0;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            color: #1e293b;
+            margin-top: 0;
+        }
+        .button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+            transition: background 0.2s;
+        }
+        .button:hover {
+            background: #2563eb;
+        }
+        .button:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+        .result {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .success {
+            border-color: #10b981;
+            background: #ecfdf5;
+        }
+        .error {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status.ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status.error {
+            background: #fecaca;
+            color: #991b1b;
+        }
+        .status.loading {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .input-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Enhanced Gemini API Test</h1>
+            <p>Test the latest Gemini API features in AI/DEV Lab</p>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 API Status</h3>
+            <div id="api-status">
+                <span class="status loading">Checking...</span>
+            </div>
+            <button class="button" onclick="checkAPIStatus()">Refresh Status</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🤖 Available Models</h3>
+            <button class="button" onclick="getAvailableModels()">Get Models</button>
+            <div id="models-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>💬 Basic Chat Test</h3>
+            <div class="input-group">
+                <label for="chat-message">Message:</label>
+                <input type="text" id="chat-message" placeholder="Enter your message here..." value="Hello! How are you today?">
+            </div>
+            <button class="button" onclick="testBasicChat()">Send Message</button>
+            <div id="chat-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Structured Output Test</h3>
+            <div class="input-group">
+                <label for="structured-message">Message:</label>
+                <input type="text" id="structured-message" placeholder="Enter your message here..." value="I'm having trouble logging into my account">
+            </div>
+            <button class="button" onclick="testStructuredOutput()">Generate Structured Response</button>
+            <div id="structured-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Enhanced API Test</h3>
+            <button class="button" onclick="testEnhancedAPI()">Test Enhanced Connection</button>
+            <div id="enhanced-result" class="result" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="scripts/gemini-api.js"></script>
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAPIStatus();
+        });
+
+        async function checkAPIStatus() {
+            const statusElement = document.getElementById('api-status');
+            statusElement.innerHTML = '<span class="status loading">Checking...</span>';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/ai/config');
+                if (response.ok) {
+                    const config = await response.json();
+                    if (config.gemini && config.gemini.api_key_configured) {
+                        statusElement.innerHTML = '<span class="status ready">✅ Enhanced API Ready</span>';
+                    } else {
+                        statusElement.innerHTML = '<span class="status error">❌ API Key Not Configured</span>';
+                    }
+                } else {
+                    statusElement.innerHTML = '<span class="status error">❌ Backend Not Available</span>';
+                }
+            } catch (error) {
+                statusElement.innerHTML = '<span class="status error">❌ Connection Error</span>';
+            }
+        }
+
+        async function getAvailableModels() {
+            const resultElement = document.getElementById('models-result');
+            resultElement.style.display = 'block';
+            resultElement.className = 'result';
+            resultElement.textContent = 'Loading models...';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/ai/models-enhanced');
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultElement.className = 'result success';
+                    resultElement.textContent = JSON.stringify(data.models, null, 2);
+                } else {
+                    resultElement.className = 'result error';
+                    resultElement.textContent = `Error: ${data.error}`;
+                }
+            } catch (error) {
+                resultElement.className = 'result error';
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testBasicChat() {
+            const message = document.getElementById('chat-message').value;
+            const resultElement = document.getElementById('chat-result');
+            resultElement.style.display = 'block';
+            resultElement.className = 'result';
+            resultElement.textContent = 'Sending message...';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/ai/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.ai_response) {
+                    resultElement.className = 'result success';
+                    resultElement.textContent = `Model: ${data.model}\nClient Type: ${data.client_type || 'legacy'}\nResponse: ${data.ai_response}`;
+                } else {
+                    resultElement.className = 'result error';
+                    resultElement.textContent = `Error: ${data.error || 'No response'}`;
+                }
+            } catch (error) {
+                resultElement.className = 'result error';
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testStructuredOutput() {
+            const message = document.getElementById('structured-message').value;
+            const resultElement = document.getElementById('structured-result');
+            resultElement.style.display = 'block';
+            resultElement.className = 'result';
+            resultElement.textContent = 'Generating structured response...';
+
+            const schema = {
+                "type": "object",
+                "properties": {
+                    "response": {"type": "string"},
+                    "confidence": {"type": "number"},
+                    "category": {"type": "string"},
+                    "suggestions": {"type": "array", "items": {"type": "string"}}
+                },
+                "required": ["response", "confidence", "category"]
+            };
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/ai/structured-chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        message: message,
+                        schema: schema
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.structured_response) {
+                    resultElement.className = 'result success';
+                    resultElement.textContent = `Model: ${data.model}\nClient Type: ${data.client_type || 'legacy'}\nStructured Response:\n${JSON.stringify(data.structured_response, null, 2)}`;
+                } else {
+                    resultElement.className = 'result error';
+                    resultElement.textContent = `Error: ${data.error || 'No structured response'}`;
+                }
+            } catch (error) {
+                resultElement.className = 'result error';
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        async function testEnhancedAPI() {
+            const resultElement = document.getElementById('enhanced-result');
+            resultElement.style.display = 'block';
+            resultElement.className = 'result';
+            resultElement.textContent = 'Testing enhanced API connection...';
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/test-gemini', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ apiKey: 'test' })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultElement.className = 'result success';
+                    resultElement.textContent = `✅ Enhanced API Test Successful!\nModel: ${data.model}\nClient Type: ${data.client_type}\nResponse: ${data.response}\nAvailable Models: ${data.available_models ? data.available_models.length : 0}`;
+                } else {
+                    resultElement.className = 'result error';
+                    resultElement.textContent = `❌ Enhanced API Test Failed: ${data.error}`;
+                }
+            } catch (error) {
+                resultElement.className = 'result error';
+                resultElement.textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

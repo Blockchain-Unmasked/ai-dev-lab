@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/DEV Lab - Logging Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .log-output {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            height: 300px;
+            overflow-y: auto;
+            margin: 20px 0;
+            border: 1px solid #333;
+        }
+        .test-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .test-button:hover {
+            background: #2563eb;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 AI/DEV Lab - Logging Test</h1>
+        <p>This page tests the logging functionality for AI interactions.</p>
+        
+        <div class="status success">
+            ✅ Backend API is running and responding
+        </div>
+        
+        <h3>Test Actions:</h3>
+        <button class="test-button" onclick="testUserMessage()">Send Test Message</button>
+        <button class="test-button" onclick="testEventTracking()">Test Event Tracking</button>
+        <button class="test-button" onclick="clearLogs()">Clear Logs</button>
+        
+        <h3>Console Output:</h3>
+        <div id="log-output" class="log-output">
+            <div>Console logs will appear here...</div>
+            <div>Open browser DevTools (F12) to see full console output</div>
+        </div>
+        
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Open your browser's Developer Tools (F12)</li>
+            <li>Go to the Console tab</li>
+            <li>Click "Send Test Message" to see AI logging in action</li>
+            <li>Look for logs starting with 🤖, 👤, and 📊</li>
+        </ol>
+    </div>
+
+    <!-- Load the main scripts -->
+    <script src="scripts/main.js?v=1.0.1"></script>
+    <script src="scripts/chat-agent.js?v=1.0.4"></script>
+    
+    <script>
+        // Override console.log to also display in our log output
+        const originalLog = console.log;
+        const logOutput = document.getElementById('log-output');
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            
+            // Add to our log display
+            const logEntry = document.createElement('div');
+            logEntry.textContent = args.join(' ');
+            logEntry.style.marginBottom = '5px';
+            logOutput.appendChild(logEntry);
+            logOutput.scrollTop = logOutput.scrollHeight;
+        };
+        
+        // Test functions
+        async function testUserMessage() {
+            console.log('🧪 Testing user message logging...');
+            
+            // Simulate sending a message through the chat agent
+            if (window.chatAgent) {
+                // Create a test message
+                const testMessage = "Hello, this is a test message for logging";
+                
+                // Simulate the user message logging
+                console.log('👤 User message sent:', {
+                    message: testMessage,
+                    length: testMessage.length,
+                    timestamp: new Date().toISOString()
+                });
+                
+                // Track the interaction
+                if (window.trackEvent) {
+                    window.trackEvent('chat_message', {
+                        type: 'user_message',
+                        length: testMessage.length,
+                        mode: 'customer'
+                    });
+                }
+                
+                // Simulate AI response
+                try {
+                    const response = await fetch('http://localhost:8000/api/v1/ai/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: testMessage })
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        // Log AI response details
+                        console.log('🤖 AI Response received:', {
+                            model: data.model,
+                            client_type: data.client_type,
+                            mcp_integration: data.mcp_integration,
+                            confidence: data.confidence,
+                            quality: data.quality,
+                            response_length: data.ai_response?.length || 0,
+                            isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+                        });
+                        
+                        // Track the AI response
+                        if (window.trackEvent) {
+                            window.trackEvent('ai_response', {
+                                model: data.model,
+                                client_type: data.client_type,
+                                mcp_integration: data.mcp_integration,
+                                confidence: data.confidence,
+                                quality: data.quality,
+                                response_length: data.ai_response?.length || 0,
+                                isRealAI: data.mcp_integration === 'active' && data.model !== 'fallback-model'
+                            });
+                        }
+                        
+                        console.log('✅ Test completed successfully!');
+                    } else {
+                        console.error('❌ API request failed:', response.status);
+                    }
+                } catch (error) {
+                    console.error('❌ Test failed:', error);
+                }
+            } else {
+                console.error('❌ Chat agent not available');
+            }
+        }
+        
+        function testEventTracking() {
+            console.log('🧪 Testing event tracking...');
+            
+            if (window.trackEvent) {
+                window.trackEvent('test_event', {
+                    type: 'logging_test',
+                    timestamp: new Date().toISOString(),
+                    test_data: 'This is a test event'
+                });
+                
+                console.log('✅ Event tracking test completed!');
+            } else {
+                console.error('❌ trackEvent function not available');
+            }
+        }
+        
+        function clearLogs() {
+            logOutput.innerHTML = '<div>Logs cleared...</div>';
+            console.clear();
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Logging test page initialized');
+            console.log('📊 Debug mode:', window.appState?.debug || 'unknown');
+        });
+    </script>
+</body>
+</html>

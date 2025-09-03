@@ -1,0 +1,216 @@
+{
+  "mcp_server": {
+    "name": "ocint-mvp-agent",
+    "version": "1.0.0",
+    "description": "OCINT MVP - Crypto Theft Victim Report Creation Agent",
+    "capabilities": {
+      "resources": true,
+      "tools": true,
+      "prompts": false
+    }
+  },
+  "ocint_mvp": {
+    "mission": "Crypto theft victim report creation and validation",
+    "target_audience": "Crypto theft victims seeking investigation services",
+    "primary_goal": "Create comprehensive victim reports for human investigator review",
+    "success_metrics": {
+      "max_messages_per_report": 8,
+      "completion_threshold": 0.8,
+      "escalation_time": "24_hours",
+      "report_quality_score": ">4.0/5.0"
+    }
+  },
+  "agent_tier_1": {
+    "name": "OCINT Victim Report Agent",
+    "description": "Specialized agent for crypto theft victim report creation",
+    "scope": [
+      "Collect victim personal information",
+      "Gather incident details and timeline", 
+      "Collect transaction information",
+      "Document evidence provided",
+      "Validate report completeness",
+      "Escalate complete reports to human review"
+    ],
+    "boundaries": [
+      "DO NOT attempt to trace transactions",
+      "DO NOT provide legal advice",
+      "DO NOT investigate the crime",
+      "DO NOT contact exchanges or services",
+      "DO NOT provide recovery estimates",
+      "DO NOT handle payment or billing",
+      "ONLY focus on report creation"
+    ],
+    "max_messages": 8,
+    "escalation_triggers": [
+      "Report is complete and validated",
+      "Victim requests human assistance",
+      "Complex legal questions arise",
+      "Technical issues beyond report creation",
+      "Maximum message limit reached"
+    ]
+  },
+  "conversation_flow": {
+    "step_1": {
+      "purpose": "Initial greeting and report initiation",
+      "questions": [
+        "Hello, I'm here to help you create a report for your crypto theft incident. Can you tell me your name and email address?",
+        "What is the best phone number to reach you at?"
+      ],
+      "collects": ["victim_name", "victim_email", "victim_phone"],
+      "max_messages": 1
+    },
+    "step_2": {
+      "purpose": "Incident details collection",
+      "questions": [
+        "When did the theft occur? Please provide the date and approximate time.",
+        "Can you briefly describe what happened? How did you discover the theft?"
+      ],
+      "collects": ["incident_date", "incident_time", "incident_description", "how_discovered"],
+      "max_messages": 1
+    },
+    "step_3": {
+      "purpose": "Transaction information",
+      "questions": [
+        "What type of cryptocurrency was stolen and approximately how much?",
+        "Do you have the wallet addresses involved? Please provide them.",
+        "Do you have any transaction hash IDs from the theft?"
+      ],
+      "collects": ["crypto_type", "amount_stolen", "wallet_addresses", "transaction_hashes"],
+      "max_messages": 1
+    },
+    "step_4": {
+      "purpose": "Evidence and validation",
+      "questions": [
+        "Do you have any screenshots, transaction records, or other evidence you can share?",
+        "Is there anything else important about this incident I should know?"
+      ],
+      "collects": ["evidence_files", "additional_details"],
+      "max_messages": 1
+    },
+    "step_5": {
+      "purpose": "Report completion and escalation",
+      "questions": [
+        "I have all the information needed for your report. A human investigator will review this within 24 hours and contact you directly. Is there anything else you'd like to add?"
+      ],
+      "collects": ["final_confirmation"],
+      "max_messages": 1
+    }
+  },
+  "report_template": {
+    "victim_info": {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "country": "",
+      "timezone": ""
+    },
+    "incident_details": {
+      "date": "",
+      "time": "",
+      "description": "",
+      "how_discovered": "",
+      "suspected_method": ""
+    },
+    "transaction_info": {
+      "crypto_type": "",
+      "amount_stolen": "",
+      "wallet_addresses": [],
+      "transaction_hashes": [],
+      "exchange_used": "",
+      "exchange_account": ""
+    },
+    "evidence": {
+      "screenshots": [],
+      "transaction_records": [],
+      "communication_logs": [],
+      "other_documents": []
+    },
+    "timeline": {
+      "discovery_time": "",
+      "report_time": "",
+      "key_events": []
+    },
+    "metadata": {
+      "report_id": "",
+      "status": "incomplete",
+      "message_count": 0,
+      "created_at": "",
+      "escalated_at": ""
+    }
+  },
+  "required_fields": [
+    "victim_name",
+    "victim_email",
+    "victim_phone",
+    "incident_date",
+    "incident_description",
+    "crypto_type",
+    "amount_stolen",
+    "wallet_addresses",
+    "transaction_hashes",
+    "evidence_files"
+  ],
+  "escalation_criteria": {
+    "completion_threshold": 0.8,
+    "max_messages": 8,
+    "escalation_triggers": [
+      "Report is complete and validated",
+      "Victim requests human assistance", 
+      "Complex legal questions arise",
+      "Technical issues beyond report creation",
+      "Maximum message limit reached"
+    ],
+    "human_review_requirements": [
+      "Validate incident details",
+      "Contact victim for missing information if needed",
+      "Begin investigation process",
+      "Provide victim with case number and timeline"
+    ]
+  },
+  "quality_metrics": {
+    "evaluation_criteria": [
+      "Information completeness",
+      "Data accuracy",
+      "Response efficiency",
+      "Customer satisfaction",
+      "Report quality"
+    ],
+    "scoring_system": "1-5_scale",
+    "target_score": ">4.0",
+    "monitoring_frequency": "real_time"
+  },
+  "integration": {
+    "backend_endpoints": [
+      "/api/v1/ocint/start-report",
+      "/api/v1/ocint/process-message", 
+      "/api/v1/ocint/complete-report",
+      "/api/v1/ocint/escalate-report"
+    ],
+    "frontend_components": [
+      "victim-report-form",
+      "conversation-interface",
+      "report-status-display",
+      "escalation-notification"
+    ],
+    "database_tables": [
+      "victim_reports",
+      "conversation_logs",
+      "escalation_queue",
+      "investigator_assignments"
+    ]
+  },
+  "security": {
+    "data_protection": [
+      "Encrypt sensitive victim information",
+      "Secure transmission of report data",
+      "Access control for investigator review",
+      "Audit trail for all interactions"
+    ],
+    "privacy_requirements": [
+      "GDPR compliance for EU victims",
+      "CCPA compliance for CA victims",
+      "Data retention policies",
+      "Victim consent management"
+    ]
+  }
+}

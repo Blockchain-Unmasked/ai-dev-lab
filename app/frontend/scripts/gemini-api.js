@@ -10,7 +10,7 @@
 class GeminiAPI {
   constructor() {
     this.apiKey = null;
-    this.model = 'gemini-1.5-pro';
+    this.model = 'gemini-2.5-flash';  // Updated to latest model
     this.temperature = 0.7;
     this.baseURL = 'https://generativelanguage.googleapis.com/v1beta/models';
     this.backendURL = window.location.origin.replace('3000', '8000') || 'http://localhost:8000';
@@ -651,6 +651,85 @@ Remember: You're not just responding to text - you're helping a real person solv
     }
   }
   
+  /**
+   * Test enhanced API connection via backend
+   */
+  async testEnhancedConnection() {
+    try {
+      const response = await fetch(`${this.backendURL}/api/v1/test-gemini`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ apiKey: this.apiKey })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  /**
+   * Get available models from enhanced API
+   */
+  async getAvailableModels() {
+    try {
+      const response = await fetch(`${this.backendURL}/api/v1/ai/models-enhanced`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message,
+        models: []
+      };
+    }
+  }
+
+  /**
+   * Generate structured response
+   */
+  async generateStructuredResponse(message, schema = null) {
+    try {
+      const response = await fetch(`${this.backendURL}/api/v1/ai/structured-chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          message: message,
+          schema: schema
+        })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
   /**
    * Cleanup resources
    */

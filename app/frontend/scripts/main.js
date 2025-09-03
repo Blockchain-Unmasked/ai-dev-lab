@@ -7,6 +7,7 @@
 window.appState = {
     version: '2.0.0',
     environment: 'demo',
+    debug: true, // Set to true for verbose logging
     features: {
         chat: true,
         aiMode: true,
@@ -281,7 +282,13 @@ function initializeAnalytics() {
             sessionId: getSessionId()
         };
         
-        console.log('📊 Event tracked:', event);
+        // Log events based on debug mode and importance
+        if (window.appState.debug || ['error', 'api_key_saved', 'api_key_cleared', 'model_selection_changed', 'interaction', 'ai_response', 'chat_message'].includes(eventName)) {
+            console.log('📊 Event tracked:', event);
+        }
+        
+        // Uncomment the line below to completely disable event logging
+        // console.log('📊 Event tracked:', event);
         
         // Store in localStorage for demo purposes
         const analytics = JSON.parse(localStorage.getItem('ai-dev-lab-analytics') || '[]');

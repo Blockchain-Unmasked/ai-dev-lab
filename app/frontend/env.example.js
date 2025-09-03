@@ -23,7 +23,7 @@ const config = {
     // Google Gemini API
     gemini: {
       apiKey: 'your-gemini-api-key-here',
-      model: 'gemini-pro',
+      model: 'gemini-2.5-flash',  // Updated to latest model
       temperature: 0.7,
       maxTokens: 2048,
       baseURL: 'https://generativelanguage.googleapis.com'

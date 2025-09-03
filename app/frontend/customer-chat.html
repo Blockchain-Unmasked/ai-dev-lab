@@ -23,6 +23,32 @@
             display: flex;
             flex-direction: column;
         }
+        
+        .support-mode-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .support-mode-selector label {
+            font-weight: 600;
+            color: #374151;
+        }
+        
+        .support-mode-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background: white;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        
+        .support-mode-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -65,6 +91,13 @@
                         <h2>Customer Support Chat</h2>
                     </div>
                     <div class="card-sub-header chat-sub-header">
+                        <div class="support-mode-selector">
+                            <label for="support-mode">Support Mode:</label>
+                            <select id="support-mode" class="support-mode-select">
+                                <option value="general-support">General Support</option>
+                                <option value="ocint-victim-report">Crypto Theft Report</option>
+                            </select>
+                        </div>
                         <div class="toggle-switch-container">
                             <div id="ai-mode-toggle" class="toggle-switch" data-toggle-switch data-checked="true" role="switch" aria-checked="true" tabindex="0"></div>
                             <span class="toggle-switch-label">AI Mode</span>
@@ -244,6 +277,8 @@
     <!-- JavaScript Components -->
     <script src="scripts/components/toggle-switch.js?v=1.0.1"></script>
     <script src="scripts/gemini-api.js?v=1.0.1"></script>
+    <script src="scripts/prompt-system.js?v=1.0.0"></script>
+    <script src="scripts/generic-chat.js?v=1.0.0"></script>
     <script src="scripts/chat-agent.js?v=1.0.4"></script>
     <script src="scripts/main.js?v=1.0.1"></script>
 </body>

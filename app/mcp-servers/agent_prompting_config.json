@@ -1,0 +1,153 @@
+{
+  "mcp_server": {
+    "name": "agent-prompting-strategy",
+    "version": "1.0.0",
+    "description": "AI/DEV Lab Agent Prompting Strategy MCP Server",
+    "capabilities": {
+      "resources": true,
+      "tools": true,
+      "prompts": false
+    }
+  },
+  "agent_tiers": {
+    "tier_1": {
+      "name": "Entry Level Agent",
+      "description": "Handles basic customer inquiries and standard procedures",
+      "max_complexity": "Basic customer inquiries and standard procedures",
+      "escalation_threshold": "low"
+    },
+    "tier_2": {
+      "name": "Intermediate Agent", 
+      "description": "Handles moderate complexity issues and provides technical support",
+      "max_complexity": "Moderate technical issues and training responsibilities",
+      "escalation_threshold": "medium"
+    },
+    "tier_3": {
+      "name": "Senior Agent",
+      "description": "Handles complex issues, VIP support, and process improvement",
+      "max_complexity": "Complex issues, VIP support, and process improvement",
+      "escalation_threshold": "high"
+    },
+    "supervisor": {
+      "name": "Supervisor",
+      "description": "Manages team performance and handles escalated issues",
+      "max_complexity": "Team management and escalated customer issues",
+      "escalation_threshold": "very_high"
+    },
+    "floor_manager": {
+      "name": "Floor Manager",
+      "description": "Real-time monitoring, resource allocation, and crisis management",
+      "max_complexity": "System-wide issues and crisis management",
+      "escalation_threshold": "critical"
+    }
+  },
+  "interaction_types": {
+    "basic_inquiry": {
+      "description": "Simple questions and basic information requests",
+      "typical_tier": "tier_1",
+      "escalation_likelihood": "low"
+    },
+    "technical_support": {
+      "description": "Technical issues requiring specialized knowledge",
+      "typical_tier": "tier_2",
+      "escalation_likelihood": "medium"
+    },
+    "billing_issue": {
+      "description": "Billing disputes and payment-related problems",
+      "typical_tier": "tier_2",
+      "escalation_likelihood": "medium"
+    },
+    "complaint": {
+      "description": "Customer complaints requiring careful handling",
+      "typical_tier": "tier_2",
+      "escalation_likelihood": "high"
+    },
+    "escalation": {
+      "description": "Previously escalated issues requiring senior attention",
+      "typical_tier": "tier_3",
+      "escalation_likelihood": "very_high"
+    },
+    "vip_support": {
+      "description": "VIP customers requiring premium service",
+      "typical_tier": "tier_3",
+      "escalation_likelihood": "low"
+    }
+  },
+  "prompting_strategy": {
+    "system_prompt_components": [
+      "core_identity",
+      "responsibilities", 
+      "knowledge_access",
+      "tools_available",
+      "escalation_triggers",
+      "core_principles"
+    ],
+    "context_prompt_components": [
+      "session_context",
+      "interaction_guidelines",
+      "quality_standards"
+    ],
+    "task_prompt_components": [
+      "task_instructions",
+      "step_by_step_process",
+      "response_format"
+    ],
+    "constraints": [
+      "professional_tone",
+      "accurate_information",
+      "escalation_procedures",
+      "documentation_requirements"
+    ],
+    "examples_count": 3,
+    "fallback_responses_count": 4
+  },
+  "quality_metrics": {
+    "evaluation_criteria": [
+      "greeting_and_introduction",
+      "problem_identification",
+      "solution_provision", 
+      "customer_satisfaction",
+      "documentation_quality"
+    ],
+    "scoring_system": "1-5_scale",
+    "monitoring_frequency": "random_sampling_plus_targeted"
+  },
+  "escalation_workflows": {
+    "tier_1_to_tier_2": {
+      "trigger": "complex_issue_beyond_tier_1_capabilities",
+      "process": [
+        "agent_identifies_escalation_need",
+        "agent_documents_current_status",
+        "agent_transfers_case_to_tier_2",
+        "tier_2_agent_takes_over_with_full_context"
+      ]
+    },
+    "tier_2_to_tier_3": {
+      "trigger": "highly_complex_technical_issues",
+      "process": [
+        "tier_2_agent_escalates_to_tier_3",
+        "full_case_documentation_provided",
+        "tier_3_agent_provides_expert_resolution",
+        "knowledge_transfer_back_to_lower_tiers"
+      ]
+    }
+  },
+  "research_integration": {
+    "contact_center_research_path": "../../missions/contact_center_research/",
+    "research_components": [
+      "agent_tier_system_research.json",
+      "qa_process_research.json", 
+      "kb_architecture_research.json",
+      "workflow_integration_research.json",
+      "comprehensive_research_report.json"
+    ]
+  },
+  "gemini_prompting_best_practices": {
+    "clear_instructions": true,
+    "specific_constraints": true,
+    "few_shot_examples": true,
+    "fallback_responses": true,
+    "structured_output": true,
+    "context_preservation": true
+  }
+}
