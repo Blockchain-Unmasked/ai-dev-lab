@@ -1,0 +1,325 @@
+{
+  "sap_id": "message-structure-sap",
+  "version": "1.0.0",
+  "description": "Super Auto Prompt for structuring user messages into comprehensive JSON format with all key fields for optimal chat guidance",
+  "audience": ["chat_agents", "support_systems", "ai_models"],
+  "objectives": [
+    "Parse and structure user messages into comprehensive JSON format",
+    "Extract key information for optimal chat guidance",
+    "Classify message types and urgency levels",
+    "Identify required response components and workflows"
+  ],
+
+  "modes": {
+    "default": "structured_parsing",
+    "profiles": {
+      "structured_parsing": {
+        "capabilities": {
+          "message_classification": true,
+          "entity_extraction": true,
+          "context_analysis": true,
+          "workflow_detection": true
+        },
+        "behavior": {
+          "style": "analytical_structured",
+          "extract_all_relevant_fields": true,
+          "classify_message_intent": true,
+          "identify_required_actions": true
+        }
+      }
+    }
+  },
+
+  "message_structure": {
+    "required_fields": {
+      "user_message": {
+        "type": "string",
+        "description": "Original user message text",
+        "required": true
+      },
+      "message_id": {
+        "type": "string",
+        "description": "Unique identifier for this message",
+        "required": true,
+        "format": "uuid"
+      },
+      "timestamp": {
+        "type": "string",
+        "description": "ISO timestamp when message was received",
+        "required": true,
+        "format": "ISO8601"
+      },
+      "message_type": {
+        "type": "string",
+        "description": "Primary classification of the message",
+        "required": true,
+        "enum": ["crypto_theft", "general_support", "technical_issue", "account_help", "billing", "other"]
+      },
+      "urgency_level": {
+        "type": "string",
+        "description": "Urgency classification",
+        "required": true,
+        "enum": ["critical", "high", "medium", "low"]
+      },
+      "extracted_entities": {
+        "type": "object",
+        "description": "Key entities extracted from the message",
+        "required": true,
+        "properties": {
+          "service_providers": {
+            "type": "array",
+            "description": "Mentioned service providers (Coinbase, Binance, etc.)",
+            "items": {"type": "string"}
+          },
+          "crypto_types": {
+            "type": "array", 
+            "description": "Types of cryptocurrency mentioned",
+            "items": {"type": "string"}
+          },
+          "amounts": {
+            "type": "array",
+            "description": "Monetary amounts or crypto quantities mentioned",
+            "items": {"type": "string"}
+          },
+          "time_references": {
+            "type": "array",
+            "description": "Time-related references in the message",
+            "items": {"type": "string"}
+          },
+          "wallet_addresses": {
+            "type": "array",
+            "description": "Cryptocurrency wallet addresses mentioned",
+            "items": {"type": "string"}
+          },
+          "transaction_ids": {
+            "type": "array",
+            "description": "Transaction IDs or hashes mentioned",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "intent_analysis": {
+        "type": "object",
+        "description": "Analysis of user intent and goals",
+        "required": true,
+        "properties": {
+          "primary_intent": {
+            "type": "string",
+            "description": "Main user intent",
+            "enum": ["report_theft", "get_help", "ask_question", "request_support", "escalate_issue"]
+          },
+          "secondary_intents": {
+            "type": "array",
+            "description": "Additional user intents",
+            "items": {"type": "string"}
+          },
+          "emotional_state": {
+            "type": "string",
+            "description": "Detected emotional state",
+            "enum": ["distressed", "frustrated", "calm", "urgent", "confused", "angry"]
+          },
+          "confidence_level": {
+            "type": "number",
+            "description": "Confidence in intent analysis (0-1)",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      },
+      "context_requirements": {
+        "type": "object",
+        "description": "Additional context needed for proper response",
+        "required": true,
+        "properties": {
+          "missing_information": {
+            "type": "array",
+            "description": "Information that needs to be gathered",
+            "items": {"type": "string"}
+          },
+          "clarification_questions": {
+            "type": "array",
+            "description": "Questions to ask the user for clarification",
+            "items": {"type": "string"}
+          },
+          "required_workflows": {
+            "type": "array",
+            "description": "Workflows that need to be triggered",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "response_guidance": {
+        "type": "object",
+        "description": "Guidance for generating the response",
+        "required": true,
+        "properties": {
+          "response_type": {
+            "type": "string",
+            "description": "Type of response needed",
+            "enum": ["immediate_help", "structured_guidance", "workflow_initiation", "escalation", "information_gathering"]
+          },
+          "required_components": {
+            "type": "array",
+            "description": "Components that must be included in response",
+            "items": {"type": "string"}
+          },
+          "tone_guidance": {
+            "type": "string",
+            "description": "Recommended tone for response",
+            "enum": ["empathetic", "professional", "urgent", "calm", "supportive"]
+          },
+          "length_guidance": {
+            "type": "string",
+            "description": "Recommended response length",
+            "enum": ["brief", "moderate", "detailed", "comprehensive"]
+          }
+        }
+      },
+      "three_tier_analysis": {
+        "type": "object",
+        "description": "Analysis specific to three-tier reporting structure",
+        "required": false,
+        "properties": {
+          "is_crypto_theft": {
+            "type": "boolean",
+            "description": "Whether this is a crypto theft scenario"
+          },
+          "tier_1_leo_required": {
+            "type": "boolean",
+            "description": "Whether local law enforcement reporting is needed"
+          },
+          "tier_2_service_provider": {
+            "type": "string",
+            "description": "Which service provider needs to be contacted"
+          },
+          "tier_3_ocint_required": {
+            "type": "boolean",
+            "description": "Whether OCINT investigation is needed"
+          },
+          "evidence_status": {
+            "type": "string",
+            "description": "Status of evidence gathering",
+            "enum": ["none", "partial", "complete", "unknown"]
+          }
+        }
+      },
+      "metadata": {
+        "type": "object",
+        "description": "Additional metadata for processing",
+        "required": true,
+        "properties": {
+          "processing_time_ms": {
+            "type": "number",
+            "description": "Time taken to process the message"
+          },
+          "confidence_scores": {
+            "type": "object",
+            "description": "Confidence scores for various analyses"
+          },
+          "version": {
+            "type": "string",
+            "description": "Version of the message structure schema"
+          }
+        }
+      }
+    }
+  },
+
+  "parsing_rules": {
+    "crypto_theft_indicators": [
+      "theft", "stolen", "hacked", "breach", "unauthorized", "missing", "lost",
+      "compromised", "drained", "taken", "robbed", "scammed", "phished"
+    ],
+    "service_provider_indicators": [
+      "coinbase", "binance", "kraken", "gemini", "crypto.com", "metamask",
+      "trust wallet", "ledger", "trezor", "exodus", "blockchain.info"
+    ],
+    "urgency_indicators": {
+      "critical": ["stolen", "hacked", "drained", "emergency", "urgent", "immediately"],
+      "high": ["breach", "unauthorized", "compromised", "asap", "quickly"],
+      "medium": ["issue", "problem", "help", "support"],
+      "low": ["question", "inquiry", "information", "general"]
+    },
+    "emotional_indicators": {
+      "distressed": ["stolen", "hacked", "lost", "emergency", "help"],
+      "frustrated": ["problem", "issue", "not working", "failed"],
+      "urgent": ["asap", "immediately", "urgent", "quickly"],
+      "confused": ["how", "what", "why", "confused", "don't understand"]
+    }
+  },
+
+  "workflow_mapping": {
+    "crypto_theft": {
+      "required_workflows": ["security_first", "evidence_gathering", "three_tier_reporting"],
+      "response_components": ["immediate_security", "evidence_requirements", "three_tier_explanation", "ocint_details"],
+      "tone": "empathetic",
+      "length": "detailed"
+    },
+    "general_support": {
+      "required_workflows": ["information_gathering", "standard_support"],
+      "response_components": ["acknowledgment", "clarification", "guidance"],
+      "tone": "professional",
+      "length": "moderate"
+    },
+    "technical_issue": {
+      "required_workflows": ["troubleshooting", "technical_support"],
+      "response_components": ["problem_identification", "troubleshooting_steps", "escalation_path"],
+      "tone": "professional",
+      "length": "detailed"
+    }
+  },
+
+  "output_format": {
+    "structure": "json",
+    "validation": "strict",
+    "required_fields": "all",
+    "example": {
+      "user_message": "Hi id like help reporting a theft from my coinbase account",
+      "message_id": "msg_1234567890",
+      "timestamp": "2025-01-26T12:00:00Z",
+      "message_type": "crypto_theft",
+      "urgency_level": "high",
+      "extracted_entities": {
+        "service_providers": ["coinbase"],
+        "crypto_types": [],
+        "amounts": [],
+        "time_references": [],
+        "wallet_addresses": [],
+        "transaction_ids": []
+      },
+      "intent_analysis": {
+        "primary_intent": "report_theft",
+        "secondary_intents": ["get_help"],
+        "emotional_state": "distressed",
+        "confidence_level": 0.95
+      },
+      "context_requirements": {
+        "missing_information": ["amount_stolen", "when_theft_occurred", "transaction_details"],
+        "clarification_questions": ["What amount was stolen?", "When did this happen?", "Do you have transaction IDs?"],
+        "required_workflows": ["security_first", "evidence_gathering", "three_tier_reporting"]
+      },
+      "response_guidance": {
+        "response_type": "structured_guidance",
+        "required_components": ["immediate_security", "evidence_requirements", "three_tier_explanation", "ocint_details"],
+        "tone_guidance": "empathetic",
+        "length_guidance": "detailed"
+      },
+      "three_tier_analysis": {
+        "is_crypto_theft": true,
+        "tier_1_leo_required": true,
+        "tier_2_service_provider": "coinbase",
+        "tier_3_ocint_required": true,
+        "evidence_status": "none"
+      },
+      "metadata": {
+        "processing_time_ms": 45,
+        "confidence_scores": {
+          "message_classification": 0.95,
+          "entity_extraction": 0.90,
+          "intent_analysis": 0.95
+        },
+        "version": "1.0.0"
+      }
+    }
+  }
+}

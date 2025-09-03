@@ -92,9 +92,9 @@ class PromptSystem {
                         step: 1,
                         purpose: 'Initial greeting and report initiation',
                         messages: [
-                            "Hey there! 👋 I'm Alex, and I'm here to help you report what happened with your crypto. I know this is probably really stressful, but we're going to get through this together, okay?",
-                            "My job is to help you create a detailed report and guide you through the process. Here's the reality: most law enforcement agencies don't have specialized crypto teams, so victims usually need to do the investigative work themselves first.",
-                            "We'll help you gather all the evidence and documentation you need. Once you have everything organized, THEN you can approach law enforcement with a complete case file. That's when they're most likely to be able to help.",
+                            "Hey there! 👋 I'm Alex, and I'm here to help you create a comprehensive investigation report for your crypto theft. I know this is probably really stressful, but we're going to get through this together, okay?",
+                            "My job is to help you create a 'no stone left unturned' report that covers everything you'll need for three different reporting requirements: 1) Local law enforcement crime report, 2) Service provider breach report (like Coinbase), and 3) Our complete OCINT investigation file.",
+                            "Here's the reality: most law enforcement agencies don't have specialized crypto teams, so victims usually need to do the investigative work themselves first. We'll help you gather all the evidence and documentation you need for all three reports.",
                             "Sound good? Let's start with getting your contact info so we can stay in touch throughout this process. What's your name and email address? And what's the best phone number to reach you at?"
                         ],
                         collects: ['victim_name', 'victim_email', 'victim_phone'],
@@ -159,8 +159,8 @@ class PromptSystem {
                 ],
                 escalation: {
                     threshold: 0.8,
-                    message: "🎉 Great job! Your report is ready. I've got everything we need to create a comprehensive case file. Here's what happens next: you'll need to take this evidence to law enforcement yourself, but now you have everything organized and documented properly.",
-                    next_steps: "With this complete case file, you can approach local law enforcement. They'll be much more likely to help when you have all the evidence already gathered and organized. You've done the hard work - now they can take action."
+                    message: "🎉 Great job! Your comprehensive OCINT report is ready. This is a 'no stone left unturned' investigation report that includes everything needed for all three reporting requirements: 1) Local law enforcement crime report, 2) Service provider breach report, and 3) Our complete OCINT investigation file.",
+                    next_steps: "This comprehensive report contains all the evidence, documentation, and analysis needed. You can use sections of it for your local law enforcement report and service provider breach report. The complete OCINT report serves as the master document that ties everything together."
                 }
             },
             'general-support': {

@@ -7,13 +7,21 @@ Handles all API endpoints and routing
 from fastapi import APIRouter, HTTPException, Depends, status
 from typing import Dict, Any
 import re
+import json
+import logging
 
 from core.security import verify_token
 from core.config import Config
+from core.sap_loader import initialize_sap_loader, get_sap_loader
+from core.app_sap_loader import initialize_app_sap_loader, get_app_sap_loader
+from core.message_parser import initialize_message_parser, get_message_parser
 from api.prompts import router as prompts_router
 
 # Create API router
 api_router = APIRouter(prefix="/api/v1", tags=["api"])
+
+# Initialize logger
+logger = logging.getLogger(__name__)
 
 # Include prompts router
 api_router.include_router(prompts_router)
@@ -200,6 +208,38 @@ async def test_gemini_api(request: Dict[str, str]):
         }
 
 
+@api_router.post("/ai/parse-message")
+async def parse_message(request: Dict[str, Any], token: str = Depends(verify_token)):
+    """Parse a user message into structured JSON format"""
+    try:
+        user_message = request.get("message", "")
+        if not user_message:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Message is required"
+            )
+        
+        # Initialize message parser if not already done
+        message_parser = get_message_parser()
+        if not message_parser:
+            message_parser = initialize_message_parser()
+        
+        # Parse the message
+        structured_message = message_parser.parse_message(user_message)
+        
+        return {
+            "success": True,
+            "structured_message": structured_message,
+            "timestamp": structured_message.get("timestamp")
+        }
+        
+    except Exception as e:
+        logger.error(f"Error parsing message: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error parsing message: {str(e)}"
+        )
+
 @api_router.post("/ai/chat")
 async def ai_chat(message: Dict[str, str]):
     """AI chat endpoint with enhanced Gemini API integration"""
@@ -223,35 +263,39 @@ async def ai_chat(message: Dict[str, str]):
                 detail="Gemini API key not configured"
             )
         
-        # Create an intelligent prompt for customer support
-        intelligent_prompt = f"""You are an expert AI customer support agent for a technology company. You are knowledgeable, helpful, and professional.
-
-Customer Message: "{user_message}"
-
-Please provide a helpful, intelligent response that:
-1. Directly addresses the customer's question or concern
-2. Shows understanding of their specific situation
-3. Provides actionable solutions or guidance
-4. Asks clarifying questions if needed
-5. Maintains a professional yet friendly tone
-6. Demonstrates expertise in technology and customer service
-
-CRITICAL GUIDANCE FOR CRYPTO THEFT SCENARIOS:
-- Law enforcement agencies do NOT have specialized crypto investigation teams
-- Victims must do the investigative work themselves first
-- Focus on: 1) Immediate security (change passwords, enable 2FA), 2) Gather evidence (transaction IDs, wallet addresses), 3) Report to exchanges, 4) Use blockchain analysis tools
-- NEVER mention law enforcement in initial responses - they cannot help without evidence
-- NEVER suggest filing police reports immediately - this is ineffective
-- Only suggest law enforcement AFTER victim has gathered all evidence and documentation
-- Emphasize that the victim needs to do the work first, then law enforcement can assist
-- For crypto theft: focus on securing accounts, gathering evidence, and working with exchanges first
-
-IMPORTANT: If the customer mentions crypto theft, do NOT mention law enforcement in your response. Focus only on immediate security steps and evidence gathering.
-
-EXAMPLE OF WHAT NOT TO SAY: "report to law enforcement" or "file a police report"
-EXAMPLE OF WHAT TO SAY: "secure your account, gather evidence, report to exchanges"
-
-Keep your response concise (2-4 sentences) but thorough. Focus on being genuinely helpful rather than generic."""
+        # Initialize message parser and App SAP loader if not already done
+        message_parser = get_message_parser()
+        if not message_parser:
+            message_parser = initialize_message_parser()
+        
+        app_sap_loader = get_app_sap_loader()
+        if not app_sap_loader:
+            app_sap_loader = initialize_app_sap_loader()
+        
+        # Parse the user message into structured format
+        structured_message = message_parser.parse_message(user_message)
+        
+        # Log the structured message for debugging
+        logger.info(f"📋 Structured message: {json.dumps(structured_message, indent=2)}")
+        
+        # Use appropriate mode based on parsed message type
+        mode = "investigation" if structured_message.get("message_type") == "crypto_theft" else "support"
+        
+        # Mock MCP context (in real implementation, this would come from MCP server)
+        mcp_context = {
+            "status": "active",
+            "available_tools": ["crypto_analysis", "evidence_processing", "report_generation"],
+            "session_id": f"session_{structured_message.get('message_id', 'unknown')}",
+            "integration_level": "standard"
+        }
+        
+        # Generate App SAP-based prompt with structured context and MCP integration
+        intelligent_prompt = app_sap_loader.generate_app_prompt(
+            user_message=user_message,
+            structured_message=structured_message,
+            mode=mode,
+            mcp_context=mcp_context
+        )
 
         # Generate response with enhanced Gemini client
         response = await gemini_client.generate_content(
