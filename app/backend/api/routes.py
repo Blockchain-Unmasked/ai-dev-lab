@@ -15,6 +15,8 @@ from core.config import Config
 from core.sap_loader import initialize_sap_loader, get_sap_loader
 from core.app_sap_loader import initialize_app_sap_loader, get_app_sap_loader
 from core.message_parser import initialize_message_parser, get_message_parser
+from core.response_formatter import initialize_response_formatter, get_response_formatter
+from core.chat_flow_manager import initialize_chat_flow_manager, get_chat_flow_manager
 from api.prompts import router as prompts_router
 
 # Create API router
@@ -263,7 +265,7 @@ async def ai_chat(message: Dict[str, str]):
                 detail="Gemini API key not configured"
             )
         
-        # Initialize message parser and App SAP loader if not already done
+        # Initialize message parser, App SAP loader, and response formatter if not already done
         message_parser = get_message_parser()
         if not message_parser:
             message_parser = initialize_message_parser()
@@ -271,6 +273,14 @@ async def ai_chat(message: Dict[str, str]):
         app_sap_loader = get_app_sap_loader()
         if not app_sap_loader:
             app_sap_loader = initialize_app_sap_loader()
+        
+        response_formatter = get_response_formatter()
+        if not response_formatter:
+            response_formatter = initialize_response_formatter()
+        
+        chat_flow_manager = get_chat_flow_manager()
+        if not chat_flow_manager:
+            chat_flow_manager = initialize_chat_flow_manager()
         
         # Parse the user message into structured format
         structured_message = message_parser.parse_message(user_message)
@@ -304,7 +314,13 @@ async def ai_chat(message: Dict[str, str]):
         )
         
         if response.get("success") and response.get("text"):
-            ai_response = response["text"].strip()
+            # Format the response for user-friendly display
+            formatted_response = response_formatter.format_for_frontend(
+                response["text"].strip(),
+                structured_message
+            )
+            
+            ai_response = formatted_response["formatted_response"]
             mcp_tools_used = ["enhanced-gemini-api"]
             model_used = response.get("model", "unknown")
             confidence = 0.95
@@ -314,19 +330,41 @@ async def ai_chat(message: Dict[str, str]):
         
         return {
             "user_message": user_message,
-            "ai_response": ai_response,
+            "ai_response": ai_response,  # User-friendly formatted response
             "mcp_tools_used": mcp_tools_used,
             "timestamp": "2025-01-26T12:00:00Z",
             "model": model_used,
             "mcp_integration": "active",
             "confidence": confidence,
             "quality": quality,
-            "client_type": "enhanced"
+            "client_type": "enhanced",
+            "response_metadata": {
+                "is_structured": formatted_response["is_structured"],
+                "original_length": len(formatted_response["original_response"]),
+                "formatted_length": len(formatted_response["formatted_response"])
+            },
+            "system_data": {
+                "structured_data": formatted_response.get("structured_data"),
+                "system_metadata": formatted_response.get("system_metadata"),
+                "message_context": formatted_response.get("message_context")
+            }
         }
         
     except Exception as e:
         # Intelligent fallback response based on user message content
-        ai_response = generate_intelligent_fallback_response(user_message, str(e))
+        fallback_response = generate_intelligent_fallback_response(user_message, str(e))
+        
+        # Format fallback response if formatter is available
+        try:
+            response_formatter = get_response_formatter()
+            if response_formatter:
+                formatted_fallback = response_formatter.format_for_frontend(fallback_response, None)
+                ai_response = formatted_fallback["formatted_response"]
+            else:
+                ai_response = fallback_response
+        except:
+            ai_response = fallback_response
+        
         return {
             "user_message": user_message,
             "ai_response": ai_response,

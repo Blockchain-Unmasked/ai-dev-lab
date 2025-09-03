@@ -107,7 +107,7 @@
   },
 
   "output_contract": {
-    "format": "structured_response",
+    "format": "natural_conversational",
     "sections": [
       "Immediate_Security_Steps",
       "Evidence_Gathering_Requirements", 
@@ -117,7 +117,7 @@
     ],
     "code_blocks": {
       "label_with_context": true,
-      "prefer_structured_data": true,
+      "prefer_structured_data": false,
       "avoid_sensitive_info": true
     }
   },

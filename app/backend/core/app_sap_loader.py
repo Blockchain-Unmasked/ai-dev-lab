@@ -69,7 +69,10 @@ class AppSAPLoader:
         # 8. User message and response requirements
         prompt_parts.append(self._build_app_user_message_section(user_message, structured_message))
         
-        return "\n\n".join(prompt_parts)
+        # Add final instruction to ensure natural response
+        final_instruction = "\n\nFINAL INSTRUCTION: You are a human customer service agent. Write your response as if you are speaking directly to the customer. Do not use any technical formatting, JSON, code blocks, or structured data. Write in plain, conversational English with natural paragraphs. Your response should sound like a helpful human agent, not a technical system."
+        
+        return "\n\n".join(prompt_parts) + final_instruction
     
     def _determine_mode_from_message(self, structured_message: Dict[str, Any]) -> str:
         """Determine the appropriate mode from structured message"""
@@ -234,12 +237,11 @@ RED FLAGS TO WATCH FOR:
         output_contract = self.config.get('output_contract', {})
         sections = output_contract.get('sections', [])
         
-        return f"""OUTPUT FORMAT REQUIREMENTS:
-Your response must include these sections:
+        return f"""RESPONSE FORMAT:
+You are a human customer service agent. Write your response in natural, conversational English. Include these topics naturally in your conversation:
 {chr(10).join(f"- {section.replace('_', ' ').title()}" for section in sections)}
 
-Format: {output_contract.get('format', 'structured_response')}
-Code blocks: {output_contract.get('code_blocks', {}).get('label_with_context', True)}"""
+Write as a helpful human would speak to a customer - empathetic, clear, and supportive. Use natural paragraphs and flow."""
     
     def _build_app_user_message_section(self, user_message: str, structured_message: Dict[str, Any]) -> str:
         """Build user message and response requirements section"""
@@ -249,7 +251,8 @@ Code blocks: {output_contract.get('code_blocks', {}).get('label_with_context', T
         section = f"USER MESSAGE: \"{user_message}\"\n\n"
         
         section += "RESPONSE REQUIREMENTS:\n"
-        section += "- Address the user's concern directly\n"
+        section += "- Write as a HUMAN customer service agent - natural, conversational, empathetic\n"
+        section += "- Address the user's concern directly with empathy and understanding\n"
         section += "- Provide immediate security steps first (if crypto theft)\n"
         section += "- MANDATORY: Explain the three-tier reporting structure (if crypto theft)\n"
         section += "- MANDATORY: Mention all three reporting requirements (LEO, Service Provider, OCINT)\n"
@@ -257,6 +260,10 @@ Code blocks: {output_contract.get('code_blocks', {}).get('label_with_context', T
         section += "- Maintain realistic expectations about law enforcement\n"
         section += f"- Use {response_guidance.get('tone_guidance', 'professional')} tone\n"
         section += f"- Keep response {response_guidance.get('length_guidance', 'moderate')} but thorough\n"
+        section += "- DO NOT use JSON, structured data, or technical formatting\n"
+        section += "- DO NOT include any code blocks, JSON objects, or structured responses\n"
+        section += "- Write in natural paragraphs with proper flow and conversation\n"
+        section += "- End your response naturally - do not append any technical data or formatting\n"
         
         # Show required workflows
         workflows = context_requirements.get('required_workflows', [])
