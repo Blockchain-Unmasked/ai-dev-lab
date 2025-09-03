@@ -190,3 +190,4 @@ mcp-server/**/secrets/
 sandbox/logs/
 test_results/
 coverage/
+.pytest_cache/
