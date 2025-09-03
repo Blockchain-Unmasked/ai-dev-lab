@@ -22,12 +22,31 @@ class AppSAPLoader:
     def _load_sap_config(self) -> Dict[str, Any]:
         """Load SAP configuration from JSON file"""
         try:
+            # Try multiple possible paths
+            possible_paths = [
+                self.sap_config_path,
+                f"app/{self.sap_config_path}",
+                f"../{self.sap_config_path}",
+                f"../../{self.sap_config_path}"
+            ]
+            
+            for path in possible_paths:
+                try:
+                    with open(path, 'r') as f:
+                        config = json.load(f)
+                        logger.info(f"✅ Loaded App SAP config from: {path}")
+                        return config
+                except FileNotFoundError:
+                    continue
+            
+            # If none of the paths work, try the original
             with open(self.sap_config_path, 'r') as f:
                 config = json.load(f)
-            logger.info(f"✅ Loaded App SAP config: {config.get('sap_id', 'unknown')}")
-            return config
+                logger.info(f"✅ Loaded App SAP config: {config.get('sap_id', 'unknown')}")
+                return config
+                
         except Exception as e:
-            logger.error(f"❌ Failed to load App SAP config: {e}")
+            logger.error(f"❌ Failed to load App SAP config from any path: {e}")
             return {}
     
     def generate_app_prompt(self, 

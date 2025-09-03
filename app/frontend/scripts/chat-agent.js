@@ -258,13 +258,20 @@ class ChatAgent {
         this.showTypingIndicator('chat-messages');
 
         try {
+            // Get support mode from dropdown
+            const supportModeSelect = document.getElementById('support-mode');
+            const supportMode = supportModeSelect ? supportModeSelect.value : 'general-support';
+            
             // Use enhanced AI response via backend
             const response = await fetch('http://localhost:8000/api/v1/ai/chat', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({ 
+                    message: message,
+                    support_mode: supportMode
+                })
             });
             
             if (!response.ok) {

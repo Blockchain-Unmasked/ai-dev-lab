@@ -24,10 +24,28 @@ class MessageParser:
     def _load_sap_config(self, config_path: str) -> Dict[str, Any]:
         """Load SAP configuration"""
         try:
+            # Try multiple possible paths
+            possible_paths = [
+                config_path,
+                f"app/{config_path}",
+                f"../{config_path}",
+                f"../../{config_path}"
+            ]
+            
+            for path in possible_paths:
+                try:
+                    with open(path, 'r') as f:
+                        logger.info(f"✅ Loaded SAP config from: {path}")
+                        return json.load(f)
+                except FileNotFoundError:
+                    continue
+            
+            # If none of the paths work, try the original
             with open(config_path, 'r') as f:
                 return json.load(f)
+                
         except Exception as e:
-            logger.error(f"Failed to load SAP config: {e}")
+            logger.error(f"Failed to load SAP config from any path: {e}")
             return {}
     
     def parse_message(self, user_message: str) -> Dict[str, Any]:
@@ -315,7 +333,7 @@ class MessageParser:
 # Global message parser instance
 message_parser = None
 
-def initialize_message_parser(config_path: str = "app/agents/message-structure-sap.json"):
+def initialize_message_parser(config_path: str = "agents/message-structure-sap.json"):
     """Initialize the global message parser"""
     global message_parser
     message_parser = MessageParser(config_path)

@@ -243,9 +243,10 @@ async def parse_message(request: Dict[str, Any], token: str = Depends(verify_tok
         )
 
 @api_router.post("/ai/chat")
-async def ai_chat(message: Dict[str, str]):
+async def ai_chat(request: Dict[str, Any]):
     """AI chat endpoint with enhanced Gemini API integration"""
-    user_message = message.get("message", "")
+    user_message = request.get("message", "")
+    support_mode = request.get("support_mode", "general-support")
     
     if not user_message:
         raise HTTPException(
@@ -288,8 +289,13 @@ async def ai_chat(message: Dict[str, str]):
         # Log the structured message for debugging
         logger.info(f"📋 Structured message: {json.dumps(structured_message, indent=2)}")
         
-        # Use appropriate mode based on parsed message type
-        mode = "investigation" if structured_message.get("message_type") == "crypto_theft" else "support"
+        # Use appropriate mode based on support mode and parsed message type
+        if support_mode == "ocint-victim-report":
+            mode = "investigation"
+            # Override message type for victim report mode
+            structured_message["message_type"] = "crypto_theft"
+        else:
+            mode = "support"
         
         # Mock MCP context (in real implementation, this would come from MCP server)
         mcp_context = {
